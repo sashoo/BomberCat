@@ -1,0 +1,17 @@
+#ifndef ORIGIN_HPP
+#define ORIGIN_HPP
+
+enum {
+  ORIGIN_CENTER = 5,
+  ORIGIN_TL = 7,
+  ORIGIN_TOP = 8,
+  ORIGIN_TR = 9,
+  ORIGIN_LEFT = 4,
+  ORIGIN_RIGHT = 6,
+  ORIGIN_BL = 1,
+  ORIGIN_BOTTOM = 2,
+  ORIGIN_BR = 3,
+  ORIGIN_NONE = 0
+};
+
+#endif
