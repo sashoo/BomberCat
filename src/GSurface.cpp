@@ -67,40 +67,50 @@ bool GSurface::OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc,
 
 bool GSurface::LoadBombs() {
   SurfBomb = GSurface::OnLoad("Resources/bombs.png");
+  return SurfBomb;
 }
 
 bool GSurface::LoadBombers() {
   SurfBomber = GSurface::OnLoad("Resources/bots.png");
+  return SurfBomber;
 }
 
 bool GSurface::LoadFlames() {
   SurfFlame = GSurface::OnLoad("Resources/flames.png");
+  return SurfFlame;
 }
 
 bool GSurface::LoadPowerups() {
   SurfPowerup = GSurface::OnLoad("Resources/powerups.png");
+  return SurfPowerup;
 }
 
 bool GSurface::LoadTiles() {
   SurfTile = GSurface::OnLoad("Resources/tiles.png");
+  return SurfTile;
 }
 
 bool GSurface::UnloadBombs() {
   SDL_FreeSurface(SurfBomb);
+  return true;
 }
 
 bool GSurface::UnloadBombers() {
   SDL_FreeSurface(SurfBomber);
+  return true;
 }
 
 bool GSurface::UnloadFlames() {
   SDL_FreeSurface(SurfFlame);
+  return true;
 }
   
 bool GSurface::UnloadPowerups() {
   SDL_FreeSurface(SurfPowerup);
+  return true;
 }
 
 bool GSurface::UnloadTiles() {
   SDL_FreeSurface(SurfTile);
+  return true;
 }

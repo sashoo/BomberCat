@@ -128,6 +128,7 @@ void GEntity::OnAnimate() {
 bool GEntity::OnCollision(GEntity* Entity) {
   // In this exact game this function seems to be useless.
   // However it is left. Just in case.
+  return true;
 }
 
 void GEntity::DeleteObject(){

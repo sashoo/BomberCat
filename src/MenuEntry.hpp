@@ -28,7 +28,7 @@ public:
   virtual int GetHeight() const = 0;
   virtual void Clean() = 0;  
   //std::string GetLabel() const {return mLabel;}
-  virtual void* GetChoice(){}
+  virtual void* GetChoice(){ return NULL; }
   
 protected:
   MenuManager*     mMenuManager;
