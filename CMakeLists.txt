@@ -89,7 +89,7 @@ link_libraries (
    ${SDL_LIBRARY}
    ${SDLIMAGE_LIBRARY} # if using SDL_image, obviously
    ${SDLTTF_LIBRARY}
-   SDLmain # Sadly not included in SDL_LIBRARY variable
+   ${SDLMAIN_LIBRARY}
 )
 
 include_directories(${SDL_INCLUDE_DIR})
