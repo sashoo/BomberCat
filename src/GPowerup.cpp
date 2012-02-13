@@ -62,5 +62,5 @@ void GPowerup::OnAnimate() {
 }
 
 bool GPowerup::OnCollision(GEntity* Entity) {
-  GEntity::OnCollision(Entity);
+  return GEntity::OnCollision(Entity);
 }

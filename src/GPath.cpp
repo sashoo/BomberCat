@@ -128,7 +128,7 @@ bool GPath::FindPath(int sx, int sy, int destx, int desty) {
 }
 
 int GPath::GetTileType(GNode* gnode) {
-  CArea::AreaControl.GetTile(gnode->GetX()*TILE_SIZE, gnode->GetY()*TILE_SIZE);
+  return *CArea::AreaControl.GetTile(gnode->GetX()*TILE_SIZE, gnode->GetY()*TILE_SIZE);
 }
 
 int GPath::GetTileType(int x, int y) {
@@ -136,8 +136,7 @@ int GPath::GetTileType(int x, int y) {
 }
 
 bool GPath::IsWrongType(int type) {
-  if (type > 0) return true;
-  else return false;
+  return (type > 0);
 }
 
 void GPath::GetAreaBounds() {
@@ -157,6 +156,7 @@ GNode* GPath::GetNode(int x, int y) {
 }
 
 bool GPath::SetNode(GNode* gnode) {  
+  // FIXME sane return value needed
   int x = gnode->GetX();
   int y = gnode->GetY();
   int ID = 0;
@@ -232,9 +232,7 @@ void GPath::FindTile(GNode* gnode, int x, int y, int dir) {
 }
 
 bool GPath::TileInBounds(int x, int y) {
-  if (x >= 0 && y >= 0 && x < MaxX && y < MaxY)
-    return true;
-  return false;
+  return (x >= 0 && y >= 0 && x < MaxX && y < MaxY);
 }
 
 void GPath::Cleanup() {

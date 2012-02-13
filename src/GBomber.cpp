@@ -113,7 +113,7 @@ void GBomber::OnAnimate() {
 }
 
 bool GBomber::OnCollision(GEntity* Entity) {
-  GEntity::OnCollision(Entity);
+  return GEntity::OnCollision(Entity);
 }
 
 bool GBomber::IsHit(GEntity* entity) {
@@ -354,11 +354,11 @@ bool GBomber::PosValid(int NewX, int NewY) {
 }
 
 bool GBomber::PosValidTile(int* Tile) {
-  GEntity::PosValidTile(Tile);
+  return GEntity::PosValidTile(Tile);
 }
 
 bool GBomber::PosValidEntity(GEntity* Entity, int NewX, int NewY) {
-  GEntity::PosValidEntity(Entity, NewX, NewY);
+  return GEntity::PosValidEntity(Entity, NewX, NewY);
 }
 
 void GBomber::CheckVictory() {

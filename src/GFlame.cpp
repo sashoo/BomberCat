@@ -62,6 +62,8 @@ bool GFlame::OnTimeOut() {
     Enabled = false;
     
   }
+  return false; // FIXME
+  // return srand() % 2
 }
   
 void GFlame::OnRender(SDL_Surface* SurfDisplay) {  
@@ -88,7 +90,7 @@ void GFlame::OnAnimate() {
 }
 
 bool GFlame::OnCollision(GEntity* Entity) {
-  GEntity::OnCollision(Entity);
+  return GEntity::OnCollision(Entity);
 }
 
 void GFlame::CheckBombs() {

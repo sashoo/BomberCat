@@ -5,10 +5,8 @@
 #include "MenuEntry.hpp"
 
 bool DotInRect(int dotx, int doty, SDL_Rect rect) {
-  if (dotx < rect.x || dotx > rect.x + rect.w ||
-      doty < rect.y || doty > rect.y + rect.h)
-    return false;
-  return true;
+  return (dotx >= rect.x && dotx <= rect.x + rect.w &&
+      doty >= rect.y && doty <= rect.y + rect.h);
 }
 
 MenuManager::MenuManager(){

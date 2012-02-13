@@ -50,6 +50,9 @@ bool GBomb::OnTimeOut() {
   //app->Log << "TimeMax: " << TimeMax << std::endl;
   //app->Log << "TimePassed: " << TimePassed << std::endl;
   Explode();  
+  
+  return false; // FIXME
+  //return srand() % 2;
 }
 
 void GBomb::OnRender(SDL_Surface* SurfDisplay) {
@@ -72,7 +75,7 @@ void GBomb::OnAnimate() {
 }
 
 bool GBomb::OnCollision(GEntity* Entity) {
-  GEntity::OnCollision(Entity);
+  return GEntity::OnCollision(Entity);
 }
 
 void GBomb::Explode() {
