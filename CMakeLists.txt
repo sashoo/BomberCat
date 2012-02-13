@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.6)
-project(BOMBERBOTS)
+project(ROBOKOT)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 file(GLOB SOURCES_robokot "${PROJECT_BINARY_DIR}/src/*.cpp")
 
-message (SRC: ${SOURCES_robokot})
+message (SRC: ${SOURCES_ROBOKOT})
 message ("option")
 
 OPTION(IS86 "x86 architecture?" OFF)
