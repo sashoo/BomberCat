@@ -21,7 +21,7 @@ public:
   void RegisterApp(MirageApp* app);
 
   void Generate();
-  bool OnLoad(char* File);
+  bool OnLoad(const char* File);
   bool OnSave();
 
   void OnRenderBack(SDL_Surface* SurfDisplay, int CameraX, int CameraY);

@@ -20,7 +20,7 @@ void StateIntro::OnLButtonDown(int mX, int mY){
 }
 
 void StateIntro::OnActivate() {
-  SurfLogo = GSurface::OnLoad((char*)"Resources/bots.png");
+  SurfLogo = GSurface::OnLoad("Resources/bots.png");
   StartTime = SDL_GetTicks();
 }
 

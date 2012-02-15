@@ -315,7 +315,7 @@ void StateGame::OnActivate() {
 
   App->Log << "Loading map file...\n";
   GArea::AreaControl.RegisterApp(App);
-  if (GArea::AreaControl.OnLoad((char*)"Resources/tiles.png") == false) {
+  if (GArea::AreaControl.OnLoad("Resources/tiles.png") == false) {
     App->Log << "Failed. Does it exist?\nExiting the program";
     return;
   }

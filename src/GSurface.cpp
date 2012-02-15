@@ -11,7 +11,7 @@ GSurface::GSurface() {
 
 }
 
-SDL_Surface* GSurface::OnLoad(char* filename){
+SDL_Surface* GSurface::OnLoad(const char* filename){
   SDL_Surface* SurfTemp = NULL;
   SDL_Surface* SurfReturn = NULL;
   
@@ -66,27 +66,27 @@ bool GSurface::OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc,
 // }
 
 bool GSurface::LoadBombs() {
-  SurfBomb = GSurface::OnLoad((char*)"Resources/bombs.png");
+  SurfBomb = GSurface::OnLoad("Resources/bombs.png");
   return SurfBomb;
 }
 
 bool GSurface::LoadBombers() {
-  SurfBomber = GSurface::OnLoad((char*)"Resources/bots.png");
+  SurfBomber = GSurface::OnLoad("Resources/bots.png");
   return SurfBomber;
 }
 
 bool GSurface::LoadFlames() {
-  SurfFlame = GSurface::OnLoad((char*)"Resources/flames.png");
+  SurfFlame = GSurface::OnLoad("Resources/flames.png");
   return SurfFlame;
 }
 
 bool GSurface::LoadPowerups() {
-  SurfPowerup = GSurface::OnLoad((char*)"Resources/powerups.png");
+  SurfPowerup = GSurface::OnLoad("Resources/powerups.png");
   return SurfPowerup;
 }
 
 bool GSurface::LoadTiles() {
-  SurfTile = GSurface::OnLoad((char*)"Resources/tiles.png");
+  SurfTile = GSurface::OnLoad("Resources/tiles.png");
   return SurfTile;
 }
 

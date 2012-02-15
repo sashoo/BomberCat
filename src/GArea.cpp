@@ -37,7 +37,7 @@ int GArea::GetBoundY() {
   return AreaBoundY;
 }
 
-bool GArea::OnLoad(char* File) {
+bool GArea::OnLoad(const char* File) {
   TileList.clear(); 
 
   // if((SurfTileset = GSurface::OnLoad(File)) == false) { 

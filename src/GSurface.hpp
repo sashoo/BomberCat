@@ -7,7 +7,7 @@ class GSurface {
 
 public:
   GSurface();
-  static SDL_Surface* OnLoad(char* filename);
+  static SDL_Surface* OnLoad(const char* filename);
   static bool OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
 		     int x, int y);
   static bool OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
