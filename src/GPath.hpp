@@ -36,7 +36,7 @@ public:
   bool IsWrongType(int type);
   void GetAreaBounds();
   GNode* GetNode(int x, int y);
-  bool SetNode(GNode* gnode);
+  void SetNode(GNode* gnode);
   void FindAdjacent(GNode* gnode);
   void FindTile(GNode* gnode, int x, int y, int dir);
   bool TileInBounds(int x, int y);

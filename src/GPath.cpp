@@ -155,7 +155,7 @@ GNode* GPath::GetNode(int x, int y) {
   return Nodes[ID];  
 }
 
-bool GPath::SetNode(GNode* gnode) {  
+void GPath::SetNode(GNode* gnode) {  
   // FIXME sane return value needed
   int x = gnode->GetX();
   int y = gnode->GetY();
@@ -164,7 +164,7 @@ bool GPath::SetNode(GNode* gnode) {
   ID = ID + CArea::AreaControl.GetWidth() * y ;
 
   if (ID < 0 || ID >= Nodes.size())
-    return NULL;
+    return;
 
   Nodes[ID] = gnode;   
 }

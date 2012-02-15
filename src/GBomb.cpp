@@ -45,14 +45,9 @@ void GBomb::OnLoop() {
 }
 
 bool GBomb::OnTimeOut() {
-  //int a = 0;
   State = BOMB_STATE_EXPLODING;
-  //app->Log << "TimeMax: " << TimeMax << std::endl;
-  //app->Log << "TimePassed: " << TimePassed << std::endl;
-  Explode();  
-  
-  return false; // FIXME
-  //return srand() % 2;
+  Explode();    
+  return true;
 }
 
 void GBomb::OnRender(SDL_Surface* SurfDisplay) {

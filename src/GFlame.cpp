@@ -13,7 +13,6 @@ GFlame::GFlame() : STimer(40, 0, true), GEntity() {
   Name = ss.str();
   Width  = TILE_SIZE;
   Height = TILE_SIZE;
-  //AnimControl.SetFrameRate(200);
   AnimControl.SetCurrentFrame(0);
   Type = ENTITY_TYPE_FLAME;
   CurrentFrameRow = 0;
@@ -30,8 +29,6 @@ GFlame::GFlame() : STimer(40, 0, true), GEntity() {
   //MaxFlamePower = 8;
   //Flags = ENTITY_FLAG_MAPONLY;
   Start();
-  //CheckTouch();
-  //app->Log << "TimeMax: " << TimeMax << std::endl;
   App->Log << "Name: " << Name << " created" << std::endl;
   FlamesTotal++;
 }
@@ -42,28 +39,23 @@ bool GFlame::OnLoad() {
 
 void GFlame::OnLoop() { 
   STimer::OnLoop();
-  GEntity::OnLoop();  
-  //CheckTouch();
+  GEntity::OnLoop();   
 }
 
 bool GFlame::OnTimeOut() {
   if (FlamePower < MaxFlamePower) {
     ++FlamePower;
-    CheckBombers();
-    //CheckPowerups();
+    CheckBombers();   
     Frame = 4-abs(FlamePower-4);
     if (FlamePower == 2)
-      CheckBombs();
-    // AnimControl.SetCurrentFrame(4-abs(FlamePower-4));
-    //AnimControl.SetCurrentFrame(FlamePower);
+      CheckBombs();    
   }
   else {
     App->Log << "Name: " << Name << " died" << std::endl;
     Enabled = false;
     
   }
-  return false; // FIXME
-  // return srand() % 2
+  return true;
 }
   
 void GFlame::OnRender(SDL_Surface* SurfDisplay) {  
