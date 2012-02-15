@@ -11,11 +11,11 @@
 
 class MirageApp;
 
-class CArea {
+class GArea {
 public:
-  CArea();
+  GArea();
   
-  static CArea AreaControl;
+  static GArea AreaControl;
   //std::vector<CMap> MapList;
 
   void RegisterApp(MirageApp* app);

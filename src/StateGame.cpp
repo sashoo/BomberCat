@@ -61,7 +61,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   CArea::AreaControl.RenderFore = !CArea::AreaControl.RenderFore;
+   GArea::AreaControl.RenderFore = !GArea::AreaControl.RenderFore;
    break;
  }
 
@@ -70,7 +70,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   CArea::AreaControl.RenderCol = !CArea::AreaControl.RenderCol;
+   GArea::AreaControl.RenderCol = !GArea::AreaControl.RenderCol;
    break;
  }
 
@@ -79,7 +79,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   CArea::AreaControl.RenderBack = !CArea::AreaControl.RenderBack;
+   GArea::AreaControl.RenderBack = !GArea::AreaControl.RenderBack;
    break;
  }
 
@@ -126,7 +126,7 @@ case SDLK_RIGHTBRACKET: {
      return;
 
    OldTime = SDL_GetTicks();
-   CArea::AreaControl.OnSave();
+   GArea::AreaControl.OnSave();
    break;
  }
 
@@ -178,7 +178,7 @@ void StateGame::OnLButtonDown(int mX, int mY) {
   int y = mY + GCamera::CameraControl.GetY();
   x /= TILE_SIZE;
   y /= TILE_SIZE;
-  CArea::AreaControl.SetTile(x*TILE_SIZE, y*TILE_SIZE, CurTileType); 
+  GArea::AreaControl.SetTile(x*TILE_SIZE, y*TILE_SIZE, CurTileType); 
 }
 
 void StateGame::OnRButtonDown(int mX, int mY) {
@@ -202,7 +202,7 @@ void StateGame::OnRButtonDown(int mX, int mY) {
     bomber++;
   }
   
-  // CurTileType = *CArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
+  // CurTileType = *GArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
 }
 
 void StateGame::OnMButtonDown(int mX, int mY) {
@@ -210,7 +210,7 @@ void StateGame::OnMButtonDown(int mX, int mY) {
   int y = mY + GCamera::CameraControl.GetY();
   x /= TILE_SIZE;
   y /= TILE_SIZE;
-  CArea::AreaControl.SetTile(x*TILE_SIZE, y*TILE_SIZE, 0);
+  GArea::AreaControl.SetTile(x*TILE_SIZE, y*TILE_SIZE, 0);
 }  
 
 void StateGame::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value) {
@@ -310,8 +310,8 @@ void StateGame::OnActivate() {
   //App->Log << "finished loading powerups... ";
   
   App->Log << "Loading map file...\n";
-  CArea::AreaControl.RegisterApp(App);
-  if (CArea::AreaControl.OnLoad((char*)"Resources/tiles.png") == false) {
+  GArea::AreaControl.RegisterApp(App);
+  if (GArea::AreaControl.OnLoad((char*)"Resources/tiles.png") == false) {
     App->Log << "Failed. Does it exist?\nExiting the program";
     return;
   }
@@ -360,13 +360,13 @@ void StateGame::OnActivate() {
   
   App->Log << "Done!" << std::endl;  
   App->Log << "Entities set up" << std::endl;
-  CArea::AreaControl.PlacePowerups();
+  GArea::AreaControl.PlacePowerups();
   
 
   GCamera::CameraControl.TargetMode = TARGET_MODE_CENTER;
   //GCamera::CameraControl.SetTarget(&p1->X, &p1->Y, p1->Width, p1->Height);
-  GCamera::CameraControl.SetBounds(CArea::AreaControl.GetBoundX(),
-				   CArea::AreaControl.GetBoundY());
+  GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
+				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
 }
 
@@ -446,7 +446,7 @@ void StateGame::OnDeactivate() {
   GFlame::FlameList.clear();
   GDecor::DecorList.clear();
 
-  CArea::AreaControl.OnCleanup();
+  GArea::AreaControl.OnCleanup();
 }
 
 void StateGame::OnLoop() {  
@@ -578,7 +578,7 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
 
   SDL_FillRect(SurfDisplay, &Rect, 0);
   
-  CArea::AreaControl.OnRenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
+  GArea::AreaControl.OnRenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
   std::vector<GBomb*>::iterator bomb  = GBomb::BombList.begin(); 
   while(bomb != GBomb::BombList.end()) {
@@ -612,7 +612,7 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
   }
 
 
-  CArea::AreaControl.OnRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
+  GArea::AreaControl.OnRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
   std::vector<GBomber*>::iterator bomber  = GBomber::BomberList.begin(); 
   while(bomber != GBomber::BomberList.end()) {
@@ -632,7 +632,7 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
  
 
  
-  // CArea::AreaControl.OnForeRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
+  // GArea::AreaControl.OnForeRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 }
 
 StateGame* StateGame::GetInstance() {

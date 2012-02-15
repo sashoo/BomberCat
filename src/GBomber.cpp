@@ -162,41 +162,41 @@ void GBomber::PlaceBomber(int x, int y) {
   xtile = x;
   ytile = y;
   if (xtile > 0 && ytile > 0 && 
-      xtile < CArea::AreaControl.GetWidth()  - 1 &&
-      ytile < CArea::AreaControl.GetHeight() - 1)
-    CArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
+      xtile < GArea::AreaControl.GetWidth()  - 1 &&
+      ytile < GArea::AreaControl.GetHeight() - 1)
+    GArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
 
   //left
   xtile = x - 1;
   ytile = y;
   if (xtile > 0 && ytile > 0 && 
-      xtile < CArea::AreaControl.GetWidth()  - 1 &&
-      ytile < CArea::AreaControl.GetHeight() - 1)
-    CArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
+      xtile < GArea::AreaControl.GetWidth()  - 1 &&
+      ytile < GArea::AreaControl.GetHeight() - 1)
+    GArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
 
   //right
   xtile = x + 1;
   ytile = y;
   if (xtile > 0 && ytile > 0 && 
-      xtile < CArea::AreaControl.GetWidth()  - 1 &&
-      ytile < CArea::AreaControl.GetHeight() - 1)
-    CArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
+      xtile < GArea::AreaControl.GetWidth()  - 1 &&
+      ytile < GArea::AreaControl.GetHeight() - 1)
+    GArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
 
   //up
   xtile = x;
   ytile = y - 1;
   if (xtile > 0 && ytile > 0 && 
-      xtile < CArea::AreaControl.GetWidth()  - 1 &&
-      ytile < CArea::AreaControl.GetHeight() - 1)
-    CArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
+      xtile < GArea::AreaControl.GetWidth()  - 1 &&
+      ytile < GArea::AreaControl.GetHeight() - 1)
+    GArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
 
   //down
   xtile = x;
   ytile = y + 1;
   if (xtile > 0 && ytile > 0 && 
-      xtile < CArea::AreaControl.GetWidth()  - 1 &&
-      ytile < CArea::AreaControl.GetHeight() - 1)
-    CArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
+      xtile < GArea::AreaControl.GetWidth()  - 1 &&
+      ytile < GArea::AreaControl.GetHeight() - 1)
+    GArea::AreaControl.SetTile(xtile*TILE_SIZE, ytile*TILE_SIZE, 0);  
   
 }
 
@@ -287,7 +287,7 @@ bool GBomber::PosValid(int NewX, int NewY) {
 
   for(int iY = StartY;iY <= EndY;iY++) {
     for(int iX = StartX;iX <= EndX;iX++) {
-      int* Tile = CArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+      int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
       
       if(PosValidTile(Tile) == false) {	
 		 
@@ -298,7 +298,7 @@ bool GBomber::PosValid(int NewX, int NewY) {
     
   // for(int iY = StartY;iY <= EndY;iY++) {
   //   for(int iX = StartX;iX <= EndX;iX++) {
-  //     int* Tile = CArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+  //     int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
   //     int ax = iX * TILE_SIZE + TILE_SIZE / 2;
   //     int ay = iY * TILE_SIZE + TILE_SIZE / 2;
   //     if(PosValidTile(Tile) == false) {	

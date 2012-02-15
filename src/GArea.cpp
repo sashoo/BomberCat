@@ -3,9 +3,9 @@
 #include "GPowerup.hpp"
 #include "GSurface.hpp"
 
-CArea CArea::AreaControl;
+GArea GArea::AreaControl;
 
-CArea::CArea() {  
+GArea::GArea() {  
   AreaWidth = 15;
   AreaHeight = 13;
   
@@ -16,28 +16,28 @@ CArea::CArea() {
   RenderFore = true;
 }
 
-void CArea::RegisterApp(MirageApp* app) {
+void GArea::RegisterApp(MirageApp* app) {
   if (NULL != app)
     App = app;
 }
 
-int CArea::GetWidth() {
+int GArea::GetWidth() {
   return AreaWidth;
 }
 
-int CArea::GetHeight() {
+int GArea::GetHeight() {
   return AreaHeight;
 }
 
-int CArea::GetBoundX() {
+int GArea::GetBoundX() {
   return AreaBoundX;
 }
 
-int CArea::GetBoundY() {
+int GArea::GetBoundY() {
   return AreaBoundY;
 }
 
-bool CArea::OnLoad(char* File) {
+bool GArea::OnLoad(char* File) {
   TileList.clear(); 
 
   // if((SurfTileset = GSurface::OnLoad(File)) == false) { 
@@ -83,7 +83,7 @@ bool CArea::OnLoad(char* File) {
   return true;
 }
 
-bool CArea::OnSave() {
+bool GArea::OnSave() {
   FILE* FileHandle = fopen("level-debug.log", "w");
   if(FileHandle == NULL) {
     return false;
@@ -104,7 +104,7 @@ bool CArea::OnSave() {
   return true;
 }
 
-void CArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
+void GArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
   // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
   int ID = 0;
@@ -131,7 +131,7 @@ void CArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   }  
 }
 
-void CArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
+void GArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   
   // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
   // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
@@ -160,14 +160,14 @@ void CArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   }  
 }
 
-void CArea::OnCleanup() {
+void GArea::OnCleanup() {
   // if(SurfTileset) {
   //   SDL_FreeSurface(SurfTileset);
   // }
  
 }
  
-int* CArea::GetTile(int X, int Y) {
+int* GArea::GetTile(int X, int Y) {
   int ID = 0;
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
@@ -178,7 +178,7 @@ int* CArea::GetTile(int X, int Y) {
   return &TileList[ID];  
 }
 
-bool CArea::SetTile(int X, int Y, int type) {  
+bool GArea::SetTile(int X, int Y, int type) {  
   int ID = 0;
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
@@ -190,7 +190,7 @@ bool CArea::SetTile(int X, int Y, int type) {
   return true;
 }
 
-void CArea::PlacePowerups() {
+void GArea::PlacePowerups() {
   for(int Y = 0; Y < AreaHeight; Y++) {
     for(int X = 0; X < AreaWidth; X++) {
       int tempTile = *GetTile(X * TILE_SIZE, Y*TILE_SIZE);

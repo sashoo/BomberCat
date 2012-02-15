@@ -187,7 +187,7 @@ void GEntity::OnMove(float MoveX, float MoveY) {
 	  tilex = (cX + NewX) / TILE_SIZE;
 	}
 	//int tiley = NewY / TILE_SIZE;
-	int* Tile = CArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
+	int* Tile = GArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
 	if(PosValidTile(Tile) == false) {	
 	  SpeedX = 0;
 	}
@@ -223,7 +223,7 @@ void GEntity::OnMove(float MoveX, float MoveY) {
 	  tiley = (cY + NewY) / TILE_SIZE;
 	}
 	//int tiley = NewY / TILE_SIZE;
-	int* Tile = CArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
+	int* Tile = GArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
 	if(PosValidTile(Tile) == false) {	
 	  SpeedY = 0;
 	}
@@ -266,7 +266,7 @@ void GEntity::OnMove(float MoveX, float MoveY) {
  
       for(int iY = StartY;iY <= EndY;iY++) {
       	for(int iX = StartX;iX <= EndX;iX++) {
-      	  // int* Tile = CArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+      	  // int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
       	  // if(PosValidTile(Tile) == false) {
       	  //   float depthX = 0.f;
       	  //   float depthY = 0.f;
@@ -418,7 +418,7 @@ bool GEntity::PosValid(int NewX, int NewY) {
  
   for(int iY = StartY;iY <= EndY;iY++) {
     for(int iX = StartX;iX <= EndX;iX++) {
-      int* Tile = CArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+      int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
       if(PosValidTile(Tile) == false) {
 	isvalid = false;
       }

@@ -142,7 +142,7 @@ void GBomb::CheckDir(int cx, int cy, int alttype) {
     
     //int newx = centX;
     //int newy = centY-TILE_SIZE*i;
-    int* tile = CArea::AreaControl.GetTile(newx, newy);
+    int* tile = GArea::AreaControl.GetTile(newx, newy);
     if (NULL == tile) break;
     if (*tile >= 0 && *tile <= 2) {
       GFlame* flame = new GFlame();

@@ -128,11 +128,11 @@ bool GPath::FindPath(int sx, int sy, int destx, int desty) {
 }
 
 int GPath::GetTileType(GNode* gnode) {
-  return *CArea::AreaControl.GetTile(gnode->GetX()*TILE_SIZE, gnode->GetY()*TILE_SIZE);
+  return *GArea::AreaControl.GetTile(gnode->GetX()*TILE_SIZE, gnode->GetY()*TILE_SIZE);
 }
 
 int GPath::GetTileType(int x, int y) {
-  return *CArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
+  return *GArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
 }
 
 bool GPath::IsWrongType(int type) {
@@ -140,14 +140,14 @@ bool GPath::IsWrongType(int type) {
 }
 
 void GPath::GetAreaBounds() {
-  MaxX = CArea::AreaControl.GetWidth();
-  MaxY = CArea::AreaControl.GetHeight();
+  MaxX = GArea::AreaControl.GetWidth();
+  MaxY = GArea::AreaControl.GetHeight();
 }
 
 GNode* GPath::GetNode(int x, int y) {
   int ID = 0;
   ID = x ;
-  ID = ID + CArea::AreaControl.GetWidth() * y ;
+  ID = ID + GArea::AreaControl.GetWidth() * y ;
 
   if (ID < 0 || ID >= (int)Nodes.size())
     return NULL;
@@ -161,7 +161,7 @@ void GPath::SetNode(GNode* gnode) {
   int y = gnode->GetY();
   int ID = 0;
   ID = x ;
-  ID = ID + CArea::AreaControl.GetWidth() * y ;
+  ID = ID + GArea::AreaControl.GetWidth() * y ;
 
   if (ID < 0 || ID >= (int)Nodes.size())
     return;
