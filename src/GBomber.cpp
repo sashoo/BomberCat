@@ -235,12 +235,7 @@ void GBomber::PlaceBomberByNum(int num, int bombers) {
     if (1 == num)
       PlaceBomber(areaw/2, areah/2);
     break;
-  case 2:
-    if (1 == num)
-      PlaceBomber(1, 1);
-    else if (2 == num) 
-      PlaceBomber(areaw-2, areah-2);
-    break;
+  case 2:   
   case 3:
     if (1 == num)
       PlaceBomber(1, 1);
@@ -249,16 +244,7 @@ void GBomber::PlaceBomberByNum(int num, int bombers) {
     else if (3 == num)
       PlaceBomber(areaw/2, areah/2);
     break;
-  case 4:
-    if (1 == num)
-      PlaceBomber(1, 1);
-    else if (2 == num) 
-      PlaceBomber(areaw-2, 1);
-    else if (3 == num)
-      PlaceBomber(1, areah-2);
-    else if (4 == num)
-      PlaceBomber(areaw-2, areah-2);
-    break;
+  case 4:   
   case 5:
     if (1 == num)
       PlaceBomber(1, 1);
@@ -271,20 +257,7 @@ void GBomber::PlaceBomberByNum(int num, int bombers) {
     else if (5 == num)
       PlaceBomber(areaw/2, areah/2);
     break;
-  case 6:
-    if (1 == num)
-      PlaceBomber(1, 1);
-    else if (2 == num) 
-      PlaceBomber(areaw-2, 1);
-    else if (3 == num)
-      PlaceBomber(1, areah/2);
-    else if (4 == num)
-      PlaceBomber(areaw-2, areah/2);
-    else if (5 == num)
-      PlaceBomber(1, areah-2);
-    else if (6 == num)
-      PlaceBomber(areaw-2, areah-2);
-    break; 
+  case 6:    
   case 7:
     if (1 == num)
       PlaceBomber(1, 1);
@@ -301,23 +274,7 @@ void GBomber::PlaceBomberByNum(int num, int bombers) {
     else if (7 == num)
       PlaceBomber(areaw/2, areah/2);    
     break;
-  case 8:
-    if (1 == num)
-      PlaceBomber(1, 1);
-    else if (2 == num) 
-      PlaceBomber(areaw/2, 1);
-    else if (3 == num)
-      PlaceBomber(areaw-2, areah-2);
-    else if (4 == num)
-      PlaceBomber(1, areah/2);
-    else if (5 == num)
-      PlaceBomber(areaw-2, areah/2);
-    else if (6 == num)
-      PlaceBomber(1, areah-2);
-    else if (7 == num)
-      PlaceBomber(areaw/2, areah-2);
-    else if (8 == num)
-      PlaceBomber(areaw-2, areah-2);
+  case 8:   
   case 9:
     if (1 == num)
       PlaceBomber(1, 1);
