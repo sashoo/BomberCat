@@ -28,7 +28,7 @@ public:
   std::map<std::string, int> Keys;
 private:
   static int Players;
-  int OldTime;
+  Uint32 OldTime;
   int PlayerID;
 
 };

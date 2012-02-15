@@ -89,8 +89,7 @@ void GBomb::Explode() {
   Enabled = false;
 }
 
-void GBomb::PlaceFlames() {
-  int radius = Bomber->BlastRadius;
+void GBomb::PlaceFlames() {  
   GFlame* flame = new GFlame();
   flame->X = X;
   flame->Y = Y;
@@ -149,7 +148,7 @@ void GBomb::CheckDir(int cx, int cy, int alttype) {
       GFlame* flame = new GFlame();
       flame->X = newx;
       flame->Y = newy;   
-      int dir;
+      int dir = 0;
       if (FLAME_LEFT == alttype )
 	dir = FLAME_CHAIN_LEFT;
       else if (FLAME_RIGHT == alttype )

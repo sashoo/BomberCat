@@ -12,7 +12,7 @@ enum {
   BOMB_STATE_EXPLODED
 };
 
-class GBomb : public GEntity, public STimer {
+class GBomb : public STimer, public GEntity {
 public:
   GBomb() ;
   static std::vector <GBomb*> BombList;

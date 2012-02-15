@@ -24,4 +24,4 @@ public:
   virtual void OnAnimate();  
 };
 
-#endif;
+#endif

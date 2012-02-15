@@ -105,8 +105,8 @@ bool CArea::OnSave() {
 }
 
 void CArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
-  int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
-  int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
+  // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
+  // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
   int ID = 0;
   
   for(int Y = 0; Y < AreaHeight; Y++) {
@@ -133,8 +133,8 @@ void CArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
 
 void CArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   
-  int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
-  int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
+  // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
+  // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
   int ID = 0;
 
   
@@ -172,7 +172,7 @@ int* CArea::GetTile(int X, int Y) {
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
 
-  if (ID < 0 || ID >= TileList.size())
+  if (ID < 0 || ID >= (int)TileList.size())
     return NULL;
   
   return &TileList[ID];  
@@ -183,10 +183,11 @@ bool CArea::SetTile(int X, int Y, int type) {
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
 
-  if (ID < 0 || ID >= TileList.size())
+  if (ID < 0 || ID >= (int)TileList.size())
     return NULL;
 
-  TileList[ID] = type;   
+  TileList[ID] = type; 
+  return true;
 }
 
 void CArea::PlacePowerups() {

@@ -25,7 +25,7 @@ enum {
 
 const int MaxFlamePower = 8;
 
-class GFlame : public GEntity, public STimer  {  
+class GFlame : public STimer, public GEntity {  
 public:
   GFlame();
   static std::vector<GFlame*> FlameList;

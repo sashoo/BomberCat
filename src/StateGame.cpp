@@ -311,7 +311,7 @@ void StateGame::OnActivate() {
   
   App->Log << "Loading map file...\n";
   CArea::AreaControl.RegisterApp(App);
-  if (CArea::AreaControl.OnLoad("Resources/tiles.png") == false) {
+  if (CArea::AreaControl.OnLoad((char*)"Resources/tiles.png") == false) {
     App->Log << "Failed. Does it exist?\nExiting the program";
     return;
   }
@@ -544,27 +544,27 @@ void StateGame::OnLoop() {
 
  
 
-  std::vector<GEntity*>::iterator it2 = GEntity::EntityList.begin();
-  while (it2 != GEntity::EntityList.end()) {
-    if (!(*it2)) {
-      //GEntity::EntityList.erase(it2);
-      continue;
-    }  
+  // std::vector<GEntity*>::iterator it2 = GEntity::EntityList.begin();
+  // while (it2 != GEntity::EntityList.end()) {
+  //   if (!(*it2)) {
+  //     //GEntity::EntityList.erase(it2);
+  //     continue;
+  //   }  
 
-    (*it2)->OnLoop();
-    it2++;
-  }
+  //   (*it2)->OnLoop();
+  //   it2++;
+  // }
 
-  for(int i = 0; i < GEntityCol::EntityColList.size();i++) {
-    GEntity* EntityA = GEntityCol::EntityColList[i].EntityA;
-    GEntity* EntityB = GEntityCol::EntityColList[i].EntityB;
+  // for(unsigned int i = 0; i < GEntityCol::EntityColList.size();i++) {
+  //   GEntity* EntityA = GEntityCol::EntityColList[i].EntityA;
+  //   GEntity* EntityB = GEntityCol::EntityColList[i].EntityB;
  
-    if(EntityA == NULL || EntityB == NULL) continue;
+  //   if(EntityA == NULL || EntityB == NULL) continue;
  
-    if(EntityA->OnCollision(EntityB)) {
-      EntityB->OnCollision(EntityA);
-    }
-  }
+  //   if(EntityA->OnCollision(EntityB)) {
+  //     EntityB->OnCollision(EntityA);
+  //   }
+  // }
  
   GEntityCol::EntityColList.clear();
 }

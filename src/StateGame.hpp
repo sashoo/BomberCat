@@ -19,7 +19,7 @@ private:
   //CPlayer p2; 
  
   bool CameraSwitch;
-  int OldTime;
+  Uint32 OldTime;
 public:
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode); 

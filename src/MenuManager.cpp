@@ -131,7 +131,7 @@ int MenuManager::GetIndex(){
 }
 
 void MenuManager::SetEntry(const int index){
-  if(index < Entries.size() && index >=0) {
+  if(index < (int)Entries.size() && index >=0) {
     Entries[Index]->SetColor(InactiveColor);
     Index = index;
     Entries[Index]->SetColor(ActiveColor);      
@@ -213,13 +213,15 @@ void MenuManager::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool
 
   
 MenuEntry* MenuManager::at(const int index){
-  if(index < Entries.size() && index >=0)
+  if(index < (int)Entries.size() && index >=0)
     return Entries[index];
+  return NULL;
 }
 
-MenuEntry& MenuManager::operator[] (const int index){
-  if(index < Entries.size() && index >=0)
-    return *Entries[index];
-}
+// MenuEntry& MenuManager::operator[] (const int index){
+//   if(index < (int)Entries.size() && index >=0)
+//     return *Entries[index];
+  
+// }
   
 

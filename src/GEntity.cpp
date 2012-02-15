@@ -427,10 +427,12 @@ bool GEntity::PosValid(int NewX, int NewY) {
  
   if(Flags & ENTITY_FLAG_MAPONLY) {
   }else{
-    for(int i = 0;i < EntityList.size();i++) {
-      if(PosValidEntity(EntityList[i], NewX, NewY) == false) {
+    std::vector<GEntity*>::iterator entity = EntityList.begin();
+    while(entity != EntityList.end()) {
+      if(PosValidEntity(*entity, NewX, NewY) == false) {
 	isvalid = false;
       }
+      entity++;
     }
   }
  

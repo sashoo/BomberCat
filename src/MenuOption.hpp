@@ -26,7 +26,7 @@ public:
   virtual void Setup();
 
 private:
-  void SetEntry(int index);
+  void SetEntry(unsigned int index);
   std::vector<std::string> OptionList;
   std::string  Label;
   std::string  Option;
@@ -35,7 +35,7 @@ private:
   int          Origin;
   int          HalfOffset;
 
-  int Index;  
+  unsigned int Index;  
 };
 	
 #endif			   

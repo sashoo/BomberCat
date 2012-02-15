@@ -76,7 +76,7 @@ void MenuOption::Setup() {
   App->Log << Label << std::endl;
 }
 
-void MenuOption::SetEntry(int index) {
+void MenuOption::SetEntry(unsigned int index) {
   if (index >= 0 && !OptionList.empty() && index < OptionList.size()) {
     Index = index;
     Option = OptionList[Index];     

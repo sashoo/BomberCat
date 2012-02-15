@@ -16,8 +16,8 @@ public:
   void SetScaleFactor(float factor);
 
 private:
-  int OldTime;
-  int LastTime;
+  Uint32 OldTime;
+  Uint32 LastTime;
   float SpeedFactor;
   float ScaleFactor;
   int NumFrames;

@@ -8,7 +8,7 @@ class StateIntro : public IState {
 private:
   StateIntro();
   SDL_Surface* SurfLogo;
-  int StartTime;
+  Uint32 StartTime;
   static StateIntro Instance;
   
 public:

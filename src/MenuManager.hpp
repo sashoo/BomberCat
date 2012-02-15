@@ -49,7 +49,7 @@ public:
   void PrevEntry();
   void NextEntry();
   MenuEntry* at(const int index); 
-  MenuEntry& operator[] (const int index);
+  //MenuEntry& operator[] (const int index);
 
   friend class MenuButton;
 
