@@ -9,6 +9,12 @@
 #include "GPlayer.hpp"
 #include "GAI.hpp"
 
+enum {
+  GAME_LOCAL = 0,
+  GAME_SERVER,
+  GAME_CLIENT
+};
+
 class MirageApp;
 
 class StateGame : public IState {
@@ -36,10 +42,12 @@ public:
   void OnDeactivate();
   void OnLoop();
   void OnRender(SDL_Surface* SurfDisplay);
+  void SetTerminal(bool terminal);
 
   int CurLayer;
   int CurTileType;
   int CurJoystick;
+  int NetMode;
 
   static StateGame* GetInstance();
 };

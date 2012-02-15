@@ -30,7 +30,7 @@ public:
 
 
   void PlaceBomber(int x, int y);
-  void PlaceBomber(int playerNum); // players 1 to 8 (or maybe more?)
+  void PlaceBomberByNum(int num, int bombers); // players 1 to 8 (or maybe more?)
 
   void PlaceBomb();
   void Die();

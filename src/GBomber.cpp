@@ -225,6 +225,123 @@ void GBomber::PlaceBomb() {
   }
 }
 
+void GBomber::PlaceBomberByNum(int num, int bombers) {
+  int areaw = GArea::AreaControl.GetWidth();
+  int areah = GArea::AreaControl.GetHeight();  
+  // I know, this function may be shorter.
+  // But it's funnier this way
+  switch (bombers) {
+  case 1:
+    if (1 == num)
+      PlaceBomber(areaw/2, areah/2);
+    break;
+  case 2:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, areah-2);
+    break;
+  case 3:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, areah-2);
+    else if (3 == num)
+      PlaceBomber(areaw/2, areah/2);
+    break;
+  case 4:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, 1);
+    else if (3 == num)
+      PlaceBomber(1, areah-2);
+    else if (4 == num)
+      PlaceBomber(areaw-2, areah-2);
+    break;
+  case 5:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, 1);
+    else if (3 == num)
+      PlaceBomber(1, areah-2);
+    else if (4 == num)
+      PlaceBomber(areaw-2, areah-2);
+    else if (5 == num)
+      PlaceBomber(areaw/2, areah/2);
+    break;
+  case 6:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, 1);
+    else if (3 == num)
+      PlaceBomber(1, areah/2);
+    else if (4 == num)
+      PlaceBomber(areaw-2, areah/2);
+    else if (5 == num)
+      PlaceBomber(1, areah-2);
+    else if (6 == num)
+      PlaceBomber(areaw-2, areah-2);
+    break; 
+  case 7:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw-2, 1);
+    else if (3 == num)
+      PlaceBomber(1, areah/2);
+    else if (4 == num)
+      PlaceBomber(areaw-2, areah/2);
+    else if (5 == num)
+      PlaceBomber(1, areah-2);
+    else if (6 == num)
+      PlaceBomber(areaw-2, areah-2);
+    else if (7 == num)
+      PlaceBomber(areaw/2, areah/2);    
+    break;
+  case 8:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw/2, 1);
+    else if (3 == num)
+      PlaceBomber(areaw-2, areah-2);
+    else if (4 == num)
+      PlaceBomber(1, areah/2);
+    else if (5 == num)
+      PlaceBomber(areaw-2, areah/2);
+    else if (6 == num)
+      PlaceBomber(1, areah-2);
+    else if (7 == num)
+      PlaceBomber(areaw/2, areah-2);
+    else if (8 == num)
+      PlaceBomber(areaw-2, areah-2);
+  case 9:
+    if (1 == num)
+      PlaceBomber(1, 1);
+    else if (2 == num) 
+      PlaceBomber(areaw/2, 1);
+    else if (3 == num)
+      PlaceBomber(areaw-2, 1);
+    else if (4 == num)
+      PlaceBomber(1, areah/2);
+    else if (5 == num)
+      PlaceBomber(areaw-2, areah/2);
+    else if (6 == num)
+      PlaceBomber(1, areah-2);
+    else if (7 == num)
+      PlaceBomber(areaw/2, areah-2);
+    else if (8 == num)
+      PlaceBomber(areaw-2, areah-2);
+    else if (9 == num)
+      PlaceBomber(areaw/2, areah/2);
+  case 0:
+  default: return;
+  }
+}
+
 bool GBomber::PosValid(int NewX, int NewY) {
   bool isvalid = true;
  

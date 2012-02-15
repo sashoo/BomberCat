@@ -1,12 +1,100 @@
 #include "MirageApp.hpp"
 #include <SDL_ttf.h>
+#include <stdio.h>
 #define FPS 60
 Uint32 wait = 1000.0f/FPS;
 Uint32 framestart = 0;
 Sint32 delay;
 
 int main(int argc, char* argv[]) {
-  MirageApp theApp; 
+  MirageApp theApp;  
+  int n, l;
+  if (argc > 0) 
+    theApp.SetTerminal(true);
+  
+  for (n = 1; n < argc; n++) {
+    switch ((int)argv[n][0]) {
+    case '-': {
+      l = strlen(argv[n]);         
+     
+      if (l > 2) {
+	puts( "Illegal syntax: too many characters for a key" );
+	exit( 1 );
+      }
+
+      char ch = argv[n][1];
+      switch (ch) {
+      case 'g': {
+	if( n + 1 >= argc ) {
+	  puts( "Illegal syntax: no string provided" );
+	  exit( 1 );
+	}
+	else {	 
+	  //printf("test");
+	  char par [256];
+	  strcpy( par, argv[n+1] );
+	  //printf ("your parameter is: %s", par);
+	  if (0 == strcmp (par, "local")) 
+	    theApp.SetLaunchState(APPSTATE_GAME, 0);
+	}      
+	break;  
+      }
+      case 'k': {
+	if( n + 1 >= argc ) {
+	  puts( "Illegal syntax: no value provided for kots");
+	  exit( 1 );
+	}
+	else {	 
+	  //printf("test");
+	  char par [256];
+	  strcpy( par, argv[n+1] );
+	  long int k = atol(par);
+	  if (k <= 0 || k > 9) {
+	    puts("wrong number of kots");
+	    exit(1);
+	  }
+	  int kots = (int)k;
+	  
+	  theApp.SetNumBombers(kots);
+	}      
+	break;  
+      }
+      case 'b': {
+	if( n + 1 >= argc ) {
+	  puts( "Illegal syntax: no value provided for bots");
+	  exit( 1 );
+	}
+	else {	 
+	  //printf("test");
+	  char par [256];
+	  strcpy( par, argv[n+1] );
+	  long int b = atol(par);
+	  if (b < 0 || b > 9) {
+	    puts("wrong number of bots");
+	    exit(1);
+	  }
+	  int bots = (int)b;
+	  
+	  theApp.SetNumBots(bots);
+	}      
+	break;  
+      }
+
+      default:
+	printf("No such a key: \'%s\'\n", argv[n] );
+	exit(1);
+	break;	
+      
+      }      
+      break;
+    }
+      
+    default:       
+      break;      
+    
+    }
+  }
+  
   return theApp.OnExecute();
 }
  
@@ -20,6 +108,46 @@ MirageApp::MirageApp() {
   Stick = NULL;
   SetDefaultKeys();
   Srand::SetTimeSeed();
+  LaunchState = APPSTATE_INTRO;
+  LaunchAttr = 0;
+  Terminal = false;
+  Bombers = 1;
+  Bots = 0;
+}
+
+void MirageApp::SetLaunchState(int state, int attr) {
+  if (state > 0 && state < APPSTATE_MAX)
+    LaunchState = state;
+  LaunchAttr = attr;
+}
+
+int MirageApp::GetLaunchState() const {
+  return LaunchState;
+}
+
+int MirageApp::GetLaunchAttr() const {
+  return LaunchAttr;
+}
+
+int MirageApp::GetNumBombers() const {
+  return Bombers;
+}
+
+void MirageApp::SetNumBombers(int bombers) {
+  Bombers = bombers;
+}
+
+void MirageApp::SetNumBots(int bots) {
+  Bots = bots;
+}
+
+
+int MirageApp::GetNumBots() const {
+  return Bots;
+}
+
+void MirageApp::SetTerminal(bool terminal) {
+  Terminal = terminal;
 }
 
 int MirageApp::OnExecute() {
@@ -98,7 +226,7 @@ bool MirageApp::OnInit() {
   
   SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 2);
   StateManager::RegisterApp(this);
-  StateManager::SetActiveState(APPSTATE_INTRO);
+  StateManager::SetActiveState(LaunchState);
  
   Log << "MirageApp::Init() completed successfully" << std::endl;    
 

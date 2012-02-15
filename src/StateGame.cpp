@@ -16,6 +16,7 @@ StateGame::StateGame() {
   CurTileType = 1;
   CurLayer = 2;
   CurJoystick = 0;
+  NetMode = 0;
 }
 
 void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
@@ -297,7 +298,7 @@ void StateGame::OnActivate() {
   
   
   //App->Log << "Loading powerups... ";
-  App = StateManager::GetApp();
+  App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
   GPath::RegisterApp(App);
  
@@ -309,6 +310,9 @@ void StateGame::OnActivate() {
   GSurface::LoadTiles();
   //App->Log << "finished loading powerups... ";
   
+  
+  
+
   App->Log << "Loading map file...\n";
   GArea::AreaControl.RegisterApp(App);
   if (GArea::AreaControl.OnLoad((char*)"Resources/tiles.png") == false) {
@@ -316,47 +320,33 @@ void StateGame::OnActivate() {
     return;
   }
   
-  App->Log << " Map loaded Done!" << std::endl;
-  GPlayer* p1 = new GPlayer();  
+  App->Log << " Map successfully loaded!" << std::endl;
 
-  p1->PlaceBomber(1,1); 
- 
 
-  App->Log << "Loading p1... ";  
-  if(p1->OnLoad(// "Bomber", "Resources/bots.png", 22, 22, 3
-	       ) == false) {
-    App->Log << "Failed. Does it exist?\nExiting the program";
-    return;
-  }
-  p1 = new GPlayer();
-  p1->PlaceBomber(13,1);
-  App->Log << "Loading p2... ";  
-  if(p1->OnLoad(// "Bomber", "Resources/bots.png", 22, 22, 3
-	       ) == false) {
-    App->Log << "Failed. Does it exist?\nExiting the program";
-    return;    
-  }
-  p1 = NULL;
-  
-  GAI* bot = new GAI();
+  int bombers = App->GetNumBombers();
+  int bots = App->GetNumBots();
+  int players = bombers - bots;
+  for (int i = 0; i < bombers; i++) {
+    if (i < players) {
+      GPlayer* p = new GPlayer();  
+      p->PlaceBomberByNum(i+1, bombers);  
 
-  bot->PlaceBomber(1, 11);
-  App->Log << "Loading bot1... ";  
-  if(bot->OnLoad(// "Bomber", "Resources/bots.png", 22, 22, 3
-  	       ) == false) {
-    App->Log << "Failed. Does it exist?\nExiting the program";
-    return;
-  }
-  bot = new GAI();
-  bot->PlaceBomber(13,11);
-  App->Log << "Loading bot2... ";  
-  if(bot->OnLoad(// "Bomber", "Resources/bots.png", 22, 22, 3
-  	       ) == false) {
-    App->Log << "Failed. Does it exist?\nExiting the program";
-    return;    
-  }
-  bot = NULL;
-  //GEntity::EntityList.push_back(&p1);
+      App->Log << "Loading player (bomber #" << i << ")";  
+      if(p->OnLoad() == false) {
+	App->Log << "Failed. Does it exist?\nExiting the program";
+	return;
+      }
+    }
+    else {
+      GAI* bot = new GAI();
+      bot->PlaceBomberByNum(i+1, bombers);
+      App->Log << "Loading bot1... ";  
+      if(bot->OnLoad() == false) {
+	App->Log << "Failed. Does it exist?\nExiting the program";
+	return;
+      }
+    }
+  } 
   
   App->Log << "Done!" << std::endl;  
   App->Log << "Entities set up" << std::endl;

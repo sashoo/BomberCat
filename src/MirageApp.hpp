@@ -31,6 +31,14 @@ public:
   void OnLoop(); 
   void OnRender(); 
   void OnCleanup();  
+  void SetLaunchState(int state, int attr);
+  void SetTerminal(bool terminal);
+  void SetNumBombers(int bombers);
+  void SetNumBots(int bots);
+  int GetLaunchState() const;
+  int GetLaunchAttr() const;
+  int GetNumBombers() const;
+  int GetNumBots() const;
   TTF_Font* GetFont();
   std::ofstream Log;
   //StateManager mStateManager;  
@@ -43,6 +51,11 @@ private:
 
   SDL_Surface*    SurfDisplay;
   std::string     LogFile; 
+  bool Terminal;
+  int LaunchState;
+  int LaunchAttr;
+  int Bombers;
+  int Bots;
   
 };
  

@@ -60,8 +60,13 @@ bool GArea::OnLoad(char* File) {
       else if (0 == (X) % 2 &&
       	       0 == (Y) % 2)
       	tempTile = 2;
-      else      
-	tempTile = Srand::GetInt(0,1);
+      else {
+	int chance = Srand::GetInt(0, 100);
+	if (chance <= 95)
+	  tempTile = 1;
+	else
+	  tempTile = 0;
+      }
 
       // if (1 == tempTile) {
       // 	int chances = Srand::GetInt(0, 100);
