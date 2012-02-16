@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     theApp.SetTerminal(true);
   
   for (n = 1; n < argc; n++) {
-    switch ((int)argv[n][0]) {
+    switch (argv[n][0]) {
     case '-': {
       l = strlen(argv[n]);         
      
@@ -31,10 +31,8 @@ int main(int argc, char* argv[]) {
 	}
 	else {	 
 	  //printf("test");
-	  char par [256];
-	  strcpy( par, argv[n+1] );
 	  //printf ("your parameter is: %s", par);
-	  if (0 == strcmp (par, "local")) 
+	  if (0 == strcmp (argv[n+1], "local")) 
 	    theApp.SetLaunchState(APPSTATE_GAME, 0);
 	}      
 	break;  
@@ -46,9 +44,7 @@ int main(int argc, char* argv[]) {
 	}
 	else {	 
 	  //printf("test");
-	  char par [256];
-	  strcpy( par, argv[n+1] );
-	  long int k = atol(par);
+	  long int k = atol(argv[n+1]);
 	  if (k <= 0 || k > 9) {
 	    puts("wrong number of kots");
 	    exit(1);
@@ -66,9 +62,7 @@ int main(int argc, char* argv[]) {
 	}
 	else {	 
 	  //printf("test");
-	  char par [256];
-	  strcpy( par, argv[n+1] );
-	  long int b = atol(par);
+	  long int b = atol(argv[n+1]);
 	  if (b < 0 || b > 9) {
 	    puts("wrong number of bots");
 	    exit(1);
