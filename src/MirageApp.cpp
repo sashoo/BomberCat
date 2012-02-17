@@ -239,6 +239,10 @@ bool MirageApp::OnInit() {
 
   Log << "Loading font.ttf... ";
   Font = TTF_OpenFont("Resources/font.ttf", 18 );
+  if (Font == NULL) {
+    Log << "Failed.\nExiting the program" << std::endl;
+    return false;
+  }
   Log << "Success!" << std::endl;  
   
   SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 2);
