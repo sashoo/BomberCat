@@ -6,78 +6,96 @@ Uint32 wait = 1000.0f/FPS;
 Uint32 framestart = 0;
 Sint32 delay;
 
+void print_usage(void)
+{
+  fprintf(stderr,  
+    "Usage:\n"
+    "\trobokot [-k kots] [-b bots] [-g gametype]\n"
+    "\n"
+    " -k kots\t\tset number of players (0-9)\n"
+    " -b bots\t\tset number of bots (0-9)\n"
+    " -g gametype\t\tset game mode, can be \"local\"\n"
+  );
+}
+
 int main(int argc, char* argv[]) {
   MirageApp theApp;  
-  int n, l;
+
   if (argc > 0) 
     theApp.SetTerminal(true);
   
-  for (n = 1; n < argc; n++) {
-    switch (argv[n][0]) {
+  for (int i = 1; i < argc; i++) {
+    switch (argv[i][0]) {
     case '-': {
-      l = strlen(argv[n]);         
-     
-      if (l > 2) {
-	puts( "Illegal syntax: too many characters for a key" );
-	exit( 1 );
+      if (strlen(argv[i]) > 2) {
+        fputs("Illegal syntax: too many characters for a key\n", stderr);
+        print_usage();
+        exit(1);
       }
 
-      char ch = argv[n][1];
-      switch (ch) {
+      switch (argv[i][1]) {
       case 'g': {
-	if( n + 1 >= argc ) {
-	  puts( "Illegal syntax: no string provided" );
-	  exit( 1 );
-	}
-	else {	 
-	  //printf("test");
-	  //printf ("your parameter is: %s", par);
-	  if (0 == strcmp (argv[n+1], "local")) 
-	    theApp.SetLaunchState(APPSTATE_GAME, 0);
-	}      
-	break;  
+        if (i + 1 >= argc) {
+          fputs("Option -g requires an argument\n", stderr);
+          print_usage();
+          exit(1);
+        }
+        else {
+          const char *net_type = argv[i+1];
+
+          if (strcmp(net_type, "local") == 0) { 
+            theApp.SetLaunchState(APPSTATE_GAME, 0);
+          } else {
+            fputs("Invalid argument for option -g\n", stderr);
+            print_usage();
+            exit(1);
+          }
+        }      
+        break;
       }
       case 'k': {
-	if( n + 1 >= argc ) {
-	  puts( "Illegal syntax: no value provided for kots");
-	  exit( 1 );
-	}
-	else {	 
-	  //printf("test");
-	  long int k = atol(argv[n+1]);
-	  if (k <= 0 || k > 9) {
-	    puts("wrong number of kots");
-	    exit(1);
-	  }
-	  int kots = (int)k;
-	  
-	  theApp.SetNumBombers(kots);
-	}      
-	break;  
+        if (i + 1 >= argc) {
+          fputs("Option -k requires an argument\n", stderr);
+          print_usage();
+          exit(1);
+        } else {         
+          int kots;
+
+          if (sscanf(argv[i+1], "%d", &kots) != 1 || kots <= 0 || kots > 9) {
+            fputs("Invalid argument for option -k\n", stderr);
+            print_usage();
+            exit(1);
+          }
+          
+          theApp.SetNumBombers(kots);
+        }      
+        break;  
       }
       case 'b': {
-	if( n + 1 >= argc ) {
-	  puts( "Illegal syntax: no value provided for bots");
-	  exit( 1 );
-	}
-	else {	 
-	  //printf("test");
-	  long int b = atol(argv[n+1]);
-	  if (b < 0 || b > 9) {
-	    puts("wrong number of bots");
-	    exit(1);
-	  }
-	  int bots = (int)b;
-	  
-	  theApp.SetNumBots(bots);
-	}      
-	break;  
+        if (i + 1 >= argc) {
+          fputs("Option -b requires an argument\n", stderr);
+          print_usage();
+          exit(1);
+          
+        }
+        else {         
+          int bots;
+          if (sscanf(argv[i+1], "%d", &bots) != 1 || bots <= 0 || bots > 9) {
+            fputs("Invalid argument for option -b\n", stderr);
+            print_usage();
+            exit(1);
+          }
+          
+          theApp.SetNumBots(bots);
+        }      
+        break;  
       }
 
       default:
-	printf("No such a key: \'%s\'\n", argv[n] );
-	exit(1);
-	break;	
+        fprintf(stderr, "Invalid option \'%s\'\n", argv[i]);
+        print_usage();
+        exit(1);
+        break;        
       
       }      
       break;
