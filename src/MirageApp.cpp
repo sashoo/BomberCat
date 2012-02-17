@@ -12,8 +12,8 @@ void print_usage(void)
     "Usage:\n"
     "\trobokot [-k kots] [-b bots] [-g gametype]\n"
     "\n"
-    " -k kots\t\tset number of players (0-9)\n"
-    " -b bots\t\tset number of bots (0-9)\n"
+    " -k kots\t\tset number of players (1-9)\n"
+    " -b bots\t\tset number of bots (1-9)\n"
     " -g gametype\t\tset game mode, can be \"local\"\n"
   );
 }
@@ -35,13 +35,14 @@ int main(int argc, char* argv[]) {
 
       switch (argv[i][1]) {
       case 'g': {
-        if (i + 1 >= argc) {
+        i++;
+        if (i >= argc) {
           fputs("Option -g requires an argument\n", stderr);
           print_usage();
           exit(1);
         }
         else {
-          const char *net_type = argv[i+1];
+          const char *net_type = argv[i];
 
           if (strcmp(net_type, "local") == 0) { 
             theApp.SetLaunchState(APPSTATE_GAME, 0);
@@ -54,14 +55,15 @@ int main(int argc, char* argv[]) {
         break;
       }
       case 'k': {
-        if (i + 1 >= argc) {
+        i++;
+        if (i  >= argc) {
           fputs("Option -k requires an argument\n", stderr);
           print_usage();
           exit(1);
         } else {         
           int kots;
 
-          if (sscanf(argv[i+1], "%d", &kots) != 1 || kots <= 0 || kots > 9) {
+          if (sscanf(argv[i], "%d", &kots) != 1 || kots < 1 || kots > 9) {
             fputs("Invalid argument for option -k\n", stderr);
             print_usage();
             exit(1);
@@ -72,15 +74,15 @@ int main(int argc, char* argv[]) {
         break;  
       }
       case 'b': {
-        if (i + 1 >= argc) {
+        i++;
+        if (i >= argc) {
           fputs("Option -b requires an argument\n", stderr);
           print_usage();
           exit(1);
           
-        }
-        else {         
+        } else {         
           int bots;
-          if (sscanf(argv[i+1], "%d", &bots) != 1 || bots <= 0 || bots > 9) {
+          if (sscanf(argv[i], "%d", &bots) != 1 || bots < 1 || bots > 9) {
             fputs("Invalid argument for option -b\n", stderr);
             print_usage();
             exit(1);
@@ -92,16 +94,19 @@ int main(int argc, char* argv[]) {
       }
 
       default:
-        fprintf(stderr, "Invalid option \'%s\'\n", argv[i]);
+        fprintf(stderr, "Invalid option '%s'\n", argv[i]);
         print_usage();
         exit(1);
         break;        
       
       }      
       break;
-    }
+    } // case '-'
       
-    default:       
+    default:
+      fprintf(stderr, "Unexpected argument '%s'\n", argv[i]);
+      print_usage();
+      exit(1);
       break;      
     
     }
