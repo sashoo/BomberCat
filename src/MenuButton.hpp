@@ -2,7 +2,6 @@
 #define MENUBUTTON_HPP
 
 #include "MenuEntry.hpp"
-#include "Origin.hpp"
 
 class MenuButton : public MenuEntry{
 public:

@@ -165,6 +165,7 @@ MirageApp::MirageApp() {
   Host = "0.0.0.0";
   Port = "8123";
   NetMode = GAME_LOCAL;
+  TimeReal = 0;
 }
 
 void MirageApp::SetLaunchState(int state, int attr) {
@@ -298,6 +299,7 @@ void MirageApp::OnExit() {
 }
 
 void MirageApp::OnLoop() {
+  TimeReal = SDL_GetTicks();
   
   StateManager::OnLoop();
   GFPS::FPSControl.OnLoop();

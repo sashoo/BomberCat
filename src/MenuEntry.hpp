@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <string>
+#include "Origin.hpp"
 
 class MenuManager;
 class MirageApp;

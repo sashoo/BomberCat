@@ -45,6 +45,10 @@ public:
   int GetLaunchAttr() const;
   int GetNumBombers() const;
   int GetNumBots() const;
+  Uint32 GetTimeReal() const {
+    return TimeReal;
+  }
+  
   //TTF_Font* GetFont();
   std::ofstream Log;
   //StateManager mStateManager;  
@@ -53,7 +57,8 @@ public:
   
   // networking
   const char *Host, *Port;
-  enum NetMode NetMode;
+  enum NetMode NetMode;  
+
 
 private:
   bool            Running;
@@ -66,6 +71,8 @@ private:
   int LaunchAttr;
   int Bombers;
   int Bots;
+
+  Uint32 TimeReal;
   
 };
  

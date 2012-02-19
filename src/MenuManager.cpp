@@ -36,11 +36,7 @@ void MenuManager::RegisterApp(MirageApp* app) {
 //   LineSpacing = TTF_FontLineSkip(Font);
 // }
 
-MenuManager::~MenuManager(){
-  App->Log << "Entering MenuManager destructor" << std::endl;
-  App->Log << "Leaving MenuManager destructor" << std::endl; 
-  //App = NULL;
-  //Font = NULL;  
+MenuManager::~MenuManager(){ 
 }
 
 void MenuManager::UpdateRect(){
@@ -59,11 +55,13 @@ void MenuManager::UpdateRect(){
   float screenY = GHEIGHT/2;
   Rect.x = screenX-width/2;
   Rect.y = screenY-height/2; 
-  float posx = screenX;
+  float posx = screenX - width/2;
   float posy = Rect.y;
   float diff = /*FontSize + */LineSpacing;
-  for (iter = Entries.begin(); iter < Entries.end(); ++iter){
-    (*iter)->SetPosition(posx, posy);
+  for (iter = Entries.begin(); iter < Entries.end(); ++iter){  
+ 
+    (*iter)->SetOrigin(ORIGIN_TL);
+    (*iter)->SetPosition(posx, posy);    
 
     posy += diff;
   }  
@@ -79,10 +77,6 @@ void MenuManager::OnRender(SDL_Surface* SurfDisplay){
 MirageApp* MenuManager::GetApp() const {
   return App;
 }
-
-// TTF_Font* MenuManager::GetFont() const {
-//   return Font;
-// }
 
 int MenuManager::GetFontSize() const {
   return FontSize;

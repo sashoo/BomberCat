@@ -52,8 +52,7 @@ void StateInput::OnActivate() {
   OldTime = SDL_GetTicks();
   mMenuManager = new MenuManager();
   App = StateManager::GetApp();
-  mMenuManager->RegisterApp(App);
-  // mMenuManager->SetFont(GSurface::FontRegular);
+  mMenuManager->RegisterApp(App); 
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Activating entries" << std::endl;
 
