@@ -44,6 +44,7 @@ public:
   void OnRender(SDL_Surface* SurfDisplay);
   void SetTerminal(bool terminal);
 
+  //Counts time since StateGame was constructed, milliseconds
   Uint32 GetGameTime() const {return GameTime;}
 
   int CurLayer;

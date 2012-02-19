@@ -45,6 +45,8 @@ public:
   int GetLaunchAttr() const;
   int GetNumBombers() const;
   int GetNumBots() const;
+  
+  //Counts time since SDL was initialized, milliseconds
   Uint32 GetTimeReal() const {
     return SDL_GetTicks();
   }
