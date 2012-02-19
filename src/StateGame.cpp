@@ -345,35 +345,39 @@ void StateGame::OnActivate() {
   
   App->Log << " Map successfully loaded!" << std::endl;
 
+  if (NetMode != GAME_CLIENT) {
+    int bombers = App->GetNumBombers();
+    int bots = App->GetNumBots();
+    int players = bombers - bots;
+    for (int i = 0; i < bombers; i++) {
+      if (i < players) {
+        GPlayer* p = new GPlayer();  
+        p->PlaceBomberByNum(i+1, bombers);  
 
-  int bombers = App->GetNumBombers();
-  int bots = App->GetNumBots();
-  int players = bombers - bots;
-  for (int i = 0; i < bombers; i++) {
-    if (i < players) {
-      GPlayer* p = new GPlayer();  
-      p->PlaceBomberByNum(i+1, bombers);  
-
-      App->Log << "Loading player (bomber #" << i << ")";  
-      if(p->OnLoad() == false) {
-	App->Log << "Failed. Does it exist?\nExiting the program";
-	return;
+        App->Log << "Loading player (bomber #" << i << ")";  
+        if(p->OnLoad() == false) {
+          App->Log << "Failed. Does it exist?\nExiting the program";
+          return;
+        }
       }
-    }
-    else {
-      GAI* bot = new GAI();
-      bot->PlaceBomberByNum(i+1, bombers);
-      App->Log << "Loading bot1... ";  
-      if(bot->OnLoad() == false) {
-	App->Log << "Failed. Does it exist?\nExiting the program";
-	return;
+      else {
+        GAI* bot = new GAI();
+        bot->PlaceBomberByNum(i+1, bombers);
+        App->Log << "Loading bot1... ";  
+        if(bot->OnLoad() == false) {
+          App->Log << "Failed. Does it exist?\nExiting the program";
+          return;
+        }
       }
-    }
-  } 
+    } 
+  }
   
   App->Log << "Done!" << std::endl;  
   App->Log << "Entities set up" << std::endl;
-  GArea::AreaControl.PlacePowerups();
+  
+  if (NetMode != GAME_CLIENT) {
+    GArea::AreaControl.PlacePowerups();
+  }
   
 
   GCamera::CameraControl.TargetMode = TARGET_MODE_CENTER;
