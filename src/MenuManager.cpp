@@ -23,17 +23,18 @@ MenuManager::MenuManager(){
   FontSize = 30;  
   //LineSpacing = Font->GetLineSpacing(FontSize);  
   App = NULL;
-  Font = NULL;
+  LineSpacing = TTF_FontLineSkip(GSurface::FontRegular);
+  //Font = NULL;
 }
 
 void MenuManager::RegisterApp(MirageApp* app) {
   App = app;  
 }
 
-void MenuManager::SetFont (TTF_Font* font) {
-  Font = font;
-  LineSpacing = TTF_FontLineSkip(Font);
-}
+// void MenuManager::SetFont (TTF_Font* font) {
+//   Font = font;
+//   LineSpacing = TTF_FontLineSkip(Font);
+// }
 
 MenuManager::~MenuManager(){
   App->Log << "Entering MenuManager destructor" << std::endl;
@@ -79,9 +80,9 @@ MirageApp* MenuManager::GetApp() const {
   return App;
 }
 
-TTF_Font* MenuManager::GetFont() const {
-  return Font;
-}
+// TTF_Font* MenuManager::GetFont() const {
+//   return Font;
+// }
 
 int MenuManager::GetFontSize() const {
   return FontSize;

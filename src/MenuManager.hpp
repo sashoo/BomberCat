@@ -21,7 +21,7 @@ public:
   ~MenuManager();   
 
   void RegisterApp(MirageApp* app);
-  void SetFont(TTF_Font* font);
+  // void SetFont(TTF_Font* font);
     
   void UpdateRect();
   void OnRender(SDL_Surface* SurfDisplay); //draw
@@ -32,7 +32,7 @@ public:
   void OnMButtonDown(int mX, int mY); 
   void OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle);
   MirageApp* GetApp() const;
-  TTF_Font* GetFont() const;
+  // TTF_Font* GetFont() const;
   int GetFontSize() const;
   int GetLineSpacing() const;
   SDL_Color GetActiveColor() const;
@@ -59,7 +59,7 @@ private:
   SDL_Color                ActiveColor;
   SDL_Color                InactiveColor;
 
-  TTF_Font*                Font;
+  //TTF_Font*                Font;
   int                      FontSize;
   int                      LineSpacing;
   MirageApp*               App;

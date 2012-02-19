@@ -8,7 +8,7 @@ class StateCredits : public IState {
 private:
   StateCredits();
   static StateCredits Instance;
-  TTF_Font*           Font;
+  //TTF_Font*           Font;
   SDL_Surface*        Message;
   SDL_Surface*        Who;
   SDL_Surface*        Orig;

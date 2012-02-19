@@ -30,15 +30,14 @@ void StateCredits::OnActivate() {
   //color = {30, 140, 230};
   color.r = 30;
   color.g = 140;
-  color.b = 230;
-  StateManager::GetApp()->Log << "inside" << std::endl;
-  Font = GSurface::FontRegular;
-  Message = TTF_RenderText_Solid(Font, "Game programmed by:", color);
-  Who = TTF_RenderText_Solid(Font, "Alexander Paramonov", color);
-  Orig  = TTF_RenderText_Solid(Font, "Game sprites by:", color);
-  Hudson  = TTF_RenderText_Solid(Font, "Alexander Paramonov", color);
+  color.b = 230;  
+ 
+  Message = TTF_RenderText_Solid(GSurface::FontRegular, "Game programmed by:", color);
+  Who = TTF_RenderText_Solid(GSurface::FontRegular, "Alexander Paramonov", color);
+  Orig  = TTF_RenderText_Solid(GSurface::FontRegular, "Game sprites by:", color);
+  Hudson  = TTF_RenderText_Solid(GSurface::FontRegular, "Alexander Paramonov", color);
 
-  Site  = TTF_RenderText_Solid(Font, "www.sashoo.org", color);
+  Site  = TTF_RenderText_Solid(GSurface::FontRegular, "www.sashoo.org", color);
   //SurfLogo = GSurface::OnLoad("Resources/bots.png");
   //StartTime = SDL_GetTicks();
 }
