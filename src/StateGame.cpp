@@ -299,6 +299,8 @@ void StateGame::OnJoyButtonDown(Uint8 which, Uint8 button) {
 }
   
 void StateGame::OnActivate() {
+  GameTime = 0;
+  GameStartTime = SDL_GetTicks();
   //App->Log << "Loading powerups... ";
   App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
