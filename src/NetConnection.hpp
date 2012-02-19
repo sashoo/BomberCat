@@ -16,6 +16,9 @@ public:
     const sockaddr_storage addr;
     const socklen_t addr_len;
 
+    // true if server -> client connection
+    const bool is_server;
+
     enum { // parody on TCP
         AWAITING_SYN, // default state on server
         SYN_SENT, 
@@ -25,7 +28,7 @@ public:
     } conn_status;
     uint32_t rnd; // random value for handshake
     
-    NetConnection(MirageApp *, UDPSocket *, StateGame *, const struct sockaddr_storage *, socklen_t);
+    NetConnection(UDPSocket *, const struct sockaddr_storage *, socklen_t);
 
     int HandlePacket(const char *buffer, size_t size);
     int SendPacket(const char *buffer, size_t size);

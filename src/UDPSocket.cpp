@@ -186,7 +186,7 @@ int UDPSocket::Connect(const char *host, const char *port)
 
     is_listening = false;
 
-    connections.insert(std::make_pair(sockaddr, NetConnection(app, this, game, &sockaddr, (socklen_t) 0)));
+    connections.insert(std::make_pair(sockaddr, NetConnection(this, &sockaddr, (socklen_t) 0)));
 
     return 0;
 }
@@ -254,7 +254,11 @@ int UDPSocket::HandlePacket(char *buffer, size_t size, struct sockaddr_storage *
     if (is_listening) {
         it = connections.find(*address);
         if (it == connections.end()) {
-            it = connections.insert(std::make_pair(*address, NetConnection(app, this, game, address, address_len))).first;
+            if (NetConnection::ShouldAcceptSyn(buffer, size)) {
+                it = connections.insert(std::make_pair(*address, NetConnection(this, address, address_len))).first;
+            } else {
+                return -1;
+            }
         } 
     } else {
         // for outgoing connections we'll put
