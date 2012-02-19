@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "StateGame.hpp"
 #include "StateManager.hpp"
 #include "MirageApp.hpp"
@@ -295,8 +297,6 @@ void StateGame::OnJoyButtonDown(Uint8 which, Uint8 button) {
 }
   
 void StateGame::OnActivate() {
-  
-  
   //App->Log << "Loading powerups... ";
   App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
@@ -309,9 +309,28 @@ void StateGame::OnActivate() {
   GSurface::LoadPowerups();
   GSurface::LoadTiles();
   //App->Log << "finished loading powerups... ";
-  
-  
-  
+
+  NetMode = App->NetMode;
+  Socket = NULL;
+  if (NetMode != GAME_LOCAL) {
+   assert(App->Host != NULL);
+   assert(App->Port != NULL);
+
+   Socket = new UDPSocket(this, App); 
+   if (NetMode == GAME_SERVER) {
+     if (Socket->Listen(App->Host, App->Port) != 0) {
+       Socket->CloseSocket();
+       //return; 
+     }
+   } else if (NetMode == GAME_CLIENT) {
+     if (Socket->Connect(App->Host, App->Port) != 0) {
+       Socket->CloseSocket();
+       //return;
+     }
+   } else {
+     assert(0);
+   }
+  }
 
   App->Log << "Loading map file...\n";
   GArea::AreaControl.RegisterApp(App);
@@ -361,6 +380,9 @@ void StateGame::OnActivate() {
 }
 
 void StateGame::OnDeactivate() {
+  delete Socket;
+  Socket = NULL;
+
   GSurface::UnloadBombs();
   GSurface::UnloadBombers();
   GSurface::UnloadFlames();
@@ -557,6 +579,14 @@ void StateGame::OnLoop() {
   // }
  
   GEntityCol::EntityColList.clear();
+
+  if (Socket != NULL) {
+    Socket->OnLoop();
+
+    if (Socket->IsClosed()) {
+        StateManager::SetActiveState(APPSTATE_MENU);  
+    }   
+  }
 }
 
 void StateGame::OnRender(SDL_Surface* SurfDisplay) {

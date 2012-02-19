@@ -16,6 +16,12 @@
 #include "GSurface.hpp"
 #include "Srand.hpp"
  
+enum NetMode {
+  GAME_LOCAL = 0,
+  GAME_SERVER,
+  GAME_CLIENT
+};
+
 class MirageApp : public GEvent  { 
 public: 
   std::map<std::string, int> Keys;
@@ -44,6 +50,10 @@ public:
   //StateManager mStateManager;  
 
   void SetDefaultKeys();
+  
+  // networking
+  const char *Host, *Port;
+  enum NetMode NetMode;
 
 private:
   bool            Running;

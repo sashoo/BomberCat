@@ -15,6 +15,8 @@ void print_usage(void)
     " -k kots\t\tset number of players (1-9)\n"
     " -b bots\t\tset number of bots (1-9)\n"
     " -g gametype\t\tset game mode, can be \"local\"\n"
+    " -h hostname\t\thostname to listen on or connect to\n"
+    " -p port\t\tport\n"
   );
 }
 
@@ -45,12 +47,18 @@ int main(int argc, char* argv[]) {
           const char *net_type = argv[i];
 
           if (strcmp(net_type, "local") == 0) { 
-            theApp.SetLaunchState(APPSTATE_GAME, 0);
+            // it defaults to local anyway, though
+            theApp.NetMode = GAME_LOCAL;
+          } else if (strcmp(net_type, "server") == 0) {
+            theApp.NetMode = GAME_SERVER;
+          } else if (strcmp(net_type, "client") == 0) {
+            theApp.NetMode = GAME_CLIENT;
           } else {
             fputs("Invalid argument for option -g\n", stderr);
             print_usage();
             exit(1);
           }
+          theApp.SetLaunchState(APPSTATE_GAME, 0);
         }      
         break;
       }
@@ -92,7 +100,29 @@ int main(int argc, char* argv[]) {
         }      
         break;  
       }
+      case 'p': {
+        i++;
+        if (i >= argc) {
+          fputs("Option -p requires an argument\n", stderr);
+          print_usage();
+          exit(1);
+        } else {
+          theApp.Port = argv[i];
+        }
+        break;
+      }
 
+      case 'h': {
+        i++;
+        if (i >= argc) {
+          fputs("Option -h requires an argument\n", stderr);
+          print_usage();
+          exit(1);
+        } else {
+          theApp.Host = argv[i];
+        }
+        break;
+      }
       default:
         fprintf(stderr, "Invalid option '%s'\n", argv[i]);
         print_usage();
@@ -116,7 +146,8 @@ int main(int argc, char* argv[]) {
 }
  
 MirageApp::MirageApp() {
-  LogFile.assign("log.txt");
+  //LogFile.assign("log.txt");
+  LogFile.assign("/dev/stderr");
   Log.open(LogFile.c_str());
   Log << "LogFile: " << LogFile << std::endl;
   Log << "MirageApp:MirageApp() constructor called" << std::endl; 
@@ -130,6 +161,10 @@ MirageApp::MirageApp() {
   Terminal = false;
   Bombers = 1;
   Bots = 0;
+
+  Host = "0.0.0.0";
+  Port = "8123";
+  NetMode = GAME_LOCAL;
 }
 
 void MirageApp::SetLaunchState(int state, int attr) {

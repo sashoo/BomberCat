@@ -9,17 +9,16 @@
 #include "GPlayer.hpp"
 #include "GAI.hpp"
 
-enum {
-  GAME_LOCAL = 0,
-  GAME_SERVER,
-  GAME_CLIENT
-};
+class StateGame; // forward declaration for UDPSocket
+
+#include "UDPSocket.hpp"
+
 
 class MirageApp;
 
 class StateGame : public IState {
 private:
-  StateGame();  
+  StateGame();
   static StateGame Instance; 
   //CPlayer* p1;
   //CPlayer p2; 
@@ -47,7 +46,9 @@ public:
   int CurLayer;
   int CurTileType;
   int CurJoystick;
-  int NetMode;
+  enum NetMode NetMode;
+
+  UDPSocket *Socket;
 
   static StateGame* GetInstance();
 };
