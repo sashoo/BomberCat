@@ -19,6 +19,8 @@ StateGame::StateGame() {
   CurLayer = 2;
   CurJoystick = 0;
   NetMode = GAME_LOCAL;
+  GameStartTime = SDL_GetTicks();
+  GameTime = 0;
 }
 
 void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
@@ -39,25 +41,25 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   
   switch(sym) {
  
- case SDLK_w: {
-   GCamera::CameraControl.OnMove(0, -5);
-   break;
- }
+ // case SDLK_w: {
+ //   GCamera::CameraControl.OnMove(0, -5);
+ //   break;
+ // }
 
- case SDLK_s: {
-   GCamera::CameraControl.OnMove(0, 5);
-   break;
- }
+ // case SDLK_s: {
+ //   GCamera::CameraControl.OnMove(0, 5);
+ //   break;
+ // }
 
- case SDLK_a: {
-   GCamera::CameraControl.OnMove(-5, 0);
-   break;
- }
+ // case SDLK_a: {
+ //   GCamera::CameraControl.OnMove(-5, 0);
+ //   break;
+ // }
 
- case SDLK_d: {
-   GCamera::CameraControl.OnMove(5, 0);
-   break;
- }
+ // case SDLK_d: {
+ //   GCamera::CameraControl.OnMove(5, 0);
+ //   break;
+ // }
 
  case SDLK_1: {
    if (OldTime + 150 > SDL_GetTicks()) 
@@ -462,6 +464,7 @@ void StateGame::OnDeactivate() {
 }
 
 void StateGame::OnLoop() {  
+  GameTime = SDL_GetTicks() - GameStartTime;
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while ( flame != GFlame::FlameList.end()) {
     if (!(*flame)) {

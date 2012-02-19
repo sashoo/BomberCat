@@ -13,7 +13,6 @@ class StateGame; // forward declaration for UDPSocket
 
 #include "UDPSocket.hpp"
 
-
 class MirageApp;
 
 class StateGame : public IState {
@@ -25,6 +24,8 @@ private:
  
   bool CameraSwitch;
   Uint32 OldTime;
+  Uint32 GameStartTime;
+  Uint32 GameTime;
 public:
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode); 
@@ -42,6 +43,8 @@ public:
   void OnLoop();
   void OnRender(SDL_Surface* SurfDisplay);
   void SetTerminal(bool terminal);
+
+  Uint32 GetGameTime() const {return GameTime;}
 
   int CurLayer;
   int CurTileType;
