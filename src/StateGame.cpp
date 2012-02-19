@@ -343,33 +343,35 @@ void StateGame::OnLoop() {
   GEntityCol::EntityColList.clear();  
 }
 
-void StateGame::InitBombers() {
-  int bombers = App->GetNumBombers();
-  int bots = App->GetNumBots();
-  int players = bombers - bots;
-  for (int i = 0; i < bombers; i++) {
-    if (i < players) {
-      GPlayer* p = new GPlayer();  
-      p->PlaceBomberByNum(i+1, bombers);  
+void StateGame::InitBombers() {  
+  if (NetMode != GAME_CLIENT) {
+    int bombers = App->GetNumBombers();
+    int bots = App->GetNumBots();
+    int players = bombers - bots;
+    for (int i = 0; i < bombers; i++) {
+      if (i < players) {
+        GPlayer* p = new GPlayer();  
+        p->PlaceBomberByNum(i+1, bombers);  
 
-      App->Log << "Loading player (bomber #" << i << ")";  
-      if(p->OnLoad() == false) {
-	App->Log << "Failed. Does it exist?\nExiting the program";
-	return;
+        App->Log << "Loading player (bomber #" << i << ")";  
+        if(p->OnLoad() == false) {
+          App->Log << "Failed. Does it exist?\nExiting the program";
+          return;
+        }
       }
-    }
-    else {
-      GAI* bot = new GAI();
-      bot->PlaceBomberByNum(i+1, bombers);
-      App->Log << "Loading bot1... ";  
-      if(bot->OnLoad() == false) {
-	App->Log << "Failed. Does it exist?\nExiting the program";
-	return;
+      else {
+        GAI* bot = new GAI();
+        bot->PlaceBomberByNum(i+1, bombers);
+        App->Log << "Loading bot1... ";  
+        if(bot->OnLoad() == false) {
+          App->Log << "Failed. Does it exist?\nExiting the program";
+          return;
+        }
       }
-    }
-  } 
+    } 
   App->Log << "Bombers loaded!" << std::endl;
-  GArea::AreaControl.PlacePowerups();  
+  GArea::AreaControl.PlacePowerups(); 
+  } 
   GCamera::CameraControl.TargetMode = TARGET_MODE_CENTER;
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());

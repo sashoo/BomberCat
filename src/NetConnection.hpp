@@ -6,6 +6,7 @@ class NetConnection;
 #include <cstdlib>
 
 #include "UDPSocket.hpp"
+#include "NetChannel.hpp"
 #include "Srand.hpp"
 
 class NetConnection {
@@ -18,6 +19,9 @@ public:
 
     // true if server -> client connection
     const bool is_server;
+
+    static const int MAX_CHANNELS = 1024;
+    NetChannel *channels[MAX_CHANNELS];
 
     enum { // parody on TCP
         AWAITING_SYN, // default state on server

@@ -159,14 +159,26 @@ int NetConnection::HandleAck(const char *buffer, size_t size)
 
 int NetConnection::HandleData(const char *buffer, size_t size)
 {
-    app->Log << std::string(buffer, size) << std::endl; 
+    int16_t channel_id;
+    int8_t channel_action;
+
+    if (size < sizeof(channel_id) + sizeof(channel_action)) {
+        return -1;
+    }
+
+    channel_id = ntohs(*(int16_t *) buffer);
+    buffer += sizeof(channel_id);
+
+    // there is no byte order for a single byte
+    channel_action = *(int8_t *) buffer;
+    buffer += sizeof(channel_action);
 
     return 0;
 }
 
 void NetConnection::OnLoop(void)
 {
-    if (!is_server) {
+    /*if (!is_server) {
         static uint32_t time = 0; 
         uint32_t new_time = app->GetTimeReal(); 
 
@@ -175,5 +187,5 @@ void NetConnection::OnLoop(void)
             time = new_time;
             SendPacket(s, strlen(s));
         }
-    }
+    }*/
 }
