@@ -40,7 +40,7 @@ std::ostream& operator << (std::ostream &o, const sockaddr_storage &x)
         }         
     }
 
-    return o << "(unshowable address)";
+    return o << "(unprintable address)";
 }
 
 UDPSocket::UDPSocket(StateGame *game, MirageApp *app)

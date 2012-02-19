@@ -14,7 +14,7 @@ void print_usage(void)
     "\n"
     " -k kots\t\tset number of players (1-9)\n"
     " -b bots\t\tset number of bots (1-9)\n"
-    " -g gametype\t\tset game mode, can be \"local\"\n"
+    " -g gametype\t\tset game mode, can be \"local\", \"client\" or \"server\"\n"
     " -h hostname\t\thostname to listen on or connect to\n"
     " -p port\t\tport\n"
   );
