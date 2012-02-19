@@ -27,6 +27,31 @@ private:
   Uint32 GameStartTime;
   Uint32 GameTime;
 public:
+
+  void OnActivate();
+  void OnDeactivate();
+  void OnLoop();
+  void OnRender(SDL_Surface* SurfDisplay);
+  void SetTerminal(bool terminal);
+
+  void InitNetwork();
+  void InitBombers();
+  bool InitLevel();
+
+  void UnloadFlames();
+  void UnloadBombs();
+  void UnloadBombers();
+  void UnloadPowerups();
+  //Unloads Decor as well since they share the same file
+  void UnloadTiles(); 
+
+  void LoopFlames();
+  void LoopBombs();
+  void LoopDecor();
+  void LoopPowerups();
+  void LoopBombers();
+  void LoopSockets();
+
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode); 
 
@@ -36,13 +61,7 @@ public:
 
   void OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value); 
   void OnJoyHat(Uint8 which, Uint8 hat, Uint8 value); 
-  void OnJoyButtonDown(Uint8 which, Uint8 button);
-
-  void OnActivate();
-  void OnDeactivate();
-  void OnLoop();
-  void OnRender(SDL_Surface* SurfDisplay);
-  void SetTerminal(bool terminal);
+  void OnJoyButtonDown(Uint8 which, Uint8 button);  
 
   //Counts time since StateGame was activated, milliseconds
   Uint32 GetGameTime() const {return GameTime;}

@@ -301,51 +301,49 @@ void StateGame::OnJoyButtonDown(Uint8 which, Uint8 button) {
 void StateGame::OnActivate() {
   GameTime = 0;
   GameStartTime = SDL_GetTicks();
-  //App->Log << "Loading powerups... ";
+ 
   App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
   GPath::RegisterApp(App);
  
   GSurface::LoadBombs();
   GSurface::LoadBombers();
-  GSurface::LoadFlames();
-  //App->Log << "Loading powerups... ";
+  GSurface::LoadFlames();  
   GSurface::LoadPowerups();
-  GSurface::LoadTiles();
-  //App->Log << "finished loading powerups... ";
+  GSurface::LoadTiles(); 
 
-  NetMode = App->NetMode;
+  InitNetwork();
+  if (!InitLevel()) return; 
+  InitBombers();        
+}
+
+void StateGame::OnDeactivate() {
+  delete Socket;
   Socket = NULL;
-  if (NetMode != GAME_LOCAL) {
-   assert(App->Host != NULL);
-   assert(App->Port != NULL);
 
-   Socket = new UDPSocket(this, App); 
-   if (NetMode == GAME_SERVER) {
-     if (Socket->Listen(App->Host, App->Port) != 0) {
-       Socket->CloseSocket();
-       //return; 
-     }
-   } else if (NetMode == GAME_CLIENT) {
-     if (Socket->Connect(App->Host, App->Port) != 0) {
-       Socket->CloseSocket();
-       //return;
-     }
-   } else {
-     assert(0);
-   }
-  }
+  UnloadFlames();
+  UnloadBombs();
+  UnloadBombers();
+  UnloadPowerups();
+  UnloadTiles();
+ 
+  GEntity::EntityList.clear();  
+  GArea::AreaControl.OnCleanup();
+}
 
-  App->Log << "Loading map file...\n";
-  GArea::AreaControl.RegisterApp(App);
-  if (GArea::AreaControl.OnLoad("Resources/tiles.png") == false) {
-    App->Log << "Failed. Does it exist?\nExiting the program";
-    return;
-  }
+void StateGame::OnLoop() {  
+  GameTime = SDL_GetTicks() - GameStartTime;
   
-  App->Log << " Map successfully loaded!" << std::endl;
+  LoopFlames();
+  LoopBombs();
+  LoopDecor();
+  LoopPowerups();
+  LoopBombers();  
+ 
+  GEntityCol::EntityColList.clear();  
+}
 
-
+void StateGame::InitBombers() {
   int bombers = App->GetNumBombers();
   int bots = App->GetNumBots();
   int players = bombers - bots;
@@ -370,29 +368,51 @@ void StateGame::OnActivate() {
       }
     }
   } 
-  
-  App->Log << "Done!" << std::endl;  
-  App->Log << "Entities set up" << std::endl;
-  GArea::AreaControl.PlacePowerups();
-  
-
+  App->Log << "Bombers loaded!" << std::endl;
+  GArea::AreaControl.PlacePowerups();  
   GCamera::CameraControl.TargetMode = TARGET_MODE_CENTER;
-  //GCamera::CameraControl.SetTarget(&p1->X, &p1->Y, p1->Width, p1->Height);
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
 }
 
-void StateGame::OnDeactivate() {
-  delete Socket;
+bool StateGame::InitLevel() {
+  App->Log << "Loading map file...\n";
+  GArea::AreaControl.RegisterApp(App);
+  if (GArea::AreaControl.OnLoad("Resources/tiles.png") == false) {
+    App->Log << "Failed. Does it exist?\nExiting the program";
+    return false;
+  }
+  App->Log << " Map successfully loaded!" << std::endl;
+  return true;
+}
+
+void StateGame::InitNetwork() {
+  NetMode = App->NetMode;
   Socket = NULL;
+  if (NetMode != GAME_LOCAL) {
+    assert(App->Host != NULL);
+    assert(App->Port != NULL);
 
-  GSurface::UnloadBombs();
-  GSurface::UnloadBombers();
+    Socket = new UDPSocket(this, App); 
+    if (NetMode == GAME_SERVER) {
+      if (Socket->Listen(App->Host, App->Port) != 0) {
+	Socket->CloseSocket();
+	//return; 
+      }
+    } else if (NetMode == GAME_CLIENT) {
+      if (Socket->Connect(App->Host, App->Port) != 0) {
+	Socket->CloseSocket();
+	//return;
+      }
+    } else {
+      assert(0);
+    }
+  }
+}
+
+void StateGame::UnloadFlames() {
   GSurface::UnloadFlames();
-  GSurface::UnloadPowerups();
-  GSurface::UnloadTiles();
-
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while (flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
@@ -403,6 +423,11 @@ void StateGame::OnDeactivate() {
     delete (*flame);      
     flame++;
   }
+  GFlame::FlameList.clear();
+}
+
+void StateGame::UnloadBombs() {
+  GSurface::UnloadBombs();
   std::vector<GBomb*>::iterator bomb = GBomb::BombList.begin();
   while (bomb != GBomb::BombList.end()) {
     if (!(*bomb)) {
@@ -413,18 +438,11 @@ void StateGame::OnDeactivate() {
     delete (*bomb);      
     bomb++;
   }
+  GBomb::BombList.clear();
+}
 
- std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
-  while (decor != GDecor::DecorList.end()) {
-    if (!(*decor)) {
-      GDecor::DecorList.erase(decor);
-      continue;
-    }  
-    (*decor)->OnCleanup();
-    delete (*decor);      
-    decor++;
-  }
-
+void StateGame::UnloadBombers() {
+  GSurface::UnloadBombers();
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
     if (!(*bomber)) {
@@ -438,7 +456,11 @@ void StateGame::OnDeactivate() {
     delete (*bomber);      
     bomber++;
   }
+  GBomber::BomberList.clear();
+}
 
+void StateGame::UnloadPowerups() {
+  GSurface::UnloadPowerups();
   std::vector<GPowerup*>::iterator powerup = GPowerup::PowerupList.begin();
   while (powerup != GPowerup::PowerupList.end()) {
     if (!(*powerup)) {
@@ -449,24 +471,25 @@ void StateGame::OnDeactivate() {
     delete (*powerup);      
     powerup++;
   }
-
-  // for (int i = 0; i < GEntity::EntityList.size(); i++) {
-  //   if (!GEntity::EntityList[i]) continue;
-    
-  //   GEntity::EntityList[i]->OnCleanup();
-  // }
-  GEntity::EntityList.clear();
-  GBomber::BomberList.clear();
-  GBomb::BombList.clear();
   GPowerup::PowerupList.clear();
-  GFlame::FlameList.clear();
-  GDecor::DecorList.clear();
-
-  GArea::AreaControl.OnCleanup();
 }
 
-void StateGame::OnLoop() {  
-  GameTime = SDL_GetTicks() - GameStartTime;
+void StateGame::UnloadTiles() {
+  GSurface::UnloadTiles();
+  std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
+  while (decor != GDecor::DecorList.end()) {
+    if (!(*decor)) {
+      GDecor::DecorList.erase(decor);
+      continue;
+    }  
+    (*decor)->OnCleanup();
+    delete (*decor);      
+    decor++;
+  }
+  GDecor::DecorList.clear();
+}
+
+void StateGame::LoopFlames() {
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while ( flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
@@ -484,7 +507,9 @@ void StateGame::OnLoop() {
     (*flame)->OnLoop();
     flame++;
   }
+}
 
+void StateGame::LoopBombs() {
   std::vector<GBomb*>::iterator iter = GBomb::BombList.begin();
   while ( iter != GBomb::BombList.end()) {
     if (!(*iter)) {
@@ -502,8 +527,10 @@ void StateGame::OnLoop() {
     (*iter)->OnLoop();
     iter++;
   }
+}
 
- std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
+void StateGame::LoopDecor() {
+  std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
   while ( decor != GDecor::DecorList.end()) {
     if (!(*decor)) {
       GDecor::DecorList.erase(decor);
@@ -520,7 +547,9 @@ void StateGame::OnLoop() {
     (*decor)->OnLoop();
     decor++;
   }
+}
 
+void StateGame::LoopPowerups() {
   std::vector<GPowerup*>::iterator pup = GPowerup::PowerupList.begin();
   while ( pup != GPowerup::PowerupList.end()) {
     //App->Log << (*pup)->Name << ": " << std::endl;
@@ -539,7 +568,9 @@ void StateGame::OnLoop() {
     (*pup)->OnLoop();
     pup++;
   }
+}
 
+void StateGame::LoopBombers() {
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while ( bomber != GBomber::BomberList.end()) {
     //App->Log << (*bomber)->Name << ": " << std::endl;
@@ -558,38 +589,14 @@ void StateGame::OnLoop() {
     (*bomber)->OnLoop();
     bomber++;
   }
+}
 
- 
-
-  // std::vector<GEntity*>::iterator it2 = GEntity::EntityList.begin();
-  // while (it2 != GEntity::EntityList.end()) {
-  //   if (!(*it2)) {
-  //     //GEntity::EntityList.erase(it2);
-  //     continue;
-  //   }  
-
-  //   (*it2)->OnLoop();
-  //   it2++;
-  // }
-
-  // for(unsigned int i = 0; i < GEntityCol::EntityColList.size();i++) {
-  //   GEntity* EntityA = GEntityCol::EntityColList[i].EntityA;
-  //   GEntity* EntityB = GEntityCol::EntityColList[i].EntityB;
- 
-  //   if(EntityA == NULL || EntityB == NULL) continue;
- 
-  //   if(EntityA->OnCollision(EntityB)) {
-  //     EntityB->OnCollision(EntityA);
-  //   }
-  // }
- 
-  GEntityCol::EntityColList.clear();
-
+void StateGame::LoopSockets() {
   if (Socket != NULL) {
     Socket->OnLoop();
 
     if (Socket->IsClosed()) {
-        StateManager::SetActiveState(APPSTATE_MENU);  
+      StateManager::SetActiveState(APPSTATE_MENU);  
     }   
   }
 }
