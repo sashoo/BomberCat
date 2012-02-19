@@ -18,7 +18,7 @@ StateGame::StateGame() {
   CurTileType = 1;
   CurLayer = 2;
   CurJoystick = 0;
-  NetMode = 0;
+  NetMode = GAME_LOCAL;
 }
 
 void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
