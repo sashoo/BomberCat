@@ -46,7 +46,7 @@ public:
   int GetNumBombers() const;
   int GetNumBots() const;
   Uint32 GetTimeReal() const {
-    return TimeReal;
+    return SDL_GetTicks();
   }
   
   //TTF_Font* GetFont();
