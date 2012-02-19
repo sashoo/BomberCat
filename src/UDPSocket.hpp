@@ -28,6 +28,8 @@ class UDPSocket;
 #include "StateGame.hpp"
 #include "NetConnection.hpp"
 
+std::ostream& operator << (std::ostream &o, const sockaddr_storage &x);
+
 class UDPSocket {
 public:
 

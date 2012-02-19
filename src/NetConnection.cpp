@@ -9,25 +9,29 @@ bool NetConnection::StartsWithMagicHeader(const char *buffer, size_t size)
     return memcmp(buffer, magic_header, sizeof(magic_header)) == 0;
 }
 
-NetConnection::NetConnection(MirageApp *app, UDPSocket *socket, StateGame *game, const struct sockaddr_storage *sa, socklen_t sa_len)
-    : app(app),
-      socket(socket),
-      game(game),
-      addr(*sa),
-      addr_len(sa_len)
+bool NetConnection::ShouldAcceptSyn(const char *buffer, size_t size)
+{
+    return NetConnection::StartsWithMagicHeader(buffer, size);
+}
 
+NetConnection::NetConnection(UDPSocket *socket, const struct sockaddr_storage *sa, socklen_t sa_len)
+    : app(socket->app),
+      socket(socket),
+      game(socket->game),
+      addr(*sa),
+      addr_len(sa_len),
+      is_server(socket->is_listening)
 {
     if (socket->is_listening) {
         conn_status = AWAITING_SYN; 
     } else {
         SendSyn();
-        conn_status = SYN_SENT;
     }
 }   
 
 int NetConnection::HandlePacket(const char *buffer, size_t size)
 {
-    app->Log << conn_status << std::endl;
+    app->Log << "handling packet from " << addr << " status " << conn_status << std::endl;
 
     switch (conn_status) {
     case AWAITING_SYN:
@@ -62,34 +66,42 @@ int NetConnection::SendPacket(const char *buffer, size_t size)
 
 int NetConnection::SendSyn(void)
 {
-    rnd = htonl(rand());
+    this->rnd = rand();
+    uint32_t rnd = htonl(this->rnd);
     char buffer[sizeof(magic_header) + sizeof(rnd)];
 
     memcpy(buffer, magic_header, sizeof(magic_header));
     memcpy(buffer + sizeof(magic_header), &rnd, sizeof(rnd));
 
+    app->Log << "sending SYN with number " << this->rnd << std::endl;
+
+    conn_status = SYN_SENT;
     return SendPacket(buffer, sizeof(buffer)); 
 }
 
 int NetConnection::SendSynAck(void)
 {
-    rnd++;
+    this->rnd++;
+    uint32_t rnd = htonl(this->rnd);
     char buffer[sizeof(magic_header) + sizeof(rnd)];
 
     memcpy(buffer, magic_header, sizeof(magic_header));
     memcpy(buffer + sizeof(magic_header), &rnd, sizeof(rnd));
-
+    
+    conn_status = SYNACK_SENT;
     return SendPacket(buffer, sizeof(buffer)); 
 }
 
 int NetConnection::SendAck(void)
 {
-    rnd++;
+    this->rnd++;
+    uint32_t rnd = htonl(this->rnd);
     char buffer[sizeof(magic_header) + sizeof(rnd)];
 
     memcpy(buffer, magic_header, sizeof(magic_header));
     memcpy(buffer + sizeof(magic_header), &rnd, sizeof(rnd));
-
+    
+    conn_status = OPEN;
     return SendPacket(buffer, sizeof(buffer)); 
 }
 
@@ -111,14 +123,15 @@ int NetConnection::HandleSyn(const char *buffer, size_t size)
 // on client's side
 int NetConnection::HandleSynAck(const char *buffer, size_t size)
 { 
-   if (!StartsWithMagicHeader(buffer, size)) return -1;
+    if (!StartsWithMagicHeader(buffer, size)) return -1;
 
     buffer += sizeof(magic_header);
     size -= sizeof(magic_header);
 
     if (size < sizeof(uint32_t)) return -1;
 
-    if (rnd + 1 != ntohl(*(uint32_t *) buffer)) {
+    rnd++;
+    if (rnd != ntohl(*(uint32_t *) buffer)) {
         return -1;
     }
 
@@ -128,26 +141,39 @@ int NetConnection::HandleSynAck(const char *buffer, size_t size)
 // on server's side again
 int NetConnection::HandleAck(const char *buffer, size_t size)
 {
-   if (!StartsWithMagicHeader(buffer, size)) return -1;
+    if (!StartsWithMagicHeader(buffer, size)) return -1;
 
     buffer += sizeof(magic_header);
     size -= sizeof(magic_header);
 
     if (size < sizeof(uint32_t)) return -1;
 
-    if (rnd + 1 != ntohl(*(uint32_t *) buffer)) {
+    rnd++;
+    if (rnd != ntohl(*(uint32_t *) buffer)) {
         return -1;
     }
 
-    return SendAck();
+    conn_status = OPEN;
+    return 0;
 }
 
 int NetConnection::HandleData(const char *buffer, size_t size)
 {
+    app->Log << std::string(buffer, size) << std::endl; 
+
     return 0;
 }
 
 void NetConnection::OnLoop(void)
 {
+    if (!is_server) {
+        static uint32_t time = 0; 
+        uint32_t new_time = app->GetTimeReal(); 
 
+        if (new_time - time > 5000) {
+            const char *s = "hello there!\n";
+            time = new_time;
+            SendPacket(s, strlen(s));
+        }
+    }
 }
