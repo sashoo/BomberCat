@@ -46,7 +46,7 @@ public:
   int CurLayer;
   int CurTileType;
   int CurJoystick;
-  enum NetMode NetMode;
+  int NetMode;
 
   UDPSocket *Socket;
 

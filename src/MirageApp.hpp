@@ -45,7 +45,7 @@ public:
   int GetLaunchAttr() const;
   int GetNumBombers() const;
   int GetNumBots() const;
-  TTF_Font* GetFont();
+  //TTF_Font* GetFont();
   std::ofstream Log;
   //StateManager mStateManager;  
 
@@ -57,7 +57,7 @@ public:
 
 private:
   bool            Running;
-  TTF_Font*       Font;
+  //TTF_Font*       Font;
 
   SDL_Surface*    SurfDisplay;
   std::string     LogFile; 

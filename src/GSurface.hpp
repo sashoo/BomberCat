@@ -2,6 +2,7 @@
 #define GSURFACE_HPP
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 class GSurface {
 
@@ -19,18 +20,21 @@ public:
   static bool LoadFlames();
   static bool LoadPowerups();
   static bool LoadTiles();    
+  static bool LoadFontRegular();
 
   static bool UnloadBombs();
   static bool UnloadBombers();
   static bool UnloadFlames();
   static bool UnloadPowerups();
   static bool UnloadTiles();
+  static bool UnloadFontRegular();
 
   static SDL_Surface* SurfBomb;
   static SDL_Surface* SurfBomber;
   static SDL_Surface* SurfFlame;
   static SDL_Surface* SurfPowerup;
   static SDL_Surface* SurfTile;
+  static TTF_Font*    FontRegular;
 };
 
 

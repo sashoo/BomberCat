@@ -32,7 +32,7 @@ void StateCredits::OnActivate() {
   color.g = 140;
   color.b = 230;
   StateManager::GetApp()->Log << "inside" << std::endl;
-  Font = StateManager::GetApp()->GetFont();
+  Font = GSurface::FontRegular;
   Message = TTF_RenderText_Solid(Font, "Game programmed by:", color);
   Who = TTF_RenderText_Solid(Font, "Alexander Paramonov", color);
   Orig  = TTF_RenderText_Solid(Font, "Game sprites by:", color);

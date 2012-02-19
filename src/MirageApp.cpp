@@ -273,8 +273,7 @@ bool MirageApp::OnInit() {
   Log << "Success" << std::endl;
 
   Log << "Loading font.ttf... ";
-  Font = TTF_OpenFont("Resources/font.ttf", 18 );
-  if (Font == NULL) {
+  if (!GSurface::LoadFontRegular()) {
     Log << "Failed.\nExiting the program" << std::endl;
     return false;
   }
@@ -323,9 +322,9 @@ void MirageApp::OnCleanup() {
   SDL_Quit();
 }
 
-TTF_Font* MirageApp::GetFont() {
-  return Font;
-}
+// TTF_Font* MirageApp::GetFont() {
+//   return Font;
+// }
 
 void MirageApp::SetDefaultKeys() {
   Keys["up"] = SDLK_UP;

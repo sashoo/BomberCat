@@ -30,7 +30,7 @@ void MenuButton::OnRender(SDL_Surface* SurfDisplay) {
 void MenuButton::SetColor(SDL_Color color){
   Color = color;
   SDL_FreeSurface(Surface);
-  Surface = TTF_RenderText_Solid(mMenuManager->GetApp()->GetFont(), Label.c_str(), Color);
+  Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), Color);
   Rect.w = Surface->w;
   Rect.h = Surface->h;    
 }  
@@ -55,7 +55,7 @@ void MenuButton::SetOrigin(int origin) {
 
 void MenuButton::Setup(){
   Color   = mMenuManager->InactiveColor;
-  Surface = TTF_RenderText_Solid(mMenuManager->GetApp()->GetFont(), Label.c_str(), Color);
+  Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), Color);
   Rect.w   = Surface->w;
   Rect.h  = Surface->h; 
   //Color = mMenuManager->InactiveColor;  

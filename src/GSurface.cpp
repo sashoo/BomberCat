@@ -6,6 +6,7 @@ SDL_Surface* GSurface::SurfBomber;
 SDL_Surface* GSurface::SurfFlame;
 SDL_Surface* GSurface::SurfPowerup;
 SDL_Surface* GSurface::SurfTile;
+TTF_Font* GSurface::FontRegular;
 
 GSurface::GSurface() {
 
@@ -90,6 +91,14 @@ bool GSurface::LoadTiles() {
   return SurfTile;
 }
 
+bool GSurface::LoadFontRegular() {
+  FontRegular = TTF_OpenFont("Resources/font.ttf", 18 );
+  if (FontRegular == NULL) {   
+    return false;
+  }
+  return true;
+}
+
 bool GSurface::UnloadBombs() {
   SDL_FreeSurface(SurfBomb);
   return true;
@@ -113,4 +122,12 @@ bool GSurface::UnloadPowerups() {
 bool GSurface::UnloadTiles() {
   SDL_FreeSurface(SurfTile);
   return true;
+}
+
+bool GSurface::UnloadFontRegular() { 
+  if (FontRegular != NULL) {
+    TTF_CloseFont(FontRegular);    
+    return true;
+  }
+  return false;
 }

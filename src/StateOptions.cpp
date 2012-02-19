@@ -52,7 +52,7 @@ void StateOptions::OnActivate() {
   mMenuManager = new MenuManager();
   App = StateManager::GetApp();
   mMenuManager->RegisterApp(App);
-  mMenuManager->SetFont(App->GetFont());
+  mMenuManager->SetFont(GSurface::FontRegular);
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Activating entries" << std::endl;
 
