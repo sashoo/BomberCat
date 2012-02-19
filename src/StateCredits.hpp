@@ -11,8 +11,10 @@ private:
   //TTF_Font*           Font;
   SDL_Surface*        Message;
   SDL_Surface*        Who;
+  SDL_Surface*        Who2;
   SDL_Surface*        Orig;
-  SDL_Surface*        Hudson;
+  SDL_Surface*        Net;
+  
   SDL_Surface*        Site;
   Uint32              OldTime;
 
