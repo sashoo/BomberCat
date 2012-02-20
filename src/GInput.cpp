@@ -29,29 +29,33 @@ KeyInput::KeyInput() {
 }
 
 void KeyInput::OnKeyDown(SDLKey sym) {
-  if (sym == kUp)
-    bUp = true;
-  if (sym == kDown)
-    bDown = true;
-  if (sym == kLeft)
-    bLeft = true;
-  if (sym == kRight)
-    bRight = true;
-  if (sym == kBomb)
-    bBomb = true;
+  if (NULL != Bomber ) {
+    if (sym == kUp)
+      bUp = true;
+    if (sym == kDown)
+      bDown = true;
+    if (sym == kLeft)
+      bLeft = true;
+    if (sym == kRight)
+      bRight = true;
+    if (sym == kBomb)
+      bBomb = true;
+  }
 }
 
 void KeyInput::OnKeyUp(SDLKey sym) {
-  if (sym == kUp)
-    bUp = false;
-  if (sym == kDown)
-    bDown = false;
-  if (sym == kLeft)
-    bLeft = false;
-  if (sym == kRight)
-    bRight = false;	
-  if (sym == kBomb)
-    bBomb = false;
+  if (NULL != Bomber) {
+    if (sym == kUp)
+      bUp = false;
+    if (sym == kDown)
+      bDown = false;
+    if (sym == kLeft)
+      bLeft = false;
+    if (sym == kRight)
+      bRight = false;	
+    if (sym == kBomb)
+      bBomb = false;
+  }
 }
 
 JoyInput::JoyInput() {
