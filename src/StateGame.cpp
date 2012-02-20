@@ -28,17 +28,17 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   
   App->Key1.OnKeyDown(sym);
 
-  std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
-  while (bomber != GBomber::BomberList.end()) {
-    if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
-      bomber++;
-      continue;
-    }
-    GPlayer* player = dynamic_cast<GPlayer*>(*bomber);
-    if (NULL != player)
-      player->OnKeyDown(sym, mod, Unicode);
-    bomber++;
-  }
+  // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
+  // while (bomber != GBomber::BomberList.end()) {
+  //   if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
+  //     bomber++;
+  //     continue;
+  //   }
+  //   GPlayer* player = dynamic_cast<GPlayer*>(*bomber);
+  //   if (NULL != player)
+  //     player->OnKeyDown(sym, mod, Unicode);
+  //   bomber++;
+  // }
   //p1->OnKeyDown(sym, mod, Unicode);
   
   switch(sym) {
@@ -383,8 +383,8 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
-  //App->Key1.Bomber = GBomber::BomberList[0];
-  App->Joy1.Bomber = GBomber::BomberList[0];
+  App->Key1.Bomber = GBomber::BomberList[0];
+  //App->Joy1.Bomber = GBomber::BomberList[0];
 }
 
 bool StateGame::InitLevel() {

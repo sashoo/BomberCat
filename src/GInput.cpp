@@ -129,3 +129,9 @@ void JoyInput::OnJoyAxis (Uint8 which, Uint8 axis, Sint16 value) {
   }
    
 }
+
+void JoyInput::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value) {
+  if (which == Which) {
+    
+  }
+}
