@@ -40,6 +40,7 @@ GBomber::GBomber() {
   BombsPlaced = 0;
   BombsMax = 1;
   BlastRadius = 2;
+  InputHandle = NULL;
  
   //GEntity::GEntity();
 }
