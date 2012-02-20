@@ -449,8 +449,10 @@ void GBomber::CheckVictory() {
 
 void GBomber::Die() {
   Alive = false;
-  InputHandle->Bomber = NULL;
-  InputHandle = NULL;
+  if (InputHandle != NULL) {
+    InputHandle->Bomber = NULL;
+    InputHandle = NULL;
+  }
   BomberState = STATE_DYING;
   AnimControl.SetCurrentFrame(0);
   AnimControl.SetFrameRate(75);
