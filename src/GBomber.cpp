@@ -1,6 +1,7 @@
 #include "GBomber.hpp"
 #include "GBomb.hpp"
 #include "GPowerup.hpp"
+#include "GInput.hpp"
 
 int GBomber::Bombers = 0;
 std::vector<GBomber*> GBomber::BomberList;
@@ -448,6 +449,8 @@ void GBomber::CheckVictory() {
 
 void GBomber::Die() {
   Alive = false;
+  InputHandle->Bomber = NULL;
+  InputHandle = NULL;
   BomberState = STATE_DYING;
   AnimControl.SetCurrentFrame(0);
   AnimControl.SetFrameRate(75);

@@ -384,6 +384,7 @@ void StateGame::InitBombers() {
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
   App->Key1.Bomber = GBomber::BomberList[0];
+  App->Key1.Bomber->InputHandle = &App->Key1;
   //App->Joy1.Bomber = GBomber::BomberList[0];
 }
 

@@ -3,6 +3,8 @@
 
 #include "GEntity.hpp"
 
+struct Input;
+
 enum {
   STATE_ALIVE,
   STATE_DYING,
@@ -28,6 +30,7 @@ public:
   virtual bool PosValidTile(int* Tile);
   virtual bool IsHit(GEntity* entity);
 
+  Input* InputHandle;
 
   void PlaceBomber(int x, int y);
   void PlaceBomberByNum(int num, int bombers); // players 1 to 8 (or maybe more?)

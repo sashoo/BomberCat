@@ -1,6 +1,7 @@
 #include "MirageApp.hpp"
 #include <SDL_ttf.h>
 #include <stdio.h>
+#include "GBomber.hpp"
 #define FPS 60
 Uint32 wait = 1000.0f/FPS;
 Uint32 framestart = 0;
@@ -290,6 +291,7 @@ bool MirageApp::OnInit() {
   Key1.kLeft  = SDLK_LEFT;
   Key1.kRight = SDLK_RIGHT;
   Key1.kBomb  = SDLK_m;
+  //Key1.Bomber->InputHandle = &Key1;
 
   // Joy1.jUp.jEntity = JOY_AXIS;
   // Joy1.jUp.Number = 0;
