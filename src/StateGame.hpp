@@ -66,6 +66,8 @@ public:
   //Counts time since StateGame was activated, milliseconds
   Uint32 GetGameTime() const {return GameTime;}
 
+  GArea * GetGArea() {return &GArea::AreaControl;}
+
   int CurLayer;
   int CurTileType;
   int CurJoystick;
