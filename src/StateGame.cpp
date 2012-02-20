@@ -9,7 +9,6 @@
 #include "GPowerup.hpp"
 #include "GSurface.hpp"
 
-
 StateGame StateGame::Instance;
 
 StateGame::StateGame() {
@@ -26,6 +25,9 @@ StateGame::StateGame() {
 void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   //changeable player controls here, in ifs
   //switch-case if for invariant controls  
+  
+  App->Key1.OnKeyDown(sym);
+
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
     if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
@@ -109,8 +111,6 @@ case SDLK_RIGHTBRACKET: {
      CurTileType = 0;
    break;
  } 
-
-
    
  case SDLK_c: {
    if (OldTime + 150 > SDL_GetTicks()) 
@@ -148,6 +148,9 @@ case SDLK_RIGHTBRACKET: {
 }
 
 void StateGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
+
+  App->Key1.OnKeyUp(sym);
+
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
     if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
@@ -333,6 +336,8 @@ void StateGame::OnDeactivate() {
 
 void StateGame::OnLoop() {  
   GameTime = SDL_GetTicks() - GameStartTime;
+
+  App->Key1.HandleInput();
   
   LoopFlames();
   LoopBombs();
@@ -376,6 +381,7 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
+  App->Key1.Bomber = GBomber::BomberList[0];
 }
 
 bool StateGame::InitLevel() {

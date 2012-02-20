@@ -10,6 +10,7 @@
 #include "GSurface.hpp"
 #include <string>
 #include "MirageApp.hpp"
+#include "GInput.hpp"
 
 class MirageApp;
 

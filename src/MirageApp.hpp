@@ -11,6 +11,7 @@
 
 #include "StateManager.hpp"
 
+#include "GInput.hpp"
 #include "GFPS.hpp"
 #include "GEvent.hpp"
 #include "GSurface.hpp"
@@ -55,11 +56,16 @@ public:
   std::ofstream Log;
   //StateManager mStateManager;  
 
+  KeyInput Key1;
+  KeyInput Key2;
+  KeyInput Key3;
+  KeyInput Key4;
+
   void SetDefaultKeys();
   
   // networking
   const char *Host, *Port;
-  enum NetMode NetMode;  
+  enum NetMode NetMode;    
 
 
 private:

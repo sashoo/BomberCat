@@ -285,6 +285,14 @@ bool MirageApp::OnInit() {
  
   Log << "MirageApp::Init() completed successfully" << std::endl;    
 
+  Key1.kUp    = SDLK_UP;
+  Key1.kDown  = SDLK_DOWN;
+  Key1.kLeft  = SDLK_LEFT;
+  Key1.kRight = SDLK_RIGHT;
+  Key1.kBomb  = SDLK_m;
+  
+  
+
   return true;
 }
 
