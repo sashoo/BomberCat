@@ -222,6 +222,7 @@ void StateGame::OnMButtonDown(int mX, int mY) {
 }  
 
 void StateGame::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value) {
+  App->Joy1.OnJoyAxis(which, axis, value);
   // if (which == CurJoystick) {
   //   if (0 == axis) {
   //     if(value > -8000 && value < 8000) { 
@@ -338,6 +339,7 @@ void StateGame::OnLoop() {
   GameTime = SDL_GetTicks() - GameStartTime;
 
   App->Key1.HandleInput();
+  App->Joy1.HandleInput();
   
   LoopFlames();
   LoopBombs();
@@ -381,7 +383,8 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
-  App->Key1.Bomber = GBomber::BomberList[0];
+  //App->Key1.Bomber = GBomber::BomberList[0];
+  App->Joy1.Bomber = GBomber::BomberList[0];
 }
 
 bool StateGame::InitLevel() {

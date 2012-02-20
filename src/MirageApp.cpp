@@ -290,7 +290,10 @@ bool MirageApp::OnInit() {
   Key1.kLeft  = SDLK_LEFT;
   Key1.kRight = SDLK_RIGHT;
   Key1.kBomb  = SDLK_m;
-  
+
+  // Joy1.jUp.jEntity = JOY_AXIS;
+  // Joy1.jUp.Number = 0;
+  // Joy1.jUp.Value = 1;
   
 
   return true;

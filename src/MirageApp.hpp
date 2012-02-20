@@ -60,6 +60,10 @@ public:
   KeyInput Key2;
   KeyInput Key3;
   KeyInput Key4;
+  JoyInput Joy1;
+  JoyInput Joy2;
+  JoyInput Joy3;
+  JoyInput Joy4;  
 
   void SetDefaultKeys();
   
