@@ -6,6 +6,7 @@ Input::Input() {
   bLeft = false;
   bRight = false;
   bBomb = false;
+  Bomber = NULL;
 }
 
 void Input::HandleInput() {
