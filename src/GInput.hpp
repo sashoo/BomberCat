@@ -21,7 +21,9 @@ struct Input {
   bool bLeft;
   bool bRight;
   bool bBomb; 
-  
+
+  void Connect(GBomber* bomber);
+  void Disconnect(GBomber* bomber);
   GBomber* Bomber; // Bomber to be controlled
   
   // Moves player according to the flags.

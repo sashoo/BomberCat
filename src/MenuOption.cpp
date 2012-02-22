@@ -5,9 +5,13 @@
 #include "MirageApp.hpp"
 #include <SDL_ttf.h>
 
-MenuOption::MenuOption(std::string label, float halfOffset) {
-  Label = label;
-  HalfOffset = halfOffset;
+int MenuOption::HalfOffset = 0;
+
+MenuOption::MenuOption(std::string label, std::vector<std::string>& list) {
+  Label = label; 
+  OptionList = list;
+  Option = OptionList[0];
+  Origin = ORIGIN_TR;
   Index = 0;  
 }
 
@@ -15,36 +19,39 @@ MenuOption::~MenuOption() {
 }
 
 void MenuOption::OnLeft() {
-  int index = Index + 1;
-  SetEntry(index);
-}
-
-void MenuOption::OnRight() {
   int index = Index - 1;
   SetEntry(index);
 }
 
+void MenuOption::OnRight() {
+  int index = Index + 1;
+  SetEntry(index);
+}
+
+void MenuOption::AddOption(std::string option ) {
+  OptionList.push_back(option);
+}
+
 void MenuOption::OnRender(SDL_Surface* SurfDisplay) {
-  int lposx = PosX - SurfLabel->w - HalfOffset;
-  GSurface::OnDraw(SurfDisplay, SurfLabel,  lposx, PosY);
-  GSurface::OnDraw(SurfDisplay, SurfOption, PosX+HalfOffset, PosY);
+  //int lposx = PosX - SurfLabel->w - HalfOffset;
+  GSurface::OnDraw(SurfDisplay, SurfLabel,  PosX, PosY);
+  GSurface::OnDraw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
 }
 
 void MenuOption::SetColor(SDL_Color color){
   Color = color;
-  SDL_FreeSurface(SurfLabel);
-  SDL_FreeSurface(SurfOption);
-  SurfLabel  = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(),  Color);
-  SurfOption = TTF_RenderText_Solid(GSurface::FontRegular, Option.c_str(), Color);
-  Rect.w = SurfLabel->w + SurfOption->w + HalfOffset*2;
-  Rect.h = SurfLabel->h + SurfOption->h;
+  if (SurfLabel) 
+    SDL_FreeSurface(SurfLabel);
+  if (SurfOption)
+    SDL_FreeSurface(SurfOption);
+  SurfLabel  = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(),  Color);  
+  SurfOption = TTF_RenderText_Solid(GSurface::FontRegular, Option.c_str(), GSurface::ColorOption);
+  Rect.w = SurfLabel->w;
+  Rect.h = SurfLabel->h;
 }  
 
 void MenuOption::SetPosition(float x, float y){
-  PosX = x;
-  PosY = y;
-  Rect.x = PosX;
-  Rect.y = PosY; 
+  MenuEntry::SetPosition(x, y); 
 }
 
 void MenuOption::SetOrigin(int origin) {
@@ -68,22 +75,19 @@ void MenuOption::Clean() {
 
 
 void MenuOption::Setup() {
-  Index = 0;
-  Color = mMenuManager->GetInactiveColor();
-  SurfLabel = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), Color);  
-  Rect.w = SurfLabel->w + SurfOption->w + HalfOffset*2;
-  Rect.h = SurfLabel->h + SurfOption->h;
+  //Index = 0;  
+  SurfLabel = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), GSurface::ColorOption);  
+  SurfOption = TTF_RenderText_Solid(GSurface::FontRegular, OptionList[Index].c_str(), GSurface::ColorOption);  
+  Rect.w = SurfLabel->w;
+  Rect.h = SurfLabel->h;
   App->Log << Label << std::endl;
 }
 
-void MenuOption::SetEntry(unsigned int index) {
+void MenuOption::SetEntry(int index) {
   if (index >= 0 && !OptionList.empty() && index < OptionList.size()) {
     Index = index;
-    Option = OptionList[Index];     
-    SDL_FreeSurface(SurfOption);  
-    SurfOption = TTF_RenderText_Solid(GSurface::FontRegular, Option.c_str(), Color);
-    Rect.w = SurfLabel->w + SurfOption->w + HalfOffset*2;
-    Rect.h = SurfLabel->h + SurfOption->h; 
+    Option = OptionList[Index]; 
+    SetColor(Color);
   }
 }
 

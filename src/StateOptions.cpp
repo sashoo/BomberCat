@@ -2,6 +2,8 @@
 #include "StateManager.hpp"
 #include "GSurface.hpp"
 #include "MenuButton.hpp"
+#include "MenuOption.hpp"
+#include "MenuBoolOption.hpp"
 
 StateOptions StateOptions::Instance;
 
@@ -30,8 +32,6 @@ void StateOptions::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   mMenuManager->OnKeyDown(sym, mod, Unicode);  
 }
 
-
-
 void StateOptions::OnLButtonDown(int mX, int mY){
   mMenuManager->OnLButtonDown(mX, mY);
 }
@@ -52,21 +52,25 @@ void StateOptions::OnActivate() {
   mMenuManager = new MenuManager();
   App = StateManager::GetApp();
   mMenuManager->RegisterApp(App);
+  //mMenuManager->Align(MM_CENTEREDOPTIONS);
   // mMenuManager->SetFont(GSurface::FontRegular);
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Activating entries" << std::endl;
 
-  mMenuManager->AddEntry(new MenuButton("Configure input"));
-  mMenuManager->CurEntry()->OnSelect = Input; 
-  mMenuManager->AddEntry(new MenuButton("Full Screen:"));
+  std::vector<std::string> opts;
+  opts.push_back("Net");
+  opts.push_back("Da");
+
+  mMenuManager->AddEntry(new MenuBoolOption("Full Screen:"));  
   mMenuManager->CurEntry()->OnSelect = Input;   
-  mMenuManager->AddEntry(new MenuButton("Scale:"));
-  mMenuManager->CurEntry()->OnSelect = Input; 
-  mMenuManager->AddEntry(new MenuButton("Music:"));
-  mMenuManager->CurEntry()->OnSelect = Input; 
-  mMenuManager->AddEntry(new MenuButton("Sounds:"));
-  mMenuManager->CurEntry()->OnSelect = Input; 
- 
+  // mMenuManager->AddEntry(new MenuButton("Scale:"));
+  // mMenuManager->CurEntry()->OnSelect = Input; 
+  // mMenuManager->AddEntry(new MenuButton("Music:"));
+  // mMenuManager->CurEntry()->OnSelect = Input; 
+  // mMenuManager->AddEntry(new MenuButton("Sounds:"));
+  // mMenuManager->CurEntry()->OnSelect = Input; 
+  mMenuManager->AddEntry(new MenuButton("Configure input"));
+  mMenuManager->CurEntry()->OnSelect = Input;  
 
   mMenuManager->AddEntry(new MenuButton("Back"));
   mMenuManager->CurEntry()->OnSelect = MainMenu;

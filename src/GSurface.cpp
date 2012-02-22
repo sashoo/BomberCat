@@ -8,8 +8,13 @@ SDL_Surface* GSurface::SurfPowerup;
 SDL_Surface* GSurface::SurfTile;
 TTF_Font* GSurface::FontRegular;
 
-GSurface::GSurface() {
+SDL_Color GSurface::ColorRed = GetColor(255, 0, 0);
+SDL_Color GSurface::ColorGreen = GetColor(0, 255, 0);
+SDL_Color GSurface::ColorOption = GetColor(255, 255, 0);
+SDL_Color GSurface::ColorActive = GetColor(30, 140, 230);
+SDL_Color GSurface::ColorInactive = GetColor(180, 180, 180);
 
+GSurface::GSurface() {
 }
 
 SDL_Surface* GSurface::OnLoad(const char* filename){
@@ -130,4 +135,18 @@ bool GSurface::UnloadFontRegular() {
     return true;
   }
   return false;
+}
+
+void GSurface::SetColor(SDL_Color& color, int r, int g, int b) {
+  color.r = r;
+  color.g = g;
+  color.b = b;
+}
+
+SDL_Color GSurface::GetColor(int r, int g, int b) {
+  SDL_Color color;
+  color.r = r;
+  color.g = g;
+  color.b = b;
+  return color;
 }

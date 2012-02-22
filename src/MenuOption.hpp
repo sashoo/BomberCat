@@ -2,17 +2,20 @@
 #define MENUOPTION_HPP
 
 #include "MenuEntry.hpp"
-#include "Origin.hpp"
+
 #include <vector>
 #include <string>
 
 class MenuOption : public MenuEntry {
 public:
-  MenuOption (std::string label, float halfOffset);
+  MenuOption (std::string label, std::vector<std::string>& list);
   virtual ~MenuOption();
+
+  static int HalfOffset;
 
   virtual void OnLeft();
   virtual void OnRight();
+  virtual void AddOption(std::string option);
   
   virtual void OnRender(SDL_Surface* SurfDisplay);
   virtual void SetColor(SDL_Color color);
@@ -26,14 +29,14 @@ public:
   virtual void Setup();
 
 private:
-  void SetEntry(unsigned int index);
+  void SetEntry(int index);
   std::vector<std::string> OptionList;
   std::string  Label;
   std::string  Option;
   SDL_Surface* SurfLabel;
-  SDL_Surface* SurfOption;
-  int          Origin;
-  int          HalfOffset;
+  SDL_Surface* SurfOption;  
+  SDL_Color    OptionColor;
+
 
   unsigned int Index;  
 };

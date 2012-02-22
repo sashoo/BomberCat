@@ -14,29 +14,39 @@
 //class MenuOption;
 class MenuEntry;
 class MirageApp;
+
+enum {
+  MM_LEFTALIGNED = 0,
+  MM_CENTERED,
+  MM_CENTEREDOPTIONS
+};
         
 class MenuManager{
 public:
   MenuManager();
-  ~MenuManager();   
+  ~MenuManager();     
 
   void RegisterApp(MirageApp* app);
   // void SetFont(TTF_Font* font);
-    
+  
+  //recalculate entries, align them properly, set big bounding rectangle
+  //for MenuManager and indibidual rectangles for entries
   void UpdateRect();
   void OnRender(SDL_Surface* SurfDisplay); //draw
+  // handle input
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnLButtonDown(int mX, int mY); 
   void OnRButtonDown(int mX, int mY); 
   void OnMButtonDown(int mX, int mY); 
   void OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle);
+  // aligns menu options according to MMType provided
+  void Align(int align);
   MirageApp* GetApp() const;
   // TTF_Font* GetFont() const;
   int GetFontSize() const;
-  int GetLineSpacing() const;
-  SDL_Color GetActiveColor() const;
-  SDL_Color GetInactiveColor() const;
+  int GetLineSpacing() const; 
+  int MMType;
 
   // Entries    
   MenuEntry* AddEntry(MenuEntry* entry);
@@ -56,8 +66,7 @@ public:
 private:
   std::vector<MenuEntry*>  Entries;
   int                      Index;
-  SDL_Color                ActiveColor;
-  SDL_Color                InactiveColor;
+ 
 
   //TTF_Font*                Font;
   int                      FontSize;

@@ -10,6 +10,9 @@ void PlayGame(MirageApp* app, void* pData) {
   StateManager::SetActiveState(APPSTATE_GAME);
 }
 
+void DoNothing(MirageApp* app, void* pData) {   
+}
+
 void Options(MirageApp* app, void* pData) {
   StateManager::SetActiveState(APPSTATE_OPTIONS);
 }
@@ -63,8 +66,12 @@ void StateMenu::OnActivate() {
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Activating entries" << std::endl;
 
-  mMenuManager->AddEntry(new MenuButton("Play"));
+  mMenuManager->AddEntry(new MenuButton("Offline game"));
   mMenuManager->CurEntry()->OnSelect = PlayGame;  
+  mMenuManager->AddEntry(new MenuButton("Host game"));
+  mMenuManager->CurEntry()->OnSelect = DoNothing;  
+  mMenuManager->AddEntry(new MenuButton("Join game"));
+  mMenuManager->CurEntry()->OnSelect = DoNothing;  
   mMenuManager->AddEntry(new MenuButton("Options"));
   mMenuManager->CurEntry()->OnSelect = Options;
   mMenuManager->AddEntry(new MenuButton("Credits"));

@@ -10,21 +10,20 @@ bool DotInRect(int dotx, int doty, SDL_Rect rect) {
 }
 
 MenuManager::MenuManager(){
-  Index = 0; 
-  //  ActiveColor = {30, 140, 230};
-  ActiveColor.r = 30;
-  ActiveColor.g = 140;
-  ActiveColor.b = 230;
+  MMType = MM_CENTERED;
+  Index = 0;  
+  
   OldTime = 0;
-  //InactiveColor = {180, 180, 180}; 
-  InactiveColor.r = 180;
-  InactiveColor.g = 180;
-  InactiveColor.b = 180;
+
   FontSize = 30;  
   //LineSpacing = Font->GetLineSpacing(FontSize);  
   App = NULL;
   LineSpacing = TTF_FontLineSkip(GSurface::FontRegular);
   //Font = NULL;
+}
+
+void MenuManager::Align(int align) {
+  MMType = align;
 }
 
 void MenuManager::RegisterApp(MirageApp* app) {
@@ -55,12 +54,22 @@ void MenuManager::UpdateRect(){
   float screenY = GHEIGHT/2;
   Rect.x = screenX-width/2;
   Rect.y = screenY-height/2; 
-  float posx = screenX - width/2;
+  float posx = screenX;
   float posy = Rect.y;
   float diff = /*FontSize + */LineSpacing;
+  if (MM_LEFTALIGNED == MMType ) 
+    posx -= width/2;
+  
   for (iter = Entries.begin(); iter < Entries.end(); ++iter){  
- 
-    (*iter)->SetOrigin(ORIGIN_TL);
+    if (MM_LEFTALIGNED == MMType )
+      (*iter)->SetOrigin(ORIGIN_TL);
+
+    // if (MM_CENTERED == MMType )
+    //   (*iter)->SetOrigin(ORIGIN_CENTER);
+
+    // if (MM_CENTEREDOPTIONS == MMType )
+    //   (*iter)->SetOrigin(ORIGIN_TR);
+    
     (*iter)->SetPosition(posx, posy);    
 
     posy += diff;
@@ -84,14 +93,6 @@ int MenuManager::GetFontSize() const {
 
 int MenuManager::GetLineSpacing() const {
   return LineSpacing;
-}
-
-SDL_Color MenuManager::GetActiveColor() const {
-  return ActiveColor;
-}
-
-SDL_Color MenuManager::GetInactiveColor() const {
-  return InactiveColor;
 }
 
 MenuEntry* MenuManager::AddEntry(MenuEntry* entry){
@@ -127,13 +128,11 @@ int MenuManager::GetIndex(){
 
 void MenuManager::SetEntry(const int index){
   if(index < (int)Entries.size() && index >=0) {
-    Entries[Index]->SetColor(InactiveColor);
+    Entries[Index]->SetColor(GSurface::ColorInactive);
     Index = index;
-    Entries[Index]->SetColor(ActiveColor);      
+    Entries[Index]->SetColor(GSurface::ColorActive);      
   }
 }
-
-
 
 void MenuManager::PrevEntry(){
   int index = Index-1;
@@ -162,6 +161,16 @@ void MenuManager::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {
       break;
     }
 
+    case SDLK_LEFT: {
+      CurEntry()->OnLeft();
+      break;
+    }
+
+    case SDLK_RIGHT: {
+      CurEntry()->OnRight();
+      break;
+    }
+
     case SDLK_RETURN: {
       CurEntry()->OnSelect(NULL, NULL);
       break;
@@ -185,8 +194,7 @@ void MenuManager::OnLButtonDown(int mX, int mY) {
       CurEntry()->OnSelect(NULL, NULL);
       break;
     }
-  }
- 
+  } 
 }
 void MenuManager::OnRButtonDown(int mX, int mY) {  
 }

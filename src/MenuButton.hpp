@@ -21,8 +21,7 @@ public:
 
 private:
   std::string      Label;
-  SDL_Surface*     Surface;
-  int              Origin; 
+  SDL_Surface*     Surface; 
 
 }; // class MenuButton
 

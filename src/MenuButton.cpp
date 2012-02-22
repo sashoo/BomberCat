@@ -7,7 +7,7 @@
 
 MenuButton::MenuButton(std::string string){
   Label   = string;  
-  Origin  = ORIGIN_CENTER;  
+  Origin  = ORIGIN_TOP;  
 }
 
 int MenuButton::GetWidth() const {
@@ -36,16 +36,7 @@ void MenuButton::SetColor(SDL_Color color){
 }  
 
 void MenuButton::SetPosition(float x, float y){
-  if (ORIGIN_CENTER == Origin) {
-    PosX = x - Rect.w/2;
-    PosY = y - Rect.h/2;    
-  }
-  else {
-    PosX = x;
-    PosY = y;
-  }      
-  Rect.x = PosX;
-  Rect.y = PosY; 
+  MenuEntry::SetPosition(x, y);
 }
 
 void MenuButton::SetOrigin(int origin) {
@@ -53,9 +44,8 @@ void MenuButton::SetOrigin(int origin) {
   //todo
 }
 
-void MenuButton::Setup(){
-  Color   = mMenuManager->InactiveColor;
-  Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), Color);
+void MenuButton::Setup(){  
+  Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), GSurface::ColorRed);
   Rect.w   = Surface->w;
   Rect.h  = Surface->h; 
   //Color = mMenuManager->InactiveColor;  
