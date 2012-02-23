@@ -128,11 +128,11 @@ bool GPath::FindPath(int sx, int sy, int destx, int desty) {
 }
 
 int GPath::GetTileType(GNode* gnode) {
-  return *GArea::AreaControl.GetTile(gnode->GetX()*TILE_SIZE, gnode->GetY()*TILE_SIZE);
+  return GArea::AreaControl.GetTileCoord(gnode->GetX(), gnode->GetY());
 }
 
 int GPath::GetTileType(int x, int y) {
-  return *GArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
+  return GArea::AreaControl.GetTileCoord(x, y);
 }
 
 bool GPath::IsWrongType(int type) {

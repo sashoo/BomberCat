@@ -142,9 +142,9 @@ void GBomb::CheckDir(int cx, int cy, int alttype) {
     
     //int newx = centX;
     //int newy = centY-TILE_SIZE*i;
-    int* tile = GArea::AreaControl.GetTile(newx, newy);
-    if (NULL == tile) break;
-    if (*tile >= 0 && *tile <= 2) {
+    int tile = GArea::AreaControl.GetTile(newx, newy);
+    //if (NULL == tile) break;
+    if (tile >= 0 && tile <= 2) {
       GFlame* flame = new GFlame();
       flame->X = newx;
       flame->Y = newy;   
@@ -160,15 +160,15 @@ void GBomb::CheckDir(int cx, int cy, int alttype) {
 
       flame->ChainDirection = dir;
      
-      if (*tile == 1) {
+      if (tile == 1) {
 	flame->FlameType = alttype;
-	*tile = 0;
+	GArea::AreaControl.SetTile(newx, newy, 0);
 	GFlame::FlameList.push_back(flame);
 	GDecor* decor = new GDecor(newx, newy);
 	decor->Load();
 	break;
       }
-      else if (*tile == 2) {
+      else if (tile == 2) {
 	flame->FlameType = alttype;
 	GFlame::FlameList.push_back(flame);
 	break;

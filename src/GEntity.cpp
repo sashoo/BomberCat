@@ -187,7 +187,7 @@ void GEntity::Move(float MoveX, float MoveY) {
 	  tilex = (cX + NewX) / TILE_SIZE;
 	}
 	//int tiley = NewY / TILE_SIZE;
-	int* Tile = GArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
+	int Tile = GArea::AreaControl.GetTileCoord(tilex, tiley);       
 	if(PosValidTile(Tile) == false) {	
 	  SpeedX = 0;
 	}
@@ -223,7 +223,7 @@ void GEntity::Move(float MoveX, float MoveY) {
 	  tiley = (cY + NewY) / TILE_SIZE;
 	}
 	//int tiley = NewY / TILE_SIZE;
-	int* Tile = GArea::AreaControl.GetTile(tilex * TILE_SIZE, tiley * TILE_SIZE);       
+	int Tile = GArea::AreaControl.GetTileCoord(tilex, tiley);       
 	if(PosValidTile(Tile) == false) {	
 	  SpeedY = 0;
 	}
@@ -418,7 +418,7 @@ bool GEntity::PosValid(int NewX, int NewY) {
  
   for(int iY = StartY;iY <= EndY;iY++) {
     for(int iX = StartX;iX <= EndX;iX++) {
-      int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+      int Tile = GArea::AreaControl.GetTileCoord(iX, iY); 
       if(PosValidTile(Tile) == false) {
 	isvalid = false;
       }
@@ -439,12 +439,12 @@ bool GEntity::PosValid(int NewX, int NewY) {
   return isvalid;
 }
 
-bool GEntity::PosValidTile(int* Tile) {
-  if(Tile == NULL) {
-    return true;
-  }
+bool GEntity::PosValidTile(int Tile) {
+  // if(Tile == NULL) {
+  //   return true;
+  // }
  
-  if(*Tile != 0) {
+  if(Tile != 0) {
     return false;
   }
  

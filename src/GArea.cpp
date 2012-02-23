@@ -179,7 +179,7 @@ void GArea::Cleanup() {
  
 }
  
-int* GArea::GetTile(int X, int Y) {
+int GArea::GetTile(int X, int Y) {
   int ID = 0;
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
@@ -187,17 +187,17 @@ int* GArea::GetTile(int X, int Y) {
   if (ID < 0 || ID >= (int)TileList.size())
     return NULL;
   
-  return &TileList[ID];  
+  return TileList[ID];  
 }
 
-int* GArea::GetTileCoord(int X, int Y) {
+int GArea::GetTileCoord(int X, int Y) {
   int ID = 0;
   ID = X;
   ID = ID + AreaWidth * Y;
   if (ID < 0 || ID >= (int)TileList.size())
     return NULL;
   
-  return &TileList[ID];  
+  return TileList[ID];  
 }
 
 bool GArea::SetTile(int X, int Y, int type) {  
@@ -227,7 +227,7 @@ bool GArea::SetTileCoord(int X, int Y, int type) {
 void GArea::PlacePowerups() {
   for(int Y = 0; Y < AreaHeight; Y++) {
     for(int X = 0; X < AreaWidth; X++) {
-      int tempTile = *GetTile(X * TILE_SIZE, Y*TILE_SIZE);
+      int tempTile = GetTileCoord(X , Y);
       if (1 == tempTile) {
 	int chances = Srand::GetInt(0, 100);
 	if (chances <= 25) {

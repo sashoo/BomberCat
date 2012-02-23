@@ -364,7 +364,7 @@ bool GBomber::PosValid(int NewX, int NewY) {
 
   for(int iY = StartY;iY <= EndY;iY++) {
     for(int iX = StartX;iX <= EndX;iX++) {
-      int* Tile = GArea::AreaControl.GetTile(iX * TILE_SIZE, iY * TILE_SIZE); 
+      int Tile = GArea::AreaControl.GetTileCoord(iX, iY); 
       
       if(PosValidTile(Tile) == false) {	
 		 
@@ -430,7 +430,7 @@ bool GBomber::PosValid(int NewX, int NewY) {
   return isvalid;
 }
 
-bool GBomber::PosValidTile(int* Tile) {
+bool GBomber::PosValidTile(int Tile) {
   return GEntity::PosValidTile(Tile);
 }
 

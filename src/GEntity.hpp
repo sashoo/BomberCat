@@ -102,7 +102,7 @@ protected:
   int ColH;
 
   virtual bool PosValid(int NewX, int NewY);
-  virtual bool PosValidTile(int* Tile);
+  virtual bool PosValidTile(int Tile);
   virtual bool PosValidEntity(GEntity* Entity, int NewX, int NewY);
 
   friend class GBomber;

@@ -28,7 +28,7 @@ public:
   virtual bool PosValid(int NewX, int NewY);
   virtual bool PosValidEntity(GEntity* Entity, int NewX, int NewY);
   //virtual bool PosValidBomb(CBomb* Entity, int NewX, int NewY);
-  virtual bool PosValidTile(int* Tile);
+  virtual bool PosValidTile(int Tile);
   virtual bool IsHit(GEntity* entity);
 
   Input* InputHandle;

@@ -41,11 +41,11 @@ public:
   int GetBoundY();
  
   // Return tile type; arguments are pixels!
-  int* GetTile(int X, int Y);
+  int GetTile(int X, int Y);
   bool SetTile(int X, int Y, int type = 1);
   
   // Return tile type; arguments are tile coordinates
-  int* GetTileCoord(int X, int Y);
+  int GetTileCoord(int X, int Y);
   bool SetTileCoord(int X, int Y, int type = 1);
 
   //int* GetTile(int X, int Y);
