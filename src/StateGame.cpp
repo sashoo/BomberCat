@@ -151,17 +151,17 @@ void StateGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
 
   App->Key1.OnKeyUp(sym);
 
-  std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
-  while (bomber != GBomber::BomberList.end()) {
-    if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
-      bomber++;
-      continue;
-    }
-    GPlayer* player = dynamic_cast<GPlayer*>(*bomber);
-    if (NULL != player)
-      player->OnKeyUp(sym, mod, Unicode);
-    bomber++;
-  }
+  // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
+  // while (bomber != GBomber::BomberList.end()) {
+  //   if (ENTITY_TYPE_BOMBER_AI == (*bomber)->Type) {
+  //     bomber++;
+  //     continue;
+  //   }
+  //   GPlayer* player = dynamic_cast<GPlayer*>(*bomber);
+  //   if (NULL != player)
+  //     player->OnKeyUp(sym, mod, Unicode);
+  //   bomber++;
+  // }
   
   // switch(sym)
   //{
@@ -195,20 +195,20 @@ void StateGame::OnRButtonDown(int mX, int mY) {
   x /= TILE_SIZE;
   y /= TILE_SIZE;
 
-  std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
-  while (bomber != GBomber::BomberList.end()) {
-    if (ENTITY_TYPE_BOMBER_P == (*bomber)->Type) {
-      bomber++;
-      continue;
-    }
-    GAI* AI = dynamic_cast<GAI*>(*bomber);
-    if (NULL != AI) {
-      if(AI->PathManager.FindPath((int)AI->cX/TILE_SIZE, 
-				  (int)AI->cY/TILE_SIZE, x, y))
-	AI->PrintPath();      
-    }
-    bomber++;
-  }
+  // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
+  // while (bomber != GBomber::BomberList.end()) {
+  //   if (ENTITY_TYPE_BOMBER_P == (*bomber)->Type) {
+  //     bomber++;
+  //     continue;
+  //   }
+  //   GAI* AI = dynamic_cast<GAI*>(*bomber);
+  //   if (NULL != AI) {
+  //     if(AI->PathManager.FindPath((int)AI->cX/TILE_SIZE, 
+  // 				  (int)AI->cY/TILE_SIZE, x, y))
+  // 	AI->PrintPath();      
+  //   }
+  //   bomber++;
+  // }
   
   // CurTileType = *GArea::AreaControl.GetTile(x*TILE_SIZE, y*TILE_SIZE);
 }
@@ -308,7 +308,7 @@ void StateGame::OnActivate() {
  
   App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
-  GPath::RegisterApp(App);
+  //GPath::RegisterApp(App);
  
   GSurface::LoadBombs();
   GSurface::LoadBombers();
@@ -355,26 +355,16 @@ void StateGame::InitBombers() {
     int bombers = App->GetNumBombers();
     int bots = App->GetNumBots();
     int players = bombers - bots;
-    for (int i = 0; i < bombers; i++) {
-      if (i < players) {
-        GPlayer* p = new GPlayer();  
-        p->PlaceBomberByNum(i+1, bombers);  
+    for (int i = 0; i < bombers; i++) {     
+      GBomber* b = new GBomber();  
+      b->PlaceBomberByNum(i+1, bombers);  
+      //if (i < players) {} else {}
 
-        App->Log << "Loading player (bomber #" << i << ")";  
-        if(p->OnLoad() == false) {
-          App->Log << "Failed. Does it exist?\nExiting the program";
-          return;
-        }
-      }
-      else {
-        GAI* bot = new GAI();
-        bot->PlaceBomberByNum(i+1, bombers);
-        App->Log << "Loading bot1... ";  
-        if(bot->OnLoad() == false) {
-          App->Log << "Failed. Does it exist?\nExiting the program";
-          return;
-        }
-      }
+      App->Log << "Loading bomber (bomber #" << i << ")";  
+      if(b->OnLoad() == false) {
+	App->Log << "Failed. Does it exist?\nExiting the program";
+	return;
+      }      
     } 
   App->Log << "Bombers loaded!" << std::endl;
   GArea::AreaControl.PlacePowerups(); 

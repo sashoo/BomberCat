@@ -6,8 +6,8 @@
 #include "GArea.hpp"
 #include "GCamera.hpp"
 #include "GEntity.hpp"
-#include "GPlayer.hpp"
-#include "GAI.hpp"
+//#include "GPlayer.hpp"
+//#include "GAI.hpp"
 
 class StateGame; // forward declaration for UDPSocket
 
