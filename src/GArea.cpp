@@ -2,6 +2,7 @@
 #include "MirageApp.hpp"
 #include "GPowerup.hpp"
 #include "GSurface.hpp"
+#include "StateGame.hpp"
 
 GArea GArea::AreaControl;
 
@@ -14,6 +15,7 @@ GArea::GArea() {
   bRenderBack = true;
   bRenderCol  = true;
   bRenderFore = true;
+  pStateGame = NULL;
 }
 
 void GArea::RegisterApp(MirageApp* app) {
@@ -166,6 +168,7 @@ void GArea::Render(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
 }
 
 void GArea::Cleanup() {
+  pStateGame = NULL;
   // if(SurfTileset) {
   //   SDL_FreeSurface(SurfTileset);
   // }
@@ -217,3 +220,7 @@ void GArea::PlacePowerups() {
   }  
 }
   
+void GArea::SetStateGame(StateGame* state) {
+  if (state != NULL) 
+    pStateGame = state;
+}

@@ -308,6 +308,7 @@ void StateGame::Activate() {
  
   App = StateManager::GetApp();  
   GEntity::RegisterApp(App);
+  GArea::AreaControl.SetStateGame(StateGame::GetInstance());
   //GPath::RegisterApp(App);
  
   GSurface::LoadBombs();

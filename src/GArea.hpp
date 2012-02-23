@@ -10,6 +10,7 @@
 #include "GSurface.hpp"
 
 class MirageApp;
+class StateGame;
 
 class GArea {
 public:
@@ -29,6 +30,7 @@ public:
   void Cleanup(); 
 
   void PlacePowerups();
+  void SetStateGame(StateGame* state);
   
   // Area size in tiles
   int GetWidth();
@@ -54,6 +56,7 @@ private:
   int AreaHeight;
   int AreaBoundX;
   int AreaBoundY;
+  StateGame* pStateGame;
   std::string TilesetFilename;
   SDL_Surface* SurfTileset;
   std::vector<int> TileList;
