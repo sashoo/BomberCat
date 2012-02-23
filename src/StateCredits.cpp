@@ -24,14 +24,13 @@ void StateCredits::OnLButtonDown(int mX, int mY){
   StateManager::SetActiveState(APPSTATE_MENU);  
 }
 
-void StateCredits::OnActivate() {
+void StateCredits::Activate() {
   OldTime = SDL_GetTicks();
   SDL_Color white;
   white.r = 255;
   white.g = 255;
   white.b = 255;
-  SDL_Color color;
-  //color = {30, 140, 230};
+  SDL_Color color; 
   color.r = 30;
   color.g = 140;
   color.b = 230;  
@@ -41,15 +40,10 @@ void StateCredits::OnActivate() {
   Who2 = TTF_RenderText_Solid(GSurface::FontRegular, "WGH", color);
   Orig = TTF_RenderText_Solid(GSurface::FontRegular, "Graphics:", white);
   Net = TTF_RenderText_Solid(GSurface::FontRegular, "Networking:", white);
-  
-  //Who2 = TTF_RenderText_Solid(GSurface::FontRegular, "Alexander Paramonov", color);
-
-  Site  = TTF_RenderText_Solid(GSurface::FontRegular, "www.sashoo.org", color);
-  //SurfLogo = GSurface::OnLoad("Resources/bots.png");
-  //StartTime = SDL_GetTicks();
+  Site  = TTF_RenderText_Solid(GSurface::FontRegular, "www.sashoo.org", color);  
 }
 
-void StateCredits::OnDeactivate() {
+void StateCredits::Deactivate() {
   
   if (Message) {
     SDL_FreeSurface(Message);
@@ -76,33 +70,33 @@ void StateCredits::OnDeactivate() {
   }
 }
 
-void StateCredits::OnLoop() {
+void StateCredits::Loop() {
   // if (OldTime + 150 < SDL_GetTicks()) {
     
   // } 
   
 }
 
-void StateCredits::OnRender(SDL_Surface* SurfDisplay) {
+void StateCredits::Render(SDL_Surface* SurfDisplay) {
   if (Message) 
-    GSurface::OnDraw(SurfDisplay, Message, 20, 20);
+    GSurface::Draw(SurfDisplay, Message, 20, 20);
   if (Who) {
-    GSurface::OnDraw(SurfDisplay, Who, 30, 40);
-    GSurface::OnDraw(SurfDisplay, Who, 30, 160);
+    GSurface::Draw(SurfDisplay, Who, 30, 40);
+    GSurface::Draw(SurfDisplay, Who, 30, 160);
   }
   if (Who2) {
-    GSurface::OnDraw(SurfDisplay, Who2, 30, 60);
-    GSurface::OnDraw(SurfDisplay, Who2, 30, 110);
+    GSurface::Draw(SurfDisplay, Who2, 30, 60);
+    GSurface::Draw(SurfDisplay, Who2, 30, 110);
   }
 
   if (Net) 
-    GSurface::OnDraw(SurfDisplay, Net, 20, 90); 
+    GSurface::Draw(SurfDisplay, Net, 20, 90); 
 
   if (Orig) 
-    GSurface::OnDraw(SurfDisplay, Orig, 20, 140); 
+    GSurface::Draw(SurfDisplay, Orig, 20, 140); 
     
   if (Site) 
-    GSurface::OnDraw(SurfDisplay, Site, 100, 200);
+    GSurface::Draw(SurfDisplay, Site, 100, 200);
   
 }
 

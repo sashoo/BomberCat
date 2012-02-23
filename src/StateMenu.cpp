@@ -57,7 +57,7 @@ void StateMenu::OnMButtonDown(int mX, int mY) {
 }
 
     
-void StateMenu::OnActivate() {
+void StateMenu::Activate() {
   OldTime = SDL_GetTicks();
   mMenuManager = new MenuManager();
   App = StateManager::GetApp();
@@ -81,19 +81,18 @@ void StateMenu::OnActivate() {
   mMenuManager->SetEntry(0);
 }
 
-void StateMenu::OnDeactivate() {   
-  mMenuManager->CleanUp();
+void StateMenu::Deactivate() {   
+  mMenuManager->Cleanup();
 
-  delete mMenuManager;
-  
+  delete mMenuManager;  
 }
 
-void StateMenu::OnLoop() {
+void StateMenu::Loop() {
   //mMenuManager->OnLoop();
 }
 
-void StateMenu::OnRender(SDL_Surface* SurfDisplay) {  
-  mMenuManager->OnRender(SurfDisplay);
+void StateMenu::Render(SDL_Surface* SurfDisplay) {  
+  mMenuManager->Render(SurfDisplay);
 }
 
 StateMenu* StateMenu::GetInstance() {

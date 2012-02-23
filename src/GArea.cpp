@@ -11,9 +11,9 @@ GArea::GArea() {
   
   AreaBoundX = AreaWidth*TILE_SIZE;
   AreaBoundY = AreaWidth*TILE_SIZE;
-  RenderBack = true;
-  RenderCol = true;
-  RenderFore = true;
+  bRenderBack = true;
+  bRenderCol  = true;
+  bRenderFore = true;
 }
 
 void GArea::RegisterApp(MirageApp* app) {
@@ -37,7 +37,7 @@ int GArea::GetBoundY() {
   return AreaBoundY;
 }
 
-bool GArea::OnLoad(const char* File) {
+bool GArea::Load(const char* File) {
   TileList.clear(); 
 
   // if((SurfTileset = GSurface::OnLoad(File)) == false) { 
@@ -88,7 +88,7 @@ bool GArea::OnLoad(const char* File) {
   return true;
 }
 
-bool GArea::OnSave() {
+bool GArea::Save() {
   FILE* FileHandle = fopen("level-debug.log", "w");
   if(FileHandle == NULL) {
     return false;
@@ -109,7 +109,7 @@ bool GArea::OnSave() {
   return true;
 }
 
-void GArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
+void GArea::RenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
   // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
   int ID = 0;
@@ -129,14 +129,14 @@ void GArea::OnRenderBack(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
       //int TilesetY = (TileList[ID] / TilesetHeight) * TILE_SIZE;
       int TilesetY = 0;
 	
-      GSurface::OnDraw(Surf_Display, GSurface::SurfTile, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
+      GSurface::Draw(Surf_Display, GSurface::SurfTile, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
 
       ID++;
     }
   }  
 }
 
-void GArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
+void GArea::Render(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
   
   // int TilesetWidth  = GSurface::SurfTile->w / TILE_SIZE;
   // int TilesetHeight = GSurface::SurfTile->h / TILE_SIZE;
@@ -158,14 +158,14 @@ void GArea::OnRender(SDL_Surface* Surf_Display, int CameraX, int CameraY) {
       //int TilesetY = (TileList[ID] / TilesetHeight) * TILE_SIZE;
       int TilesetY = 0;
 	
-      GSurface::OnDraw(Surf_Display, GSurface::SurfTile, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
+      GSurface::Draw(Surf_Display, GSurface::SurfTile, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
 
       ID++;
     }
   }  
 }
 
-void GArea::OnCleanup() {
+void GArea::Cleanup() {
   // if(SurfTileset) {
   //   SDL_FreeSurface(SurfTileset);
   // }

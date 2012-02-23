@@ -43,10 +43,10 @@ void MenuBoolOption::SetChoice (bool choice) {
   }
 }
 
-void MenuBoolOption::OnRender(SDL_Surface* SurfDisplay) {
+void MenuBoolOption::Render(SDL_Surface* SurfDisplay) {
   //int lposx = PosX - SurfLabel->w - HalfOffset;
-  GSurface::OnDraw(SurfDisplay, SurfLabel,  PosX, PosY);
-  GSurface::OnDraw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
+  GSurface::Draw(SurfDisplay, SurfLabel,  PosX, PosY);
+  GSurface::Draw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
 }
 
 void MenuBoolOption::SetColor(SDL_Color color){
@@ -77,14 +77,14 @@ int MenuBoolOption::GetHeight() const {
   return Rect.h;
 }
 
-void MenuBoolOption::Clean() {
+void MenuBoolOption::Cleanup() {
   App->Log << "Deleting entry: " << Label << "... ";
   SDL_FreeSurface(SurfLabel);
   SDL_FreeSurface(SurfOption);
   App->Log << "deleted" << std::endl;
 }
 
-void MenuBoolOption::Setup() {
+void MenuBoolOption::Init() {
   //Index = 0;
   
   SurfLabel  = TTF_RenderText_Solid(GSurface::FontRegular,  Label.c_str(), GSurface::ColorActive);  

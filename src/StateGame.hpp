@@ -28,10 +28,10 @@ private:
   Uint32 GameTime;
 public:
 
-  void OnActivate();
-  void OnDeactivate();
-  void OnLoop();
-  void OnRender(SDL_Surface* SurfDisplay);
+  void Activate();
+  void Deactivate();
+  void Loop();
+  void Render(SDL_Surface* SurfDisplay);
   void SetTerminal(bool terminal);
 
   void InitNetwork();

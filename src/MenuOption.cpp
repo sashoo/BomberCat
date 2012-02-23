@@ -32,10 +32,10 @@ void MenuOption::AddOption(std::string option ) {
   OptionList.push_back(option);
 }
 
-void MenuOption::OnRender(SDL_Surface* SurfDisplay) {
+void MenuOption::Render(SDL_Surface* SurfDisplay) {
   //int lposx = PosX - SurfLabel->w - HalfOffset;
-  GSurface::OnDraw(SurfDisplay, SurfLabel,  PosX, PosY);
-  GSurface::OnDraw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
+  GSurface::Draw(SurfDisplay, SurfLabel,  PosX, PosY);
+  GSurface::Draw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
 }
 
 void MenuOption::SetColor(SDL_Color color){
@@ -66,15 +66,15 @@ int MenuOption::GetHeight() const {
   return Rect.h;
 }
 
-void MenuOption::Clean() {
-  App->Log << "Deleting entry: " << Label << "... ";
-  SDL_FreeSurface(SurfLabel);
-  SDL_FreeSurface(SurfOption);
-  App->Log << "deleted" << std::endl;
+void MenuOption::Cleanup() {
+  if (SurfLabel)
+    SDL_FreeSurface(SurfLabel);
+  if (SurfOption)
+    SDL_FreeSurface(SurfOption);  
 }
 
 
-void MenuOption::Setup() {
+void MenuOption::Init() {
   //Index = 0;  
   SurfLabel = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), GSurface::ColorOption);  
   SurfOption = TTF_RenderText_Solid(GSurface::FontRegular, OptionList[Index].c_str(), GSurface::ColorOption);  

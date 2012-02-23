@@ -7,7 +7,7 @@ int GBomber::Bombers = 0;
 std::vector<GBomber*> GBomber::BomberList;
 
 GBomber::GBomber() {
-  BomberID = Bombers++;
+  ColorID = Bombers++;
   Name = "bomber";
   Width = 44;
   Height = 44;
@@ -45,18 +45,19 @@ GBomber::GBomber() {
   //GEntity::GEntity();
 }
 
+GBomber* GBomber::Create() {
+  GBomber* b = new GBomber();  
+  BomberList.push_back(b);   
+  return b;
+}
+
 GBomber::~GBomber() {
   App->Log << "Bomber Deleted" << std::endl;
   Bombers--;
 }
 
-bool GBomber::OnLoad() {
-  BomberList.push_back(this);   
-  return true;
-}
-
-void GBomber::OnLoop() {
-  GEntity::OnLoop();  
+void GBomber::Loop() {
+  GEntity::Loop();  
   std::vector<GPowerup*>::iterator pup = GPowerup::PowerupList.begin();
   while (pup != GPowerup::PowerupList.end()) {       
     if (Collides(*pup)) {
@@ -74,20 +75,20 @@ void GBomber::OnLoop() {
   }
 }
 
-void GBomber::OnRender(SDL_Surface* SurfDisplay) {
-  GSurface::OnDraw(SurfDisplay, GSurface::SurfBomber, 
+void GBomber::Render(SDL_Surface* SurfDisplay) {
+  GSurface::Draw(SurfDisplay, GSurface::SurfBomber, 
 		   X-GCamera::CameraControl.GetX(), 
 		   Y-GCamera::CameraControl.GetY(), 
-		   (4*BomberID+CurrentFrameCol + AnimControl.GetCurrentFrame())* Width, 
+		   (4*ColorID+CurrentFrameCol + AnimControl.GetCurrentFrame())* Width, 
 		   CurrentFrameRow * Height, 
 		   Width, Height);  
 }
 
-void GBomber::OnCleanup() {
-  GEntity::OnCleanup();
+void GBomber::Cleanup() {
+  GEntity::Cleanup();
 }
 
-void GBomber::OnAnimate() {
+void GBomber::Animate() {
   if (BomberState == STATE_ALIVE) {
     if (MoveUp)
       CurrentFrameRow = 1;
@@ -99,12 +100,12 @@ void GBomber::OnAnimate() {
       CurrentFrameRow = 2;  
  
     if (SpeedX != 0 || SpeedY != 0)
-      AnimControl.OnAnimate();
+      AnimControl.Animate();
     else
       AnimControl.SetCurrentFrame(1);
   }
   else if (BomberState == STATE_DYING) {    
-    if (AnimControl.OnAnimate()) {
+    if (AnimControl.Animate()) {
       BomberState = STATE_DEAD;
       Alive = false;
       Enabled = false;
@@ -218,7 +219,7 @@ void GBomber::PlaceBomb() {
    
     bomb->X = posx;
     bomb->Y = posy;
-    bomb->Owner = BomberID;
+    bomb->Owner = ColorID;
     bomb->Start();    
     bomb->Bomber = this;
     bomb->JustPlaced = true;
@@ -451,8 +452,7 @@ void GBomber::CheckVictory() {
 void GBomber::Die() {
   Alive = false;
   if (InputHandle != NULL) {
-    InputHandle->Bomber = NULL;
-    InputHandle = NULL;
+    InputHandle->Disconnect();   
   }
   BomberState = STATE_DYING;
   AnimControl.SetCurrentFrame(0);

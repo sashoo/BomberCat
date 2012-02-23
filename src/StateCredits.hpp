@@ -19,13 +19,19 @@ private:
   Uint32              OldTime;
 
 public:
+
+  // Core functions
+  void Activate();
+  void Deactivate();
+  void Loop();
+  void Render(SDL_Surface* SurfDisplay);
+
+  // Input handling
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode);  
   void OnLButtonDown(int mX, int mY);
-  void OnActivate();
-  void OnDeactivate();
-  void OnLoop();
-  void OnRender(SDL_Surface* SurfDisplay);
+ 
+  // Get state instance
   static StateCredits* GetInstance();
 };
   

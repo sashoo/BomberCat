@@ -33,14 +33,14 @@ GBomb::GBomb() : STimer(2000), GEntity(){
   
 }
 
-bool GBomb::OnLoad() {
+bool GBomb::Load() {
   return true;
 }
 
-void GBomb::OnLoop() {
+void GBomb::Loop() {
   if (BOMB_STATE_EXPLODED != State) {
-    STimer::OnLoop();
-    GEntity::OnLoop();
+    STimer::Loop();
+    GEntity::Loop();
   }
 }
 
@@ -50,9 +50,9 @@ bool GBomb::OnTimeOut() {
   return true;
 }
 
-void GBomb::OnRender(SDL_Surface* SurfDisplay) {
+void GBomb::Render(SDL_Surface* SurfDisplay) {
   if (BOMB_STATE_EXPLODED != State) {
-    GSurface::OnDraw(SurfDisplay, GSurface::SurfBomb, 
+    GSurface::Draw(SurfDisplay, GSurface::SurfBomb, 
 		     X-GCamera::CameraControl.GetX(), 
 		     Y-GCamera::CameraControl.GetY(), 
 		     (0+CurrentFrameCol + AnimControl.GetCurrentFrame())* Width, 
@@ -61,12 +61,12 @@ void GBomb::OnRender(SDL_Surface* SurfDisplay) {
   }
 }
 
-void GBomb::OnCleanup() {
-  GEntity::OnCleanup();
+void GBomb::Cleanup() {
+  GEntity::Cleanup();
 }
 
-void GBomb::OnAnimate() {
-  AnimControl.OnAnimate();
+void GBomb::Animate() {
+  AnimControl.Animate();
 }
 
 bool GBomb::OnCollision(GEntity* Entity) {
@@ -165,7 +165,7 @@ void GBomb::CheckDir(int cx, int cy, int alttype) {
 	*tile = 0;
 	GFlame::FlameList.push_back(flame);
 	GDecor* decor = new GDecor(newx, newy);
-	decor->OnLoad();
+	decor->Load();
 	break;
       }
       else if (*tile == 2) {

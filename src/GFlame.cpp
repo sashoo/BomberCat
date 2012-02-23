@@ -29,17 +29,17 @@ GFlame::GFlame() : STimer(40, 0, true), GEntity() {
   //MaxFlamePower = 8;
   //Flags = ENTITY_FLAG_MAPONLY;
   Start();
-  App->Log << "Name: " << Name << " created" << std::endl;
+  //App->Log << "Name: " << Name << " created" << std::endl;
   FlamesTotal++;
 }
 
-bool GFlame::OnLoad() {
+bool GFlame::Load() {
   return true;
 }
 
-void GFlame::OnLoop() { 
-  STimer::OnLoop();
-  GEntity::OnLoop();   
+void GFlame::Loop() { 
+  STimer::Loop();
+  GEntity::Loop();   
 }
 
 bool GFlame::OnTimeOut() {
@@ -58,10 +58,10 @@ bool GFlame::OnTimeOut() {
   return true;
 }
   
-void GFlame::OnRender(SDL_Surface* SurfDisplay) {  
+void GFlame::Render(SDL_Surface* SurfDisplay) {  
   // flametype defines sprite colon
   // flame power defines sprite row (GetCurrentFrame())
-  GSurface::OnDraw(SurfDisplay, GSurface::SurfFlame, 
+  GSurface::Draw(SurfDisplay, GSurface::SurfFlame, 
 		   X-GCamera::CameraControl.GetX(), 
 		   Y-GCamera::CameraControl.GetY(), 
 		   Frame * Width, 
@@ -70,12 +70,12 @@ void GFlame::OnRender(SDL_Surface* SurfDisplay) {
 
 }
 
-void GFlame::OnCleanup() {
-  GEntity::OnCleanup();
+void GFlame::Cleanup() {
+  GEntity::Cleanup();
   FlamesTotal--;
 }
 
-void GFlame::OnAnimate() {
+void GFlame::Animate() {
   // Animation is handled by flame power
   // and internal timer
   // No code needed here

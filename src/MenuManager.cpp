@@ -76,10 +76,10 @@ void MenuManager::UpdateRect(){
   }  
 }
 
-void MenuManager::OnRender(SDL_Surface* SurfDisplay){
+void MenuManager::Render(SDL_Surface* SurfDisplay){
   std::vector<MenuEntry*>::iterator iter;
   for (iter = Entries.begin(); iter < Entries.end(); ++iter){
-    (*iter)->OnRender(SurfDisplay);
+    (*iter)->Render(SurfDisplay);
   }   
 }   
 
@@ -99,7 +99,7 @@ MenuEntry* MenuManager::AddEntry(MenuEntry* entry){
   App->Log << "Adding entry: ";
   entry->RegisterManager(this);
   entry->RegisterApp(GetApp());  
-  entry->Setup();
+  entry->Init();
   
   Entries.push_back(entry);
   SetEntry(Entries.size()-1);  
@@ -107,12 +107,12 @@ MenuEntry* MenuManager::AddEntry(MenuEntry* entry){
   return entry;
 }
 
-void MenuManager::CleanUp(){
+void MenuManager::Cleanup(){
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Cleaning entries" << std::endl;
   std::vector<MenuEntry*>::iterator iter;
   for (iter = Entries.begin(); iter < Entries.end(); ++iter){
-    (*iter)->Clean();    
+    (*iter)->Cleanup();    
   }
   Entries.clear();
   App->Log << "All entries deleted from main menu" << std::endl;

@@ -8,10 +8,10 @@ class GSurface {
 
 public:
   GSurface();
-  static SDL_Surface* OnLoad(const char* filename);
-  static bool OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
+  static SDL_Surface* Load(const char* filename);
+  static bool Draw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
 		     int x, int y);
-  static bool OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
+  static bool Draw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
 		     int x, int y, int x2, int y2, int w, int h);
   // static SDL_Surface* SDL_ScaleSurface(SDL_Surface* Surface, Uint16 Width, Uint16 Height);
 

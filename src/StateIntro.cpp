@@ -19,27 +19,27 @@ void StateIntro::OnLButtonDown(int mX, int mY){
   StateManager::SetActiveState(APPSTATE_MENU);  
 }
 
-void StateIntro::OnActivate() {
-  SurfLogo = GSurface::OnLoad("Resources/bots.png");
+void StateIntro::Activate() {
+  SurfLogo = GSurface::Load("Resources/bots.png");
   StartTime = SDL_GetTicks();
 }
 
-void StateIntro::OnDeactivate() {
+void StateIntro::Deactivate() {
   if (SurfLogo) {
     SDL_FreeSurface(SurfLogo);
     SurfLogo = NULL;    
   }
 }
 
-void StateIntro::OnLoop() {
+void StateIntro::Loop() {
   if (StartTime + 1500 < SDL_GetTicks()) {
     StateManager::SetActiveState(APPSTATE_MENU);
   }
 }
 
-void StateIntro::OnRender(SDL_Surface* SurfDisplay) {
+void StateIntro::Render(SDL_Surface* SurfDisplay) {
   if (SurfLogo) {
-    GSurface::OnDraw(SurfDisplay, SurfLogo, 0, 0);
+    GSurface::Draw(SurfDisplay, SurfLogo, 0, 0);
   }
 }
 

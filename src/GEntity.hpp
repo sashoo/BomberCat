@@ -43,17 +43,17 @@ public:
   static std::vector<GEntity*> EntityList;
   static MirageApp* App;
   
-  virtual bool OnLoad(std::string name, char* File, int width, int height, int maxFrames);
-  virtual void OnLoop();
-  virtual void OnRender(SDL_Surface* SurfDisplay);
-  // virtual void OnRender(SDL_Surface* SurfDisplay, SDL_Surface* thing);
-  virtual void OnCleanup();
-  virtual void OnAnimate();
+  virtual bool Load(std::string name, char* File, int width, int height, int maxFrames);
+  virtual void Loop();
+  virtual void Render(SDL_Surface* SurfDisplay);  
+  virtual void Cleanup();
+  virtual void Animate();
+
   virtual bool OnCollision(GEntity* Entity);
   virtual void DeleteObject();
   static void RegisterApp(MirageApp* app);
 
-  void OnMove(float MoveX, float MoveY);
+  void Move(float MoveX, float MoveY);
   void StopMove();
   bool Collides(int oX, int oY, int oW, int oH);
   bool Collides(int oX, int oY, int oW, int oH, float& depthX, float& depthY);

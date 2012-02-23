@@ -47,7 +47,7 @@ void StateOptions::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bo
 }
 
 
-void StateOptions::OnActivate() {
+void StateOptions::Activate() {
   OldTime = SDL_GetTicks();
   mMenuManager = new MenuManager();
   App = StateManager::GetApp();
@@ -79,16 +79,16 @@ void StateOptions::OnActivate() {
   
 }
 
-void StateOptions::OnDeactivate() {
-  mMenuManager->CleanUp();
+void StateOptions::Deactivate() {
+  mMenuManager->Cleanup();
   delete mMenuManager;
 }
 
-void StateOptions::OnLoop() {
+void StateOptions::Loop() {
 }
 
-void StateOptions::OnRender(SDL_Surface* SurfDisplay) {
-  mMenuManager->OnRender(SurfDisplay);  
+void StateOptions::Render(SDL_Surface* SurfDisplay) {
+  mMenuManager->Render(SurfDisplay);  
 }
 
 StateOptions* StateOptions::GetInstance() {

@@ -14,11 +14,12 @@ public:
   int PowerupType;
   static std::vector<GPowerup*> PowerupList;
 
-  virtual bool OnLoad();
-  virtual void OnLoop();
-  virtual void OnRender(SDL_Surface* SurfDisplay);
-  virtual void OnCleanup();
-  virtual void OnAnimate();
+  virtual bool Load();
+  virtual void Loop();
+  virtual void Animate();
+  virtual void Render(SDL_Surface* SurfDisplay);
+  virtual void Cleanup();
+
   virtual bool OnCollision(GEntity* Entity); 
 
 private:

@@ -35,16 +35,16 @@ GPowerup::GPowerup() {
   PowerupsTotal++;
 }
 
-bool GPowerup::OnLoad() {
+bool GPowerup::Load() {
   return true;
 }
 
-void GPowerup::OnLoop() {
-  GEntity::OnLoop();
+void GPowerup::Loop() {
+  GEntity::Loop();
 }
 
-void GPowerup::OnRender(SDL_Surface* SurfDisplay) {
-   GSurface::OnDraw(SurfDisplay, GSurface::SurfPowerup, 
+void GPowerup::Render(SDL_Surface* SurfDisplay) {
+   GSurface::Draw(SurfDisplay, GSurface::SurfPowerup, 
 		    X-GCamera::CameraControl.GetX(), 
 		    Y-GCamera::CameraControl.GetY(), 
 		    AnimControl.GetCurrentFrame() * Width, 
@@ -52,13 +52,13 @@ void GPowerup::OnRender(SDL_Surface* SurfDisplay) {
 		    Width, Height); 
 }
 
-void GPowerup::OnCleanup() {
-  GEntity::OnCleanup();
+void GPowerup::Cleanup() {
+  GEntity::Cleanup();
   PowerupsTotal--;
 }
 
-void GPowerup::OnAnimate() {
-  AnimControl.OnAnimate();
+void GPowerup::Animate() {
+  AnimControl.Animate();
 }
 
 bool GPowerup::OnCollision(GEntity* Entity) {

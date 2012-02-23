@@ -11,14 +11,19 @@ private:
   Uint32 StartTime;
   static StateIntro Instance;
   
-public:
+public:  
+  // Core functions
+  void Activate();
+  void Deactivate();
+  void Loop();
+  void Render(SDL_Surface* SurfDisplay);
+
+  // Input handling
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode);  
   void OnLButtonDown(int mX, int mY);
-  void OnActivate();
-  void OnDeactivate();
-  void OnLoop();
-  void OnRender(SDL_Surface* SurfDisplay);
+
+  // Return state instance
   static StateIntro* GetInstance();
 };
 

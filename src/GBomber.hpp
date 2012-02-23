@@ -16,12 +16,13 @@ public:
   GBomber();
   ~GBomber();
   static std::vector<GBomber*> BomberList;
+  static GBomber* Create();
 
-  virtual bool OnLoad();
-  virtual void OnLoop();
-  virtual void OnRender(SDL_Surface* SurfDisplay);
-  virtual void OnCleanup();
-  virtual void OnAnimate();
+  virtual void Loop();  
+  virtual void Render(SDL_Surface* SurfDisplay);
+  virtual void Cleanup();
+  virtual void Animate();
+
   virtual bool OnCollision(GEntity* Entity);  
 
   virtual bool PosValid(int NewX, int NewY);
@@ -48,7 +49,7 @@ public:
   int HitH;
 
   static int Bombers;
-  int BomberID;
+  int ColorID;
   int BomberState;
   bool Alive;
 
@@ -59,7 +60,6 @@ public:
 
   static SDL_Surface* SurfBomb;
   static void CheckVictory();
-
 };
 
 #endif

@@ -10,7 +10,7 @@ GAnimation::GAnimation(){
   Mode = ANIM_MODE_ONEROW;
 }
 
-bool GAnimation::OnAnimate() {
+bool GAnimation::Animate() {
   if (OldTime + FrameRate > SDL_GetTicks())
     return false;
 

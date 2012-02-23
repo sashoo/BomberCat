@@ -20,6 +20,31 @@ void Input::HandleInput() {
   }
 }
 
+void Input::Connect(GBomber* bomber) {
+  if (bomber != NULL) {
+    if (Bomber != NULL)
+      Disconnect();
+    Bomber = bomber;
+    Bomber->InputHandle = this;
+  }
+}
+
+void Input::Disconnect() {
+  if (Bomber != NULL) {
+    Bomber->InputHandle = NULL;
+    Bomber->MoveUp    = false;
+    Bomber->MoveDown  = false;
+    Bomber->MoveRight = false;
+    Bomber->MoveLeft  = false;
+    bUp = false;
+    bDown = false;
+    bLeft = false;
+    bRight = false;
+    bBomb = false;
+    Bomber = NULL;
+  }
+}
+
 KeyInput::KeyInput() {
   // kUp = 0;
   // kDown = 0;
@@ -90,7 +115,7 @@ void JoyInput::OnJoyAxis (Uint8 which, Uint8 axis, Sint16 value) {
 	  bDown = false;
 	}
 	else {
-	  if (value/abs(value) == jUp.Value)
+	  if ((Sint16)value/abs(value) == (Sint16)jUp.Value)
 	    bUp = true;
 	}	
       }

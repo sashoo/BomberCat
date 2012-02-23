@@ -23,8 +23,8 @@ MenuButton::~MenuButton(){
 }
 
 //implement
-void MenuButton::OnRender(SDL_Surface* SurfDisplay) {
-  GSurface::OnDraw(SurfDisplay, Surface, PosX, PosY);
+void MenuButton::Render(SDL_Surface* SurfDisplay) {
+  GSurface::Draw(SurfDisplay, Surface, PosX, PosY);
 }
 
 void MenuButton::SetColor(SDL_Color color){
@@ -44,7 +44,7 @@ void MenuButton::SetOrigin(int origin) {
   //todo
 }
 
-void MenuButton::Setup(){  
+void MenuButton::Init(){  
   Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), GSurface::ColorRed);
   Rect.w   = Surface->w;
   Rect.h  = Surface->h; 
@@ -52,7 +52,7 @@ void MenuButton::Setup(){
   App->Log << Label << std::endl;
 }
 
-void MenuButton::Clean(){
+void MenuButton::Cleanup(){
   //mApp->Log << "Deleting MenuButton \"" << Label << "\": ";
   App->Log << "Deleting entry: " << Label << "... ";
   SDL_FreeSurface(Surface);

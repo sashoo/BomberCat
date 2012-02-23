@@ -30,12 +30,12 @@ public:
   GFlame();
   static std::vector<GFlame*> FlameList;
 
-  virtual bool OnLoad();
-  virtual void OnLoop();
+  virtual bool Load();
+  virtual void Loop();
+  virtual void Render(SDL_Surface* SurfDisplay);
+  virtual void Cleanup();
+  virtual void Animate();
   virtual bool OnTimeOut();
-  virtual void OnRender(SDL_Surface* SurfDisplay);
-  virtual void OnCleanup();
-  virtual void OnAnimate();
   virtual bool OnCollision(GEntity* Entity);  
 
   //void CheckTouch();

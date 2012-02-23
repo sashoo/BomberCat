@@ -20,7 +20,7 @@ public:
   void RegisterApp(MirageApp* app) {App = app;}
   SDL_Rect GetRect() {return Rect;} 
 
-  virtual void Setup() = 0;    
+  virtual void Init() = 0;    
   virtual void SetColor(SDL_Color color) = 0;    
   virtual void SetPosition(float x, float y) {
     if (ORIGIN_CENTER == Origin) {
@@ -47,10 +47,10 @@ public:
     Rect.y = PosY; 
   }  
   virtual void SetOrigin(int origin) = 0;
-  virtual void OnRender(SDL_Surface* SurfDisplay) = 0;
+  virtual void Render(SDL_Surface* SurfDisplay) = 0;
   virtual int GetWidth() const = 0;
   virtual int GetHeight() const = 0;
-  virtual void Clean() = 0;  
+  virtual void Cleanup() = 0;  
   //std::string GetLabel() const {return mLabel;}
   virtual void* GetChoice(){ return NULL; }
   

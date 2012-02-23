@@ -14,16 +14,16 @@ void StateManager::OnEvent(SDL_Event* Event) {
 }
 
 void StateManager::OnLoop() {
-  if (ActiveState) ActiveState->OnLoop();
+  if (ActiveState) ActiveState->Loop();
   else App->OnExit();
 }
 
 void StateManager::OnRender(SDL_Surface* SurfDisplay) {
-  if (ActiveState) ActiveState->OnRender(SurfDisplay);
+  if (ActiveState) ActiveState->Render(SurfDisplay);
 }
 
 void StateManager::SetActiveState(int stateID) {
-  if (ActiveState) ActiveState->OnDeactivate();
+  if (ActiveState) ActiveState->Deactivate();
 
   if(stateID == APPSTATE_NONE )    ActiveState = 0;
   if(stateID == APPSTATE_INTRO)    ActiveState = StateIntro::GetInstance();
@@ -33,7 +33,7 @@ void StateManager::SetActiveState(int stateID) {
   if(stateID == APPSTATE_GAME )    ActiveState = StateGame::GetInstance(); 
   if(stateID == APPSTATE_CREDITS ) ActiveState = StateCredits::GetInstance();
   
-  if (ActiveState) ActiveState->OnActivate();
+  if (ActiveState) ActiveState->Activate();
 }
 
 IState* StateManager::GetActiveState() {

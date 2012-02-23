@@ -27,11 +27,11 @@ public:
 
   void SetLoop(bool loop);
 
-  void OnLoop();
+  void Loop();
   virtual bool OnTimeOut();
 
   int TimerState;
-  bool Loop;
+  bool Loops;
 
   Uint32 AbsoluteStartTime;
   Uint32 TimePassed;

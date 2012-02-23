@@ -21,33 +21,33 @@ public:
   void RegisterApp(MirageApp* app);
 
   void Generate();
-  bool OnLoad(const char* File);
-  bool OnSave();
+  bool Load(const char* File);
+  bool Save();
 
-  void OnRenderBack(SDL_Surface* SurfDisplay, int CameraX, int CameraY);
-  void OnRender(SDL_Surface* SurfDisplay, int CameraX, int CameraY);
- 
-  void OnCleanup(); 
+  void RenderBack(SDL_Surface* SurfDisplay, int CameraX, int CameraY);
+  void Render(SDL_Surface* SurfDisplay, int CameraX, int CameraY); 
+  void Cleanup(); 
+
   void PlacePowerups();
   
-  // in tiles
+  // Area size in tiles
   int GetWidth();
   int GetHeight();
     
-  // in pixels
+  // Area size in pixels
   int GetBoundX();
   int GetBoundY();
+ 
+  // Return tile type; arguments should be pixels!
+  int* GetTile(int X, int Y);
+  bool SetTile(int X, int Y, int type = 1);
   
   //int* GetTile(int X, int Y);
   //bool SetTile(int X, int Y, int type); 
 
-  bool RenderBack;
-  bool RenderCol;
-  bool RenderFore;
-
-  //CMap* GetMap(int X, int Y); 
-  int* GetTile(int X, int Y);
-  bool SetTile(int X, int Y, int type = 1);
+  bool bRenderBack;
+  bool bRenderCol;
+  bool bRenderFore;  
 
 private:  
   int AreaWidth;

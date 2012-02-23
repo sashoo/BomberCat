@@ -57,8 +57,8 @@ void GEntity::RegisterApp(MirageApp* app){
   app->Log << "GEntity has registered an app" << std::endl;
 }
 
-bool GEntity::OnLoad(std::string name, char* File, int width, int height, int maxFrames) {
-  if ((SurfEntity = GSurface::OnLoad(File)) == NULL) {
+bool GEntity::Load(std::string name, char* File, int width, int height, int maxFrames) {
+  if ((SurfEntity = GSurface::Load(File)) == NULL) {
     App->Log << "failed to load file:" << File << std::endl;
     return false;
   }
@@ -71,7 +71,7 @@ bool GEntity::OnLoad(std::string name, char* File, int width, int height, int ma
   return true;  
 }
 
-void GEntity::OnLoop(){  
+void GEntity::Loop(){  
   cX = X + Width/2;
   cY = Y + (Height+ColY)/2;
  
@@ -91,16 +91,16 @@ void GEntity::OnLoop(){
     SpeedY = 0;
 
 
-  OnAnimate();
-  OnMove(SpeedX, SpeedY);  
+  Animate();
+  Move(SpeedX, SpeedY);  
 
   //AnimControl.OnAnimate();
 }
 
-void GEntity::OnRender(SDL_Surface* SurfDisplay) {
+void GEntity::Render(SDL_Surface* SurfDisplay) {
   if (SurfEntity == NULL || SurfDisplay == NULL) return;
   
-  GSurface::OnDraw(SurfDisplay, SurfEntity, 
+  GSurface::Draw(SurfDisplay, SurfEntity, 
 		   X-GCamera::CameraControl.GetX(), 
 		   Y-GCamera::CameraControl.GetY(), 
 		   (0+CurrentFrameCol + AnimControl.GetCurrentFrame())* Width, 
@@ -121,7 +121,7 @@ void GEntity::OnRender(SDL_Surface* SurfDisplay) {
   
 // }
 
-void GEntity::OnAnimate() {
+void GEntity::Animate() {
   // No animations for generic Entity.
 }
 
@@ -134,7 +134,7 @@ bool GEntity::OnCollision(GEntity* Entity) {
 void GEntity::DeleteObject(){
 }
 
-void GEntity::OnMove(float MoveX, float MoveY) {
+void GEntity::Move(float MoveX, float MoveY) {
   if (MoveX == 0 && MoveY == 0) return;
   
   double NewX = 0.0;
@@ -473,7 +473,7 @@ bool GEntity::PosValidEntity(GEntity* Entity, int NewX, int NewY) {
   return true;
 }
 
-void GEntity::OnCleanup() {
+void GEntity::Cleanup() {
   if (SurfEntity) {
     SDL_FreeSurface(SurfEntity);
   }

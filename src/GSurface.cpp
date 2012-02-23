@@ -17,7 +17,7 @@ SDL_Color GSurface::ColorInactive = GetColor(180, 180, 180);
 GSurface::GSurface() {
 }
 
-SDL_Surface* GSurface::OnLoad(const char* filename){
+SDL_Surface* GSurface::Load(const char* filename){
   SDL_Surface* SurfTemp = NULL;
   SDL_Surface* SurfReturn = NULL;
   
@@ -30,7 +30,7 @@ SDL_Surface* GSurface::OnLoad(const char* filename){
   return SurfReturn;
 }
 
-bool GSurface::OnDraw(SDL_Surface* SurfDest, 
+bool GSurface::Draw(SDL_Surface* SurfDest, 
 			 SDL_Surface* SurfSrc, 
 			 int x, int y) {
   if (SurfDest == NULL || SurfSrc == NULL) {
@@ -46,7 +46,7 @@ bool GSurface::OnDraw(SDL_Surface* SurfDest,
   return true;
 }
 
-bool GSurface::OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
+bool GSurface::Draw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc, 
 		      int x, int y, int x2, int y2, int w, int h) {
   if (SurfDest == NULL || SurfSrc == NULL) {
     return false;
@@ -72,27 +72,27 @@ bool GSurface::OnDraw(SDL_Surface* SurfDest, SDL_Surface* SurfSrc,
 // }
 
 bool GSurface::LoadBombs() {
-  SurfBomb = GSurface::OnLoad("Resources/bombs.png");
+  SurfBomb = GSurface::Load("Resources/bombs.png");
   return SurfBomb;
 }
 
 bool GSurface::LoadBombers() {
-  SurfBomber = GSurface::OnLoad("Resources/bots.png");
+  SurfBomber = GSurface::Load("Resources/bots.png");
   return SurfBomber;
 }
 
 bool GSurface::LoadFlames() {
-  SurfFlame = GSurface::OnLoad("Resources/flames.png");
+  SurfFlame = GSurface::Load("Resources/flames.png");
   return SurfFlame;
 }
 
 bool GSurface::LoadPowerups() {
-  SurfPowerup = GSurface::OnLoad("Resources/powerups.png");
+  SurfPowerup = GSurface::Load("Resources/powerups.png");
   return SurfPowerup;
 }
 
 bool GSurface::LoadTiles() {
-  SurfTile = GSurface::OnLoad("Resources/tiles.png");
+  SurfTile = GSurface::Load("Resources/tiles.png");
   return SurfTile;
 }
 

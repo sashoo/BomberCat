@@ -14,7 +14,7 @@ public:
   GAnimation();
 
   // returns true if max (row|frame|whatever) is hit
-  bool OnAnimate(); 
+  bool Animate(); 
 
   void SetFrameRate(int rate);
   void SetCurrentFrame(int frame);

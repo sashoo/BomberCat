@@ -6,7 +6,7 @@ STimer::STimer(Uint32 timeMax, Uint32 timePassed, bool loop){
   TimeMax = timeMax;
   TimePassed = timePassed;
   TimerState = TIMER_STATE_STOPPED;
-  Loop = loop;
+  Loops = loop;
   TimerList.push_back(this);
 }
 
@@ -43,17 +43,17 @@ void STimer::Stop() {
 }
 
 void STimer::SetLoop(bool loop) {
-  Loop = loop;
+  Loops = loop;
 }
 
-void STimer::OnLoop() {
+void STimer::Loop() {
   switch (TimerState) {
     
   case TIMER_STATE_TICKING: {
     Uint32 elapsed = SDL_GetTicks()-AbsoluteStartTime;
     TimePassed = elapsed;
     if (TimePassed >= TimeMax) {
-      if (Loop) {
+      if (Loops) {
 	// not zero because we will most likely have
 	// TimePassed some msecs higher than TimeMax
 	// This extra time should be taken into account

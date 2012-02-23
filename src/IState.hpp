@@ -9,10 +9,10 @@ class MirageApp;
 class IState : public GEvent {
 public:
   IState();
-  virtual void OnActivate() = 0;
-  virtual void OnDeactivate() = 0;
-  virtual void OnLoop() = 0;
-  virtual void OnRender(SDL_Surface* SurfDisplay) = 0;
+  virtual void Activate() = 0;
+  virtual void Deactivate() = 0;
+  virtual void Loop() = 0;
+  virtual void Render(SDL_Surface* SurfDisplay) = 0;
 protected:
    MirageApp* App;
 };

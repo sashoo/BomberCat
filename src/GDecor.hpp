@@ -17,11 +17,12 @@ public:
   int DecorType;
   static std::vector<GDecor*> DecorList;
 
-  virtual bool OnLoad();
-  virtual void OnLoop();
-  virtual void OnRender(SDL_Surface* SurfDisplay);
-  virtual void OnCleanup();
-  virtual void OnAnimate();  
+  virtual bool Load();
+  virtual void Loop();
+  virtual void Animate();  
+  virtual void Render(SDL_Surface* SurfDisplay);
+  virtual void Cleanup();
+ 
 };
 
 #endif

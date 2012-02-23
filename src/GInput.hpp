@@ -23,7 +23,7 @@ struct Input {
   bool bBomb; 
 
   void Connect(GBomber* bomber);
-  void Disconnect(GBomber* bomber);
+  void Disconnect();
   GBomber* Bomber; // Bomber to be controlled
   
   // Moves player according to the flags.

@@ -29,10 +29,12 @@ public:
   void RegisterApp(MirageApp* app);
   // void SetFont(TTF_Font* font);
   
+  void Render(SDL_Surface* SurfDisplay); //draw
   //recalculate entries, align them properly, set big bounding rectangle
   //for MenuManager and indibidual rectangles for entries
   void UpdateRect();
-  void OnRender(SDL_Surface* SurfDisplay); //draw
+  void Cleanup();
+
   // handle input
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
@@ -43,14 +45,13 @@ public:
   // aligns menu options according to MMType provided
   void Align(int align);
   MirageApp* GetApp() const;
-  // TTF_Font* GetFont() const;
   int GetFontSize() const;
   int GetLineSpacing() const; 
   int MMType;
 
   // Entries    
   MenuEntry* AddEntry(MenuEntry* entry);
-  void CleanUp();
+ 
 
   // access
   MenuEntry* CurEntry();

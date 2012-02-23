@@ -17,7 +17,7 @@ public:
   virtual void OnRight();
   virtual void AddOption(std::string option);
   
-  virtual void OnRender(SDL_Surface* SurfDisplay);
+  virtual void Render(SDL_Surface* SurfDisplay);
   virtual void SetColor(SDL_Color color);
   virtual void SetPosition(float x, float y);
   virtual void SetOrigin(int origin);
@@ -25,8 +25,8 @@ public:
   int GetWidth() const;
   int GetHeight() const;
   
-  virtual void Clean();
-  virtual void Setup();
+  virtual void Cleanup();
+  virtual void Init();
 
 private:
   void SetEntry(int index);
@@ -38,7 +38,7 @@ private:
   SDL_Color    OptionColor;
 
 
-  unsigned int Index;  
+  int Index;  
 };
 	
 #endif			   

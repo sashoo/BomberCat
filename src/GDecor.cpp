@@ -25,7 +25,7 @@ GDecor::GDecor(int x, int y){
   DecorsTotal++;
 }
 
-bool GDecor::OnLoad() { 
+bool GDecor::Load() { 
   AnimControl.MaxFrames = 5; 
   AnimControl.SetCurrentFrame(2);
   AnimControl.SetFrameRate(120);
@@ -37,13 +37,13 @@ bool GDecor::OnLoad() {
   return true;
 }
 
-void GDecor::OnLoop() {
-  GEntity::OnLoop();
+void GDecor::Loop() {
+  GEntity::Loop();
 }
 
-void GDecor::OnRender(SDL_Surface* SurfDisplay) {
+void GDecor::Render(SDL_Surface* SurfDisplay) {
   if (BURN_WALL == DecorType) {
-    GSurface::OnDraw(SurfDisplay, GSurface::SurfTile, 
+    GSurface::Draw(SurfDisplay, GSurface::SurfTile, 
 		     X-GCamera::CameraControl.GetX(), 
 		     Y-GCamera::CameraControl.GetY(), 
 		     AnimControl.GetCurrentFrame() * Width, 
@@ -52,14 +52,14 @@ void GDecor::OnRender(SDL_Surface* SurfDisplay) {
   }
 }
 
-void GDecor::OnAnimate() {
-  if (AnimControl.OnAnimate()) {      
+void GDecor::Animate() {
+  if (AnimControl.Animate()) {      
     Enabled = false;
   }
   CurrentFrameRow = AnimControl.CurrentRow;
 }
 
-void GDecor::OnCleanup() {
-  GEntity::OnCleanup();
+void GDecor::Cleanup() {
+  GEntity::Cleanup();
   DecorsTotal--;
 }

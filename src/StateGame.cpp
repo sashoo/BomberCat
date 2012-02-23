@@ -68,7 +68,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   GArea::AreaControl.RenderFore = !GArea::AreaControl.RenderFore;
+   GArea::AreaControl.bRenderFore = !GArea::AreaControl.bRenderFore;
    break;
  }
 
@@ -77,7 +77,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   GArea::AreaControl.RenderCol = !GArea::AreaControl.RenderCol;
+   GArea::AreaControl.bRenderCol = !GArea::AreaControl.bRenderCol;
    break;
  }
 
@@ -86,7 +86,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
      return;
 
    OldTime = SDL_GetTicks();
-   GArea::AreaControl.RenderBack = !GArea::AreaControl.RenderBack;
+   GArea::AreaControl.bRenderBack = !GArea::AreaControl.bRenderBack;
    break;
  }
 
@@ -131,7 +131,7 @@ case SDLK_RIGHTBRACKET: {
      return;
 
    OldTime = SDL_GetTicks();
-   GArea::AreaControl.OnSave();
+   GArea::AreaControl.Save();
    break;
  }
 
@@ -302,7 +302,7 @@ void StateGame::OnJoyButtonDown(Uint8 which, Uint8 button) {
   // }  
 }
   
-void StateGame::OnActivate() {
+void StateGame::Activate() {
   GameTime = 0;
   GameStartTime = SDL_GetTicks();
  
@@ -321,7 +321,7 @@ void StateGame::OnActivate() {
   InitBombers();        
 }
 
-void StateGame::OnDeactivate() {
+void StateGame::Deactivate() {
   delete Socket;
   Socket = NULL;
 
@@ -332,10 +332,10 @@ void StateGame::OnDeactivate() {
   UnloadTiles();
  
   GEntity::EntityList.clear();  
-  GArea::AreaControl.OnCleanup();
+  GArea::AreaControl.Cleanup();
 }
 
-void StateGame::OnLoop() {  
+void StateGame::Loop() {  
   GameTime = SDL_GetTicks() - GameStartTime;
 
   App->Key1.HandleInput();
@@ -353,18 +353,12 @@ void StateGame::OnLoop() {
 void StateGame::InitBombers() {  
   if (NetMode != GAME_CLIENT) {
     int bombers = App->GetNumBombers();
-    int bots = App->GetNumBots();
-    int players = bombers - bots;
+    //int bots = App->GetNumBots();
+    //int players = bombers - bots;
     for (int i = 0; i < bombers; i++) {     
-      GBomber* b = new GBomber();  
+      GBomber* b = GBomber::Create();  
       b->PlaceBomberByNum(i+1, bombers);  
-      //if (i < players) {} else {}
-
-      App->Log << "Loading bomber (bomber #" << i << ")";  
-      if(b->OnLoad() == false) {
-	App->Log << "Failed. Does it exist?\nExiting the program";
-	return;
-      }      
+      //if (i < players) {} else {}      
     } 
   App->Log << "Bombers loaded!" << std::endl;
   GArea::AreaControl.PlacePowerups(); 
@@ -373,15 +367,14 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
-  App->Key1.Bomber = GBomber::BomberList[0];
-  App->Key1.Bomber->InputHandle = &App->Key1;
+  App->Key1.Connect(GBomber::BomberList[0]);  
   //App->Joy1.Bomber = GBomber::BomberList[0];
 }
 
 bool StateGame::InitLevel() {
   App->Log << "Loading map file...\n";
   GArea::AreaControl.RegisterApp(App);
-  if (GArea::AreaControl.OnLoad("Resources/tiles.png") == false) {
+  if (GArea::AreaControl.Load("Resources/tiles.png") == false) {
     App->Log << "Failed. Does it exist?\nExiting the program";
     return false;
   }
@@ -421,7 +414,7 @@ void StateGame::UnloadFlames() {
       GFlame::FlameList.erase(flame);
       continue;
     }  
-    (*flame)->OnCleanup();
+    (*flame)->Cleanup();
     delete (*flame);      
     flame++;
   }
@@ -436,7 +429,7 @@ void StateGame::UnloadBombs() {
       GBomb::BombList.erase(bomb);
       continue;
     }  
-    (*bomb)->OnCleanup();
+    (*bomb)->Cleanup();
     delete (*bomb);      
     bomb++;
   }
@@ -451,7 +444,7 @@ void StateGame::UnloadBombers() {
       GBomber::BomberList.erase(bomber);
       continue;
     }  
-    (*bomber)->OnCleanup();
+    (*bomber)->Cleanup();
     // that is ok
     // GEntity has virtual destructor
     // both AI and Player bombers are deleted properly
@@ -469,7 +462,7 @@ void StateGame::UnloadPowerups() {
       GPowerup::PowerupList.erase(powerup);
       continue;
     }  
-    (*powerup)->OnCleanup();
+    (*powerup)->Cleanup();
     delete (*powerup);      
     powerup++;
   }
@@ -484,7 +477,7 @@ void StateGame::UnloadTiles() {
       GDecor::DecorList.erase(decor);
       continue;
     }  
-    (*decor)->OnCleanup();
+    (*decor)->Cleanup();
     delete (*decor);      
     decor++;
   }
@@ -500,13 +493,13 @@ void StateGame::LoopFlames() {
     }  
 
     if (!(*flame) || !(*flame)->Enabled) {
-      (*flame)->OnCleanup();
+      (*flame)->Cleanup();
       delete (*flame);      
       GFlame::FlameList.erase(flame);
       continue;
     }    
 
-    (*flame)->OnLoop();
+    (*flame)->Loop();
     flame++;
   }
 }
@@ -520,13 +513,13 @@ void StateGame::LoopBombs() {
     }  
 
     if (!(*iter) || !(*iter)->Enabled) {
-      (*iter)->OnCleanup();
+      (*iter)->Cleanup();
       delete (*iter);      
       GBomb::BombList.erase(iter);
       continue;
     }    
 
-    (*iter)->OnLoop();
+    (*iter)->Loop();
     iter++;
   }
 }
@@ -540,13 +533,13 @@ void StateGame::LoopDecor() {
     }  
 
     if (!(*decor) || !(*decor)->Enabled) {
-      (*decor)->OnCleanup();
+      (*decor)->Cleanup();
       delete (*decor);      
       GDecor::DecorList.erase(decor);
       continue;
     }    
 
-    (*decor)->OnLoop();
+    (*decor)->Loop();
     decor++;
   }
 }
@@ -561,13 +554,13 @@ void StateGame::LoopPowerups() {
     }  
 
     if (!(*pup) || !(*pup)->Enabled) {
-      (*pup)->OnCleanup();
+      (*pup)->Cleanup();
       delete (*pup);      
       GPowerup::PowerupList.erase(pup);
       continue;
     }    
 
-    (*pup)->OnLoop();
+    (*pup)->Loop();
     pup++;
   }
 }
@@ -582,13 +575,13 @@ void StateGame::LoopBombers() {
     }  
 
     if (!(*bomber) || !(*bomber)->Enabled) {
-      (*bomber)->OnCleanup();
+      (*bomber)->Cleanup();
       delete (*bomber);      
       GBomber::BomberList.erase(bomber);
       continue;
     }    
 
-    (*bomber)->OnLoop();
+    (*bomber)->Loop();
     bomber++;
   }
 }
@@ -603,7 +596,7 @@ void StateGame::LoopSockets() {
   }
 }
 
-void StateGame::OnRender(SDL_Surface* SurfDisplay) {
+void StateGame::Render(SDL_Surface* SurfDisplay) {
   SDL_Rect Rect;
   Rect.x = 0;
   Rect.y = 0;
@@ -612,13 +605,13 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
 
   SDL_FillRect(SurfDisplay, &Rect, 0);
   
-  GArea::AreaControl.OnRenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
+  GArea::AreaControl.RenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
   std::vector<GBomb*>::iterator bomb  = GBomb::BombList.begin(); 
   while(bomb != GBomb::BombList.end()) {
     if (!(*bomb)) continue;
     //p1->OnRender(SurfDisplay);
-    (*bomb)->OnRender(SurfDisplay);
+    (*bomb)->Render(SurfDisplay);
     bomb++;   
   }
 
@@ -626,14 +619,14 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
   while(flame != GFlame::FlameList.end()) {
     if (!(*flame)) continue;
     //p1->OnRender(SurfDisplay);
-    (*flame)->OnRender(SurfDisplay);
+    (*flame)->Render(SurfDisplay);
     flame++;   
   }
   
   std::vector<GPowerup*>::iterator pup  = GPowerup::PowerupList.begin(); 
   while(pup != GPowerup::PowerupList.end()) {
     if (!(*pup)) continue;
-    (*pup)->OnRender(SurfDisplay);
+    (*pup)->Render(SurfDisplay);
     pup++;   
   }
 
@@ -641,17 +634,17 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
   while(decor != GDecor::DecorList.end()) {
     if (!(*decor)) continue;
     //p1->OnRender(SurfDisplay);
-    (*decor)->OnRender(SurfDisplay);
+    (*decor)->Render(SurfDisplay);
     decor++;   
   }
 
 
-  GArea::AreaControl.OnRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
+  GArea::AreaControl.Render(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
   std::vector<GBomber*>::iterator bomber  = GBomber::BomberList.begin(); 
   while(bomber != GBomber::BomberList.end()) {
     if (!(*bomber)) continue;
-    (*bomber)->OnRender(SurfDisplay);
+    (*bomber)->Render(SurfDisplay);
     bomber++;   
   }
 
@@ -659,7 +652,7 @@ void StateGame::OnRender(SDL_Surface* SurfDisplay) {
   while(iten != GEntity::EntityList.end()) {
     if (!(*iten)) continue;
     //p1->OnRender(SurfDisplay);
-    (*iten)->OnRender(SurfDisplay);
+    (*iten)->Render(SurfDisplay);
     iten++;   
   }
 
