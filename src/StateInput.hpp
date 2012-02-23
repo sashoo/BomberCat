@@ -10,6 +10,8 @@ class MenuManager;
 class StateInput : public IState {
 private: 
   StateInput();
+  KeyInput*           KeyInputHandle;
+  JoyInput*           JoyInputHandle;
   static StateInput   Instance;
   MirageApp*          App;
   MenuManager*        mMenuManager;  

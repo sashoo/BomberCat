@@ -7,10 +7,8 @@
 
 int MenuOption::HalfOffset = 0;
 
-MenuOption::MenuOption(std::string label, std::vector<std::string>& list) {
-  Label = label; 
-  OptionList = list;
-  Option = OptionList[0];
+MenuOption::MenuOption(std::string label) {
+  Label = label;     
   Origin = ORIGIN_TR;
   Index = 0;  
 }
@@ -34,8 +32,10 @@ void MenuOption::AddOption(std::string option ) {
 
 void MenuOption::Render(SDL_Surface* SurfDisplay) {
   //int lposx = PosX - SurfLabel->w - HalfOffset;
-  GSurface::Draw(SurfDisplay, SurfLabel,  PosX, PosY);
-  GSurface::Draw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
+  if (SurfLabel)
+    GSurface::Draw(SurfDisplay, SurfLabel,  PosX, PosY);
+  if (SurfOption)
+    GSurface::Draw(SurfDisplay, SurfOption, PosX+Rect.w, PosY);
 }
 
 void MenuOption::SetColor(SDL_Color color){
@@ -90,9 +90,3 @@ void MenuOption::SetEntry(int index) {
     SetColor(Color);
   }
 }
-
-
-
-
-
-

@@ -2,11 +2,15 @@
 #include "StateManager.hpp"
 #include "GSurface.hpp"
 #include "MenuButton.hpp"
+#include "MenuDevice.hpp"
+#include "MenuValue.hpp"
 #include "StateMenu.hpp"
 
 StateInput StateInput::Instance;
 
 StateInput::StateInput() {
+  KeyInputHandle = NULL;
+  JoyInputHandle = NULL;
 }
 
 void Keyboard(MirageApp* app, void* pData) {  
@@ -56,25 +60,60 @@ void StateInput::Activate() {
   App->Log << "----------------------------------------" << std::endl;
   App->Log << "Activating entries" << std::endl;
 
-  mMenuManager->AddEntry(new MenuButton("Configure keyboard 1"));
+  // std::vector<std::string> opts;
+  // opts.push_back("Key-1");
+  // opts.push_back("Key-2");
+  // opts.push_back("Key-3");
+  // opts.push_back("Key-4");
+  // opts.push_back("Joy-1");
+  // opts.push_back("Joy-2");
+  // opts.push_back("Joy-3");
+  // opts.push_back("Joy-4");
+
+
+
+  MenuDevice* dev = new MenuDevice("Device Label:");
+  mMenuManager->AddEntry(dev);
+  mMenuManager->CurEntry()->OnSelect = Keyboard;   
+
+  MenuValue* value = new MenuValue("Device Name:", "###");
+  mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
-  mMenuManager->AddEntry(new MenuButton("Configure keyboard 2"));
+  dev->AddValue(value);
+  
+  value = new MenuValue("Up:", "###");
+  mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
-  mMenuManager->AddEntry(new MenuButton("Configure keyboard 3"));
+  dev->AddValue(value);
+
+  value = new MenuValue("Down:", "###");
+  mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
-  mMenuManager->AddEntry(new MenuButton("Configure keyboard 4"));
+  dev->AddValue(value);
+
+  value = new MenuValue("Left:", "###");
+  mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
-  mMenuManager->AddEntry(new MenuButton("Configure joystick 1"));
-  mMenuManager->CurEntry()->OnSelect = Joystick; 
-  mMenuManager->AddEntry(new MenuButton("Configure joystick 2"));
-  mMenuManager->CurEntry()->OnSelect = Joystick; 
-  mMenuManager->AddEntry(new MenuButton("Configure joystick 3"));
-  mMenuManager->CurEntry()->OnSelect = Joystick; 
-  mMenuManager->AddEntry(new MenuButton("Configure joystick 4"));
-  mMenuManager->CurEntry()->OnSelect = Joystick; 
+  dev->AddValue(value);
+
+  value = new MenuValue("Right:", "atata");
+  mMenuManager->AddEntry(value);
+  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  dev->AddValue(value);
+
+  value = new MenuValue("Bomb:", "atata");
+  mMenuManager->AddEntry(value);
+  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  dev->AddValue(value); 
 
   mMenuManager->AddEntry(new MenuButton("Back"));
   mMenuManager->CurEntry()->OnSelect = Options;
+
+  dev->AssignDevice();
+  dev->UpdateValues();
+
+  dev = NULL; // lol
+  value = NULL;
   
   mMenuManager->SetEntry(0);
   

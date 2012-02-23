@@ -8,7 +8,7 @@
 
 class MenuOption : public MenuEntry {
 public:
-  MenuOption (std::string label, std::vector<std::string>& list);
+  MenuOption (std::string label);
   virtual ~MenuOption();
 
   static int HalfOffset;
@@ -22,21 +22,20 @@ public:
   virtual void SetPosition(float x, float y);
   virtual void SetOrigin(int origin);
 
-  int GetWidth() const;
-  int GetHeight() const;
+  virtual int GetWidth() const;
+  virtual int GetHeight() const;
   
   virtual void Cleanup();
   virtual void Init();
 
-private:
-  void SetEntry(int index);
+protected:
+  virtual void SetEntry(int index);
   std::vector<std::string> OptionList;
   std::string  Label;
   std::string  Option;
   SDL_Surface* SurfLabel;
   SDL_Surface* SurfOption;  
   SDL_Color    OptionColor;
-
 
   int Index;  
 };

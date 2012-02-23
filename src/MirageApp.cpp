@@ -286,12 +286,32 @@ bool MirageApp::OnInit() {
  
   Log << "MirageApp::Init() completed successfully" << std::endl;    
 
-  Key1.kUp    = SDLK_UP;
-  Key1.kDown  = SDLK_DOWN;
-  Key1.kLeft  = SDLK_LEFT;
-  Key1.kRight = SDLK_RIGHT;
-  Key1.kBomb  = SDLK_m;
+  Key1.kUp    = SDLK_w;
+  Key1.kDown  = SDLK_s;
+  Key1.kLeft  = SDLK_a;
+  Key1.kRight = SDLK_d;
+  Key1.kBomb  = SDLK_e;
   //Key1.Bomber->InputHandle = &Key1;
+
+  Joy1.jUp.jEntity = JOY_AXIS;
+  Joy1.jUp.Number = 1;
+  Joy1.jUp.Value = -1;
+
+  Joy1.jDown.jEntity = JOY_AXIS;
+  Joy1.jDown.Number = 1;
+  Joy1.jDown.Value = 1;
+
+  Joy1.jRight.jEntity = JOY_AXIS;
+  Joy1.jRight.Number = 0;
+  Joy1.jRight.Value = +1;
+
+  Joy1.jLeft.jEntity = JOY_AXIS;
+  Joy1.jLeft.Number = 0;
+  Joy1.jLeft.Value = -1;
+
+  Joy1.jBomb.jEntity = JOY_BUTTON;
+  Joy1.jBomb.Number = 1;
+  Joy1.jBomb.Value = 0;
 
   // Joy1.jUp.jEntity = JOY_AXIS;
   // Joy1.jUp.Number = 0;

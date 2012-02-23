@@ -3,6 +3,7 @@
 #include "GSurface.hpp"
 #include "MenuButton.hpp"
 #include "MenuOption.hpp"
+#include "MenuValue.hpp"
 #include "MenuBoolOption.hpp"
 
 StateOptions StateOptions::Instance;
@@ -55,16 +56,10 @@ void StateOptions::Activate() {
   //mMenuManager->Align(MM_CENTEREDOPTIONS);
   // mMenuManager->SetFont(GSurface::FontRegular);
   App->Log << "----------------------------------------" << std::endl;
-  App->Log << "Activating entries" << std::endl;
-
-  std::vector<std::string> opts;
-  opts.push_back("Net");
-  opts.push_back("Da");
+  App->Log << "Activating entries" << std::endl;  
 
   mMenuManager->AddEntry(new MenuBoolOption("Full Screen:"));  
-  mMenuManager->CurEntry()->OnSelect = Input;   
-  // mMenuManager->AddEntry(new MenuButton("Scale:"));
-  // mMenuManager->CurEntry()->OnSelect = Input; 
+  mMenuManager->CurEntry()->OnSelect = Input;    
   // mMenuManager->AddEntry(new MenuButton("Music:"));
   // mMenuManager->CurEntry()->OnSelect = Input; 
   // mMenuManager->AddEntry(new MenuButton("Sounds:"));

@@ -58,8 +58,8 @@ struct JoyHandle {
 
   // value of axis or hat; has no meaning for buttons
   // since axis values are Sint16, hat values are Uint8,
-  // Uint32 is used to hold all kinds of data (FIXME?)
-  Uint32 Value;
+  // Sint32 is used to hold all kinds of data (FIXME?)
+  Sint32 Value;
 };
 
 // Represents joystick controller
