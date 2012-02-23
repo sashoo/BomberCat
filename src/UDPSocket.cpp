@@ -191,7 +191,7 @@ int UDPSocket::Connect(const char *host, const char *port)
     return 0;
 }
 
-void UDPSocket::OnLoop(void)
+void UDPSocket::Loop(void)
 {
     char buffer[1024];
     int received;
@@ -232,6 +232,7 @@ void UDPSocket::OnLoop(void)
             return;
         }
 
+
         if (HandlePacket(buffer, received, &address, address_len) < 0) {
             app->Log << "invalid packet received from " << address << std::endl;
             CloseSocket();
@@ -241,7 +242,7 @@ void UDPSocket::OnLoop(void)
 
     connections_t::iterator it;
     for (it = connections.begin(); it != connections.end(); it++) {
-        it->second.OnLoop();
+        it->second.Loop();
     }
 }
 

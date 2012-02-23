@@ -55,6 +55,11 @@ public:
   bool bRenderCol;
   bool bRenderFore;  
 
+  // an UnrealEngine-inspired variable
+  // although it can be set on clients
+  // it will be ignored by the net code
+  bool bNetDirty;
+
 private:  
   int AreaWidth;
   int AreaHeight;

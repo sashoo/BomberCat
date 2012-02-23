@@ -27,7 +27,18 @@ NetConnection::NetConnection(UDPSocket *socket, const struct sockaddr_storage *s
     } else {
         SendSyn();
     }
+
+    for (int i = 0; i < MAX_CHANNELS; i++) {
+        channels[i] = NULL;
+    }
 }   
+
+NetConnection::~NetConnection()
+{
+    for (int i = 0; i < MAX_CHANNELS; i++) {
+        if (channels[i]) delete channels[i];
+    }   
+}
 
 int NetConnection::HandlePacket(const char *buffer, size_t size)
 {
@@ -102,6 +113,7 @@ int NetConnection::SendAck(void)
     memcpy(buffer + sizeof(magic_header), &rnd, sizeof(rnd));
     
     conn_status = OPEN;
+    app->Log << "connection to " << addr << " is now open" << std::endl;
     return SendPacket(buffer, sizeof(buffer)); 
 }
 
@@ -154,6 +166,10 @@ int NetConnection::HandleAck(const char *buffer, size_t size)
     }
 
     conn_status = OPEN;
+    app->Log << "connection to " << addr << " is now open" << std::endl;
+
+    OpenChannels();
+
     return 0;
 }
 
@@ -162,30 +178,120 @@ int NetConnection::HandleData(const char *buffer, size_t size)
     int16_t channel_id;
     int8_t channel_action;
 
+    size_t index = 0;
+
     if (size < sizeof(channel_id) + sizeof(channel_action)) {
         return -1;
     }
 
-    channel_id = ntohs(*(int16_t *) buffer);
-    buffer += sizeof(channel_id);
+    channel_id = ntohs(*(int16_t *) (buffer + index));
+    index += sizeof(channel_id);
 
     // there is no byte order for a single byte
-    channel_action = *(int8_t *) buffer;
-    buffer += sizeof(channel_action);
+    channel_action = *(int8_t *) (buffer + index);
+    index += sizeof(channel_action);
+
+    if (channel_id >= MAX_CHANNELS || channel_id < 0) return -1;
+
+    NetChannel *ch = channels[channel_id];
+    if (ch == NULL) {
+        // no such channel (yet)
+        if (channel_action == CHANNEL_OPEN && !is_server) {
+            // for now channels can be created only by server
+            enum ObjectType object_type = (enum ObjectType)ntohs(*(uint16_t*) (buffer + index)); 
+            index += sizeof(uint16_t);
+
+            ch = NetChannel::ClientCreateChannel(this, channel_id, object_type);
+            if (ch != NULL) {
+                AddChannel(ch); 
+                if (size > index) {
+                    ch->ClientHandleData(buffer + index, size - index);
+                }
+                ch->ClientSendAck();
+            } else {
+                app->Log << "packet with invalid ObjectType (" << object_type << ") has been received" << std::endl;
+            }
+        } else {
+            return -1;
+        }
+    } else {
+        if (is_server) {
+            switch (channel_action) {
+            case CHANNEL_OPEN:
+                // client-initiated open is not supported
+                return -1; 
+            case CHANNEL_ACK:
+                return ch->ServerAckChannel();
+            case CHANNEL_DATA:
+                return ch->ServerHandleData(buffer + index, size - index);
+            case CHANNEL_CLOSE:
+                // client-iniated close is not supported
+                return -1;
+            }
+        } else {
+            switch (channel_action) {
+            case CHANNEL_OPEN:
+                // already open, ignore
+                return 0; 
+            case CHANNEL_ACK:
+                // ACK isn't meant to be sent by server
+                return -1;
+            case CHANNEL_DATA:
+                return ch->ClientHandleData(buffer + index, size - index);
+            case CHANNEL_CLOSE:
+                // TODO implement channel close
+                return -1;
+            }
+        }
+    }
 
     return 0;
 }
 
-void NetConnection::OnLoop(void)
+void NetConnection::OpenChannels(void)
 {
-    /*if (!is_server) {
-        static uint32_t time = 0; 
-        uint32_t new_time = app->GetTimeReal(); 
+    if (!is_server) return;
+    int i;
 
-        if (new_time - time > 5000) {
-            const char *s = "hello there!\n";
-            time = new_time;
-            SendPacket(s, strlen(s));
-        }
-    }*/
+    // 1. GArea
+    i = GetFreeChannelIdx();
+    if (i >= 0) {
+        GArea *ga = game->GetGArea();
+        AddChannel(new NetChannel_GArea(this, i, ga));
+    }
+    
+    for (active_channels_t::iterator it = active_channels.begin(); it != active_channels.end(); it++) {
+        (*it)->ServerSendInitialPacket();
+    }
+}
+
+int NetConnection::GetFreeChannelIdx(void)
+{
+    for (int i = 0; i < MAX_CHANNELS; i++) {
+        if (channels[i] == NULL) return i;
+    }
+    return -1;
+}
+
+NetChannel * NetConnection::AddChannel(NetChannel *channel)
+{
+    int i = channel->channel_id;
+    if (i < 0) {
+        delete channel;
+        return NULL;
+    }
+    
+    channels[i] = channel;
+    active_channels.push_back(channel);
+
+    return channel;
+}
+
+void NetConnection::Loop(void)
+{
+    active_channels_t::iterator it;
+
+    for (it = active_channels.begin(); it != active_channels.end(); it++) {
+        (*it)->Loop();
+    }
 }

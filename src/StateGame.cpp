@@ -351,6 +351,7 @@ void StateGame::Loop() {
   LoopDecor();
   LoopPowerups();
   LoopBombers();  
+  LoopSockets();
  
   GEntityCol::EntityColList.clear();  
 }
@@ -597,7 +598,7 @@ void StateGame::LoopBombers() {
 
 void StateGame::LoopSockets() {
   if (Socket != NULL) {
-    Socket->OnLoop();
+    Socket->Loop();
 
     if (Socket->IsClosed()) {
       StateManager::SetActiveState(APPSTATE_MENU);  

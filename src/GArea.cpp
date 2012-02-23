@@ -6,7 +6,10 @@
 
 GArea GArea::AreaControl;
 
-GArea::GArea() {  
+GArea::GArea() {
+  // NOTE: network code currently assumes
+  // a relatively small gaming area size
+  // it will break if dimensions below are significantly changed
   AreaWidth = 15;
   AreaHeight = 13;
   
@@ -41,6 +44,7 @@ int GArea::GetBoundY() {
 
 bool GArea::Load(const char* File) {
   TileList.clear(); 
+  TileList.reserve(AreaWidth * AreaHeight);
 
   // if((SurfTileset = GSurface::OnLoad(File)) == false) { 
   //   App->Log << "Failed to load tileset file" << std::endl;  
@@ -52,6 +56,8 @@ bool GArea::Load(const char* File) {
 
   //GenerateLevel();
   
+  // another networking note:
+  // it assumes that tile id will fit in a single byte
 
   for(int Y = 0; Y < AreaHeight; Y++) {
     for(int X = 0; X < AreaWidth; X++) {
@@ -185,7 +191,7 @@ int GArea::GetTile(int X, int Y) {
   ID = ID + AreaWidth * Y / TILE_SIZE;
 
   if (ID < 0 || ID >= (int)TileList.size())
-    return NULL;
+    return -1;
   
   return TileList[ID];  
 }
@@ -195,7 +201,7 @@ int GArea::GetTileCoord(int X, int Y) {
   ID = X;
   ID = ID + AreaWidth * Y;
   if (ID < 0 || ID >= (int)TileList.size())
-    return NULL;
+    return -1;
   
   return TileList[ID];  
 }
@@ -209,6 +215,7 @@ bool GArea::SetTile(int X, int Y, int type) {
     return NULL;
 
   TileList[ID] = type; 
+  bNetDirty = true;
   return true;
 }
 

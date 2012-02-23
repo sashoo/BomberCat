@@ -23,6 +23,9 @@ public:
     static const int MAX_CHANNELS = 1024;
     NetChannel *channels[MAX_CHANNELS];
 
+    typedef std::vector<NetChannel *> active_channels_t;
+    active_channels_t active_channels;
+
     enum { // parody on TCP
         AWAITING_SYN, // default state on server
         SYN_SENT, 
@@ -33,6 +36,7 @@ public:
     uint32_t rnd; // random value for handshake
     
     NetConnection(UDPSocket *, const struct sockaddr_storage *, socklen_t);
+    ~NetConnection();
 
     int HandlePacket(const char *buffer, size_t size);
     int SendPacket(const char *buffer, size_t size);
@@ -47,7 +51,11 @@ public:
 
     int HandleData(const char *buffer, size_t size);
 
-    void OnLoop(void);
+    void Loop(void);
+
+    void OpenChannels(void);
+    int GetFreeChannelIdx(void);
+    NetChannel * AddChannel(NetChannel *channel);
 
     const static char magic_header[];
     static bool StartsWithMagicHeader(const char *buffer, size_t size);

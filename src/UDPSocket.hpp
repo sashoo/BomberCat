@@ -60,7 +60,7 @@ public:
 
     bool IsClosed();
 
-    void OnLoop(void);
+    void Loop(void);
 
     void FillHints(struct addrinfo *);
 
