@@ -190,10 +190,32 @@ int* GArea::GetTile(int X, int Y) {
   return &TileList[ID];  
 }
 
+int* GArea::GetTileCoord(int X, int Y) {
+  int ID = 0;
+  ID = X;
+  ID = ID + AreaWidth * Y;
+  if (ID < 0 || ID >= (int)TileList.size())
+    return NULL;
+  
+  return &TileList[ID];  
+}
+
 bool GArea::SetTile(int X, int Y, int type) {  
   int ID = 0;
   ID = X / TILE_SIZE;
   ID = ID + AreaWidth * Y / TILE_SIZE;
+
+  if (ID < 0 || ID >= (int)TileList.size())
+    return NULL;
+
+  TileList[ID] = type; 
+  return true;
+}
+
+bool GArea::SetTileCoord(int X, int Y, int type) {  
+  int ID = 0;
+  ID = X;
+  ID = ID + AreaWidth * Y;
 
   if (ID < 0 || ID >= (int)TileList.size())
     return NULL;

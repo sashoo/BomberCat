@@ -34,16 +34,20 @@ public:
   
   // Area size in tiles
   int GetWidth();
-  int GetHeight();
+  int GetHeight();  
     
   // Area size in pixels
   int GetBoundX();
   int GetBoundY();
  
-  // Return tile type; arguments should be pixels!
+  // Return tile type; arguments are pixels!
   int* GetTile(int X, int Y);
   bool SetTile(int X, int Y, int type = 1);
   
+  // Return tile type; arguments are tile coordinates
+  int* GetTileCoord(int X, int Y);
+  bool SetTileCoord(int X, int Y, int type = 1);
+
   //int* GetTile(int X, int Y);
   //bool SetTile(int X, int Y, int type); 
 
