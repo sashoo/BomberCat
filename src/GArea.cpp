@@ -59,6 +59,10 @@ bool GArea::Load(const char* File) {
       if (0 == X || AreaWidth -1 == X ||
       	  0 == Y || AreaHeight -1 == Y)
       	tempTile = 2;
+      else if (pStateGame->NetMode == GAME_CLIENT)
+          // create empty map for clients
+          // actual contents will be replicated later
+          tempTile = 0;
       else if (0 == (X) % 2 &&
       	       0 == (Y) % 2)
       	tempTile = 2;

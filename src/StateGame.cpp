@@ -182,6 +182,8 @@ void StateGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
 }
 
 void StateGame::OnLButtonDown(int mX, int mY) {
+  if (NetMode != GAME_LOCAL) return;
+
   int x = mX + GCamera::CameraControl.GetX();
   int y = mY + GCamera::CameraControl.GetY();
   x /= TILE_SIZE;
@@ -214,6 +216,8 @@ void StateGame::OnRButtonDown(int mX, int mY) {
 }
 
 void StateGame::OnMButtonDown(int mX, int mY) {
+  if (NetMode != GAME_LOCAL) return; 
+
   int x = mX + GCamera::CameraControl.GetX();
   int y = mY + GCamera::CameraControl.GetY();
   x /= TILE_SIZE;
@@ -368,8 +372,12 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
-  App->Key1.Connect(GBomber::BomberList[0]);  
-  //App->Joy1.Bomber = GBomber::BomberList[0];
+  if (NetMode != GAME_CLIENT) {
+    // it will be connected later on clients
+
+    App->Key1.Connect(GBomber::BomberList[0]);  
+    //App->Joy1.Bomber = GBomber::BomberList[0];
+  }
 }
 
 bool StateGame::InitLevel() {
