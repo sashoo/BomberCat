@@ -15,6 +15,7 @@ public:
   void (*OnSelect) (MirageApp* app, void* pData);  
   virtual void OnLeft (){} 
   virtual void OnRight(){}
+  virtual void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {}
 
   void RegisterManager(MenuManager* menuManager){mMenuManager = menuManager;}
   void RegisterApp(MirageApp* app) {App = app;}

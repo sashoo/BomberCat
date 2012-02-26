@@ -51,8 +51,7 @@ GBomber* GBomber::Create() {
   return b;
 }
 
-GBomber::~GBomber() {
-  App->Log << "Bomber Deleted" << std::endl;
+GBomber::~GBomber() { 
   Bombers--;
 }
 
@@ -86,6 +85,7 @@ void GBomber::Render(SDL_Surface* SurfDisplay) {
 
 void GBomber::Cleanup() {
   GEntity::Cleanup();
+  App->Log << "Bomber Deleted" << std::endl;
 }
 
 void GBomber::Animate() {

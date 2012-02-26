@@ -27,6 +27,8 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   //switch-case if for invariant controls  
   
   App->Key1.OnKeyDown(sym);
+  // App->Key2.OnKeyDown(sym);
+  // App->Key3.OnKeyDown(sym);
 
   // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   // while (bomber != GBomber::BomberList.end()) {
@@ -150,6 +152,8 @@ case SDLK_RIGHTBRACKET: {
 void StateGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
 
   App->Key1.OnKeyUp(sym);
+  // App->Key2.OnKeyUp(sym);
+  // App->Key3.OnKeyUp(sym);
 
   // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   // while (bomber != GBomber::BomberList.end()) {
@@ -344,7 +348,9 @@ void StateGame::Loop() {
   GameTime = SDL_GetTicks() - GameStartTime;
 
   App->Key1.HandleInput();
-  App->Joy1.HandleInput();
+  // App->Key2.HandleInput();
+  // App->Key3.HandleInput();
+  // App->Joy1.HandleInput();
   
   LoopFlames();
   LoopBombs();
@@ -377,6 +383,9 @@ void StateGame::InitBombers() {
     // it will be connected later on clients
 
     App->Key1.Connect(GBomber::BomberList[0]);  
+    // App->Key2.Connect(GBomber::BomberList[1]);  
+    // App->Key3.Connect(GBomber::BomberList[2]); 
+    
     //App->Joy1.Bomber = GBomber::BomberList[0];
   }
 }
@@ -454,10 +463,7 @@ void StateGame::UnloadBombers() {
       GBomber::BomberList.erase(bomber);
       continue;
     }  
-    (*bomber)->Cleanup();
-    // that is ok
-    // GEntity has virtual destructor
-    // both AI and Player bombers are deleted properly
+    (*bomber)->Cleanup();    
     delete (*bomber);      
     bomber++;
   }

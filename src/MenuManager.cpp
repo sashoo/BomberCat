@@ -177,6 +177,8 @@ void MenuManager::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {
     }
 
     default: {
+      CurEntry()->OnKeyDown(sym, mod, Unicode);
+      break;
     }
 
     }	      

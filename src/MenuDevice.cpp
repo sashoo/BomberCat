@@ -30,7 +30,6 @@ void MenuDevice::OnLeft() {
   UpdateValues();
 } 
 
-
 void MenuDevice::OnRight() {
   MenuOption::OnRight();
   AssignDevice();
@@ -65,11 +64,42 @@ void MenuDevice::AssignDevice() {
   } 
 }
 
+void MenuDevice::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {
+  if (KeyInputHandle != NULL) {
+  }
+}
+
+void MenuDevice::AssignSym(int id, SDLKey ksym) {
+  if (KeyInputHandle != NULL) {    
+    switch (id) {
+    case 1:
+      KeyInputHandle->kUp = ksym;
+      break;
+    case 2:
+      KeyInputHandle->kDown = ksym;
+      break;
+    case 3:
+      KeyInputHandle->kLeft = ksym;
+      break;
+    case 4:
+      KeyInputHandle->kRight = ksym;
+      break;
+    case 5:
+      KeyInputHandle->kBomb = ksym;
+      break;
+    default:
+      break;
+    }
+    UpdateValues();
+  }
+}
+
 void MenuDevice::AddOption(std::string option ) {
   MenuOption::AddOption(option);
 }
 
 void MenuDevice::AddValue(MenuValue* value) {
+  value->SetOwner(this);  
   Values.push_back(value);  
 }
 
@@ -79,6 +109,7 @@ void MenuDevice::UpdateValues() {
     // KeyInputHandle->kUp = SDLK_a;
     std::string s = "Keyboard";
     Values[0]->SetValue(s);
+
     s = SDL_GetKeyName(KeyInputHandle->kUp);
     Values[1]->SetValue(s);
     s = SDL_GetKeyName(KeyInputHandle->kDown);

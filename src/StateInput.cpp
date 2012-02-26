@@ -7,6 +7,7 @@
 #include "StateMenu.hpp"
 
 StateInput StateInput::Instance;
+bool KeyPress = false;
 
 StateInput::StateInput() {
   KeyInputHandle = NULL;
@@ -21,16 +22,23 @@ void Joystick(MirageApp* app, void* pData) {
   //StateManager::SetActiveState(APPSTATE_MENU);
 }
 
+// void KeyPress(MirageApp* app, void* pData) {
+//   KeyPress = true;
+// }
+
 
 void StateInput::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
   mMenuManager->OnKeyUp(sym, mod, Unicode);
 }
 
 void StateInput::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
- if (OldTime + 250 > SDL_GetTicks()) {
+  if (OldTime + KEYDELAY > SDL_GetTicks()) {
     return;
   }
-  
+  if (KeyPress) {
+    KeyPress = false;
+    
+  }
   OldTime = SDL_GetTicks(); 
   mMenuManager->OnKeyDown(sym, mod, Unicode);  
 }
@@ -77,31 +85,37 @@ void StateInput::Activate() {
   mMenuManager->CurEntry()->OnSelect = Keyboard;   
 
   MenuValue* value = new MenuValue("Device Name:", "###");
+  value->SetID(0);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value);
   
   value = new MenuValue("Up:", "###");
+  value->SetID(1);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value);
 
   value = new MenuValue("Down:", "###");
+  value->SetID(2);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value);
 
   value = new MenuValue("Left:", "###");
+  value->SetID(3);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value);
 
   value = new MenuValue("Right:", "atata");
+  value->SetID(4);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value);
 
   value = new MenuValue("Bomb:", "atata");
+  value->SetID(5);
   mMenuManager->AddEntry(value);
   mMenuManager->CurEntry()->OnSelect = Keyboard; 
   dev->AddValue(value); 

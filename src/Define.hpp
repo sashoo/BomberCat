@@ -9,4 +9,6 @@
 #define GWIDTH		640
 #define	GHEIGHT		480
 
+#define KEYDELAY        150
+
 #endif

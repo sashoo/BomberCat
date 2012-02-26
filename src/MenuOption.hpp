@@ -15,6 +15,7 @@ public:
 
   virtual void OnLeft();
   virtual void OnRight();
+  virtual void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){}
   virtual void AddOption(std::string option);
   
   virtual void Render(SDL_Surface* SurfDisplay);

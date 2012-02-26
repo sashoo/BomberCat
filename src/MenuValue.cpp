@@ -1,5 +1,6 @@
 #include "MenuValue.hpp"
 #include "MenuManager.hpp"
+#include "MenuDevice.hpp"
 #include "Define.hpp"
 #include "GSurface.hpp"
 #include "MirageApp.hpp"
@@ -12,6 +13,7 @@ MenuValue::MenuValue(std::string label, std::string value) {
   Value = value;
   Origin = ORIGIN_TR;
   Index = 0;  
+  ID = 0;
 }
 
 MenuValue::~MenuValue() {
@@ -21,6 +23,10 @@ void MenuValue::OnLeft() {
 }
 
 void MenuValue::OnRight() {
+}
+
+void MenuValue::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {  
+  Parent->AssignSym(ID, sym);
 }
 
 void MenuValue::Render(SDL_Surface* SurfDisplay) {

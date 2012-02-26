@@ -53,7 +53,7 @@ void GPowerup::Render(SDL_Surface* SurfDisplay) {
 }
 
 void GPowerup::Cleanup() {
-  GEntity::Cleanup();
+  //GEntity::Cleanup();
   PowerupsTotal--;
 }
 

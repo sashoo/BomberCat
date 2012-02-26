@@ -291,6 +291,18 @@ bool MirageApp::OnInit() {
   Key1.kLeft  = SDLK_a;
   Key1.kRight = SDLK_d;
   Key1.kBomb  = SDLK_e;
+
+  Key2.kUp    = SDLK_u;
+  Key2.kDown  = SDLK_j;
+  Key2.kLeft  = SDLK_h;
+  Key2.kRight = SDLK_k;
+  Key2.kBomb  = SDLK_i;
+
+  Key3.kUp    = SDLK_KP8;
+  Key3.kDown  = SDLK_KP5;
+  Key3.kLeft  = SDLK_KP4;
+  Key3.kRight = SDLK_KP6;
+  Key3.kBomb  = SDLK_KP9;
   //Key1.Bomber->InputHandle = &Key1;
 
   Joy1.jUp.jEntity = JOY_AXIS;

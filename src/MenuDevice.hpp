@@ -17,10 +17,11 @@ public:
 
   virtual void OnLeft();
   virtual void OnRight();
-
+  virtual void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   // Sets one of the device pointers in response
   // to device label change
   virtual void AssignDevice();
+  void AssignSym(int id, SDLKey ksym);
 
   virtual void AddOption(std::string option);
   virtual void AddValue(MenuValue* value);
