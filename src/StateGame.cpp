@@ -363,6 +363,7 @@ void StateGame::Loop() {
 }
 
 void StateGame::InitBombers() {  
+  // keep in sync with UnloadBombers!
   if (NetMode != GAME_CLIENT) {
     int bombers = App->GetNumBombers();
     //int bots = App->GetNumBots();
@@ -456,6 +457,9 @@ void StateGame::UnloadBombs() {
 }
 
 void StateGame::UnloadBombers() {
+  // keep in sync with InitBombers!
+  App->Key1.Disconnect();
+
   GSurface::UnloadBombers();
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
