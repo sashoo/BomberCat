@@ -334,11 +334,11 @@ void StateGame::Deactivate() {
   delete Socket;
   Socket = NULL;
 
-  UnloadFlames();
-  UnloadBombs();
-  UnloadBombers();
-  UnloadPowerups();
-  UnloadTiles();
+  CleanupFlames();
+  CleanupBombs();
+  CleanupBombers();
+  CleanupPowerups();
+  CleanupTiles();
  
   GEntity::EntityList.clear();  
   GArea::AreaControl.Cleanup();
@@ -363,7 +363,7 @@ void StateGame::Loop() {
 }
 
 void StateGame::InitBombers() {  
-  // keep in sync with UnloadBombers!
+  // keep in sync with CleanupBombers!
   if (NetMode != GAME_CLIENT) {
     int bombers = App->GetNumBombers();
     //int bots = App->GetNumBots();
@@ -426,7 +426,7 @@ void StateGame::InitNetwork() {
   }
 }
 
-void StateGame::UnloadFlames() {
+void StateGame::CleanupFlames() {
   GSurface::UnloadFlames();
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while (flame != GFlame::FlameList.end()) {
@@ -441,7 +441,7 @@ void StateGame::UnloadFlames() {
   GFlame::FlameList.clear();
 }
 
-void StateGame::UnloadBombs() {
+void StateGame::CleanupBombs() {
   GSurface::UnloadBombs();
   std::vector<GBomb*>::iterator bomb = GBomb::BombList.begin();
   while (bomb != GBomb::BombList.end()) {
@@ -456,7 +456,7 @@ void StateGame::UnloadBombs() {
   GBomb::BombList.clear();
 }
 
-void StateGame::UnloadBombers() {
+void StateGame::CleanupBombers() {
   // keep in sync with InitBombers!
   App->Key1.Disconnect();
 
@@ -474,7 +474,7 @@ void StateGame::UnloadBombers() {
   GBomber::BomberList.clear();
 }
 
-void StateGame::UnloadPowerups() {
+void StateGame::CleanupPowerups() {
   GSurface::UnloadPowerups();
   std::vector<GPowerup*>::iterator powerup = GPowerup::PowerupList.begin();
   while (powerup != GPowerup::PowerupList.end()) {
@@ -489,7 +489,7 @@ void StateGame::UnloadPowerups() {
   GPowerup::PowerupList.clear();
 }
 
-void StateGame::UnloadTiles() {
+void StateGame::CleanupTiles() {
   GSurface::UnloadTiles();
   std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
   while (decor != GDecor::DecorList.end()) {

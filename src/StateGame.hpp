@@ -38,12 +38,12 @@ public:
   void InitBombers();
   bool InitLevel();
 
-  void UnloadFlames();
-  void UnloadBombs();
-  void UnloadBombers();
-  void UnloadPowerups();
+  void CleanupFlames();
+  void CleanupBombs();
+  void CleanupBombers();
+  void CleanupPowerups();
   //Unloads Decor as well since they share the same file
-  void UnloadTiles(); 
+  void CleanupTiles(); 
 
   void LoopFlames();
   void LoopBombs();

@@ -15,6 +15,7 @@ public:
 		     int x, int y, int x2, int y2, int w, int h);
   // static SDL_Surface* SDL_ScaleSurface(SDL_Surface* Surface, Uint16 Width, Uint16 Height);
 
+  // these methods load resources from disk
   static bool LoadBombs();
   static bool LoadBombers();
   static bool LoadFlames();
@@ -22,6 +23,7 @@ public:
   static bool LoadTiles();    
   static bool LoadFontRegular();
 
+  // these methods free resources loaded from disk
   static bool UnloadBombs();
   static bool UnloadBombers();
   static bool UnloadFlames();
