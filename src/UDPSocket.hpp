@@ -8,9 +8,7 @@ extern "C" {
 #include <winsock2.h>
 #include <WS2tcpip.h>
 
-#define EWOULDBLOCK WSAEWOULDBLOCK
-#define EAGAIN WSAEWOULDBLOCK
-#define ECONNREFUSED WSAECONNREFUSED
+#define errno (WSAGetLastError())
 
 #else
 #include <unistd.h>

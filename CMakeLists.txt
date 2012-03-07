@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
+
 project(ROBOKOT)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
@@ -11,7 +12,17 @@ set (SOURCES ${SOURCES_robokot})
 Find_Package ( SDL REQUIRED )
 Find_Package ( SDL_image REQUIRED ) # if using SDL_image
 Find_Package ( SDL_ttf REQUIRED )
+  
+if (WIN32)
+    find_library(WSOCK32_LIBRARY wsock32)
+    find_library(WS2_32_LIBRARY ws2_32)
 
+    link_libraries(
+        ${WS2_32_LIBRARY}
+        ${WSOCK32_LIBRARY}
+    )
+endif()
+ 
 
 link_libraries (
    ${SDL_LIBRARY}
@@ -19,6 +30,7 @@ link_libraries (
    ${SDLTTF_LIBRARY}
    ${SDLMAIN_LIBRARY}
 )
+
 
 include_directories(${SDL_INCLUDE_DIR})
 include_directories(${SDLIMAGE_INCLUDE_DIR})

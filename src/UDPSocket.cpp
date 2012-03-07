@@ -24,16 +24,18 @@ bool operator < (const struct sockaddr_storage &a, const struct sockaddr_storage
 
 std::ostream& operator << (std::ostream &o, const sockaddr_storage &x)
 {
+    // we're losing const here
+    // thank you, Windows
     if (x.ss_family == AF_INET) {
         char buffer[INET_ADDRSTRLEN];
-        const struct sockaddr_in *s = (const struct sockaddr_in *)&x;
+        struct sockaddr_in *s = (struct sockaddr_in *)&x;
 
         if (inet_ntop(x.ss_family, &s->sin_addr, buffer, sizeof(buffer)) != NULL) {
             return o << buffer << ":" << ntohs(s->sin_port);
         }
     } else if (x.ss_family == AF_INET6) {
         char buffer[INET6_ADDRSTRLEN];
-        const struct sockaddr_in6 *s = (const struct sockaddr_in6 *)&x;
+        struct sockaddr_in6 *s = (struct sockaddr_in6 *)&x;
 
         if (inet_ntop(x.ss_family, &s->sin6_addr, buffer, sizeof(buffer)) != NULL) {
             return o << "[" << buffer << "]:" << ntohs(s->sin6_port);
@@ -71,10 +73,6 @@ int UDPSocket::Init(const struct addrinfo *ai)
     if (fd < 0)
 #endif
     {   
-#ifdef _WIN32
-        int errno = WSAGetLastError();
-#endif
-        
         app->Log << "Couldn't create socket (errno=" << errno << ")" << std::endl;
         return -1; 
     }   
@@ -123,8 +121,7 @@ int UDPSocket::Listen(const char *host, const char *port)
 
 #ifdef _WIN32
     if (error == SOCKET_ERROR) {
-        int error = WSAGetLastError();
-        app->Log << "bind() error : " << error << std::endl;
+        app->Log << "bind() error : " << errno << std::endl;
         
         return -1;
     }
@@ -171,8 +168,7 @@ int UDPSocket::Connect(const char *host, const char *port)
     freeaddrinfo(result);
 #ifdef _WIN32
     if (error == SOCKET_ERROR) {
-        int error = WSAGetLastError();
-        app->Log << "connect() error : " << error;
+        app->Log << "connect() error : " << errno << std::endl;
         
         return -1;
     }
@@ -180,7 +176,7 @@ int UDPSocket::Connect(const char *host, const char *port)
     if (error < 0)
 #endif
     {
-        app->Log << "connect() error : " << errno;
+        app->Log << "connect() error : " << errno << std::endl;
         return -1;
     }
 
@@ -214,10 +210,13 @@ void UDPSocket::Loop(void)
         if (received < 0) 
 #endif
         {
+
 #ifdef _WIN32
-            int errno = WSAGetLastError();
+            if (errno == WSAEWOULDBLOCK) 
+#else
+            if (errno == EWOULDBLOCK || errno == EAGAIN)
 #endif
-            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+            {
                 // nothing to read yet
                 break;
             }

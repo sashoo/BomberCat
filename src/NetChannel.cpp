@@ -99,7 +99,7 @@ size_t NetChannel::PrepareClosePacket(char *buffer)
  * GArea
  */
 NetChannel_GArea::NetChannel_GArea(NetConnection *nc, channel_id_t channel_id, GArea *ga)
- :NetChannel::NetChannel(nc, channel_id, GAREA),
+ :NetChannel(nc, channel_id, GAREA),
   ga(ga)
 {
     
