@@ -1,7 +1,10 @@
-#include "MirageApp.hpp"
-#include <SDL_ttf.h>
 #include <stdio.h>
+#include <iostream>
+
+#include <SDL_ttf.h>
+#include "MirageApp.hpp"
 #include "GBomber.hpp"
+
 #define FPS 60
 Uint32 wait = 1000.0f/FPS;
 Uint32 framestart = 0;
@@ -146,11 +149,15 @@ int main(int argc, char* argv[]) {
   return theApp.OnExecute();
 }
  
-MirageApp::MirageApp() {
+MirageApp::MirageApp()
+:
+    //Log(*new std::ofstream("log.txt"))    
+    Log(std::cerr)
+{
   //LogFile.assign("log.txt");
-  LogFile.assign("/dev/stderr");
-  Log.open(LogFile.c_str());
-  Log << "LogFile: " << LogFile << std::endl;
+  //LogFile.assign("/dev/stderr");
+  //Log.open(LogFile.c_str());
+  //Log << "LogFile: " << LogFile << std::endl;
   Log << "MirageApp:MirageApp() constructor called" << std::endl; 
   SurfDisplay = NULL; 
   Running = true;
@@ -166,6 +173,11 @@ MirageApp::MirageApp() {
   Host = "0.0.0.0";
   Port = "8123";
   NetMode = GAME_LOCAL;  
+}
+
+MirageApp::~MirageApp()
+{
+    //delete &Log;
 }
 
 void MirageApp::SetLaunchState(int state, int attr) {

@@ -28,6 +28,7 @@ public:
   std::map<std::string, int> Keys;
   SDL_Joystick *Stick; 
   MirageApp(); 
+  ~MirageApp();
   int OnExecute(); 
 
   bool OnInit(); 
@@ -53,7 +54,7 @@ public:
   }
   
   //TTF_Font* GetFont();
-  std::ofstream Log;
+  std::ostream & Log;
   //StateManager mStateManager;  
 
   KeyInput Key1;
