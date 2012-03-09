@@ -57,7 +57,7 @@ public:
     int GetFreeChannelIdx(void);
     NetChannel * AddChannel(NetChannel *channel);
 
-    const static char magic_header[];
+    const static unsigned char magic_header[];
     static bool StartsWithMagicHeader(const char *buffer, size_t size);
     static bool ShouldAcceptSyn(const char *buffer, size_t size);
 };

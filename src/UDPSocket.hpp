@@ -8,8 +8,6 @@ extern "C" {
 #include <winsock2.h>
 #include <WS2tcpip.h>
 
-#define errno (WSAGetLastError())
-
 #else
 #include <unistd.h>
 #include <sys/socket.h>
@@ -60,8 +58,11 @@ public:
 
     void Loop(void);
 
+protected:
+#ifdef _WIN32
+    int InitWinsock();
+#endif
     void FillHints(struct addrinfo *);
-
 };
 
 #endif

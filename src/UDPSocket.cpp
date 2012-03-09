@@ -1,5 +1,12 @@
 #include "UDPSocket.hpp"
 
+#ifdef _WIN32
+#ifdef errno
+#undef errno
+#endif
+#define errno (WSAGetLastError())
+#endif
+
 bool operator < (const struct sockaddr_storage &a, const struct sockaddr_storage &b) {
     if (a.ss_family != b.ss_family) {
         // unlikely enough, though
@@ -21,6 +28,8 @@ bool operator < (const struct sockaddr_storage &a, const struct sockaddr_storage
         return memcmp(&a, &b, n) < 0;
     }
 }
+
+
 
 std::ostream& operator << (std::ostream &o, const sockaddr_storage &x)
 {
@@ -51,6 +60,7 @@ UDPSocket::UDPSocket(StateGame *game, MirageApp *app)
 {
 #ifdef _WIN32
     fd = INVALID_SOCKET;
+    InitWinsock();
 #else
     fd = -1;
 #endif 
@@ -73,7 +83,7 @@ int UDPSocket::Init(const struct addrinfo *ai)
     if (fd < 0)
 #endif
     {   
-        app->Log << "Couldn't create socket (errno=" << errno << ")" << std::endl;
+        app->Log << "socket() failed: " << errno << std::endl;
         return -1; 
     }   
     
@@ -106,7 +116,7 @@ int UDPSocket::Listen(const char *host, const char *port)
     error = getaddrinfo(host, port, &hints, &result);
 
     if (error != 0 || result == NULL) {
-        app->Log << "getaddrinfo() error : " << error << std::endl;
+        app->Log << "getaddrinfo() failed: " << error << std::endl;
         return -1;
     }
     
@@ -114,26 +124,24 @@ int UDPSocket::Listen(const char *host, const char *port)
     if (error < 0) {
         return error;
     }
-    app->Log << "binding to " << *(struct sockaddr_storage *) result->ai_addr << std::endl;
+    app->Log << "binding to " << *(struct sockaddr_storage *) result->ai_addr << "..." << std::endl;
     error = bind(fd, result->ai_addr, result->ai_addrlen);
+
+    int bind_errno = errno;
 
     freeaddrinfo(result);
 
 #ifdef _WIN32
-    if (error == SOCKET_ERROR) {
-        app->Log << "bind() error : " << errno << std::endl;
-        
-        return -1;
-    }
+    if (error == SOCKET_ERROR)
 #else
     if (error < 0)
 #endif
     {
-        app->Log << "bind() error : " << errno << std::endl;
+        app->Log << "bind() error: " << bind_errno << std::endl;
         return -1;
     }
 
-    app->Log << "bound" << std::endl;
+    app->Log << "Bound!" << std::endl;
 
     is_listening = true;
     return 0;
@@ -161,22 +169,19 @@ int UDPSocket::Connect(const char *host, const char *port)
     }
     app->Log << "connecting to " << *(struct sockaddr_storage *) result->ai_addr << std::endl;
     error = connect(fd, result->ai_addr, result->ai_addrlen);
+    int connect_errno = errno;
     
     memset(&sockaddr, 0, sizeof(sockaddr));
     memcpy(&sockaddr, result->ai_addr, result->ai_addrlen);
 
     freeaddrinfo(result);
 #ifdef _WIN32
-    if (error == SOCKET_ERROR) {
-        app->Log << "connect() error : " << errno << std::endl;
-        
-        return -1;
-    }
+    if (error == SOCKET_ERROR)
 #else
     if (error < 0)
 #endif
     {
-        app->Log << "connect() error : " << errno << std::endl;
+        app->Log << "connect() failed: " << connect_errno << std::endl;
         return -1;
     }
 
@@ -220,7 +225,7 @@ void UDPSocket::Loop(void)
                 // nothing to read yet
                 break;
             }
-            app->Log << "socket error, errno=" << errno << std::endl;
+            app->Log << "recv() failed: " << errno << std::endl;
 
             if (errno == ECONNREFUSED && !is_listening) {
                 app->Log << "Connection refused." << std::endl;
@@ -327,3 +332,25 @@ void UDPSocket::FillHints(struct addrinfo *ai)
     ai->ai_socktype = SOCK_DGRAM;
     ai->ai_protocol = 0;
 }
+
+#ifdef _WIN32
+int UDPSocket::InitWinsock(void)
+{
+    static bool already_initialized = false;
+
+    if (!already_initialized) {
+        WORD wVersionR:quested = MAKEWORD(2, 2);
+        WSADATA wsaData;
+        
+        int error = WSAStartup(wVersionRequested, &wsaData);
+        
+        if (error) {
+            app->Log << "WSAStartup failed: " << error << std::endl;
+            return -1;
+        } else {
+            already_initialized = true;
+            return 0;
+        }
+    }
+}
+#endif
