@@ -1,7 +1,7 @@
 #ifndef NETSERIALIZE_HPP
 #define NETSERIALIZE_HPP
 
-#include <cstdint>
+#include <stdint.h>
 
 class NetSerialize {
 public:

@@ -1,6 +1,5 @@
 #include "NetSerialize.hpp"
 
-
 #ifdef _WIN32
 #include <Winsock2.h>
 
@@ -53,12 +52,12 @@ inline T identity(T x) { return x; }
     template<> \
     void NetSerialize::pack<T>(char **buffer, T x) \
     { \
-        pack_template<T, (HTON)>(buffer, x); \
+        pack_template<T, HTON>(buffer, x); \
     } \
     template<> \
     T NetSerialize::unpack<T>(const char **buffer) \
     { \
-        return unpack_template<T, (NTOH)>(buffer); \
+        return unpack_template<T, NTOH>(buffer); \
     }
 
 GENERATE_FUNCTIONS(uint32_t, htonl, ntohl)
