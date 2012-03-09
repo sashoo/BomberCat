@@ -1,5 +1,5 @@
 #include "NetChannel.hpp"
-
+#include "NetSerialize.hpp"
 
 NetChannel::NetChannel(NetConnection *nc, channel_id_t channel_id, enum ObjectType ObjectType)
  :nc(nc),
@@ -51,9 +51,9 @@ NetChannel * NetChannel::ClientCreateChannel(NetConnection *nc, channel_id_t cha
 size_t NetChannel::PrepareOpenPacket(char *buffer)
 {
     if (buffer) {
-        (*(int16_t *) buffer) = htons(channel_id);
-        (*(int8_t *) (buffer + 2)) = (uint8_t) CHANNEL_OPEN;
-        (*(uint16_t *) (buffer + 3)) = htons(ObjectType);
+        NetSerialize::pack<uint16_t>(&buffer, channel_id);
+        NetSerialize::pack<uint8_t>(&buffer, CHANNEL_OPEN);
+        NetSerialize::pack<uint16_t>(&buffer, ObjectType);
     }
 
     return 2 + 1 + 2;
@@ -62,8 +62,8 @@ size_t NetChannel::PrepareOpenPacket(char *buffer)
 size_t NetChannel::PrepareAckPacket(char *buffer)
 {
     if (buffer) {
-        (*(int16_t *) buffer) = htons(channel_id);  
-        (*(int8_t *) (buffer + 2)) = CHANNEL_ACK;
+        NetSerialize::pack<uint16_t>(&buffer, channel_id);
+        NetSerialize::pack<uint8_t>(&buffer, CHANNEL_ACK);
     }
 
     return 2 + 1;
@@ -73,8 +73,8 @@ size_t NetChannel::PrepareAckPacket(char *buffer)
 size_t NetChannel::PrepareDataPacket(char *buffer)
 {
     if (buffer) {
-        (*(int16_t *) buffer) = htons(channel_id);
-        (*(int8_t *) (buffer + 2)) = CHANNEL_DATA;
+        NetSerialize::pack<uint16_t>(&buffer, channel_id);
+        NetSerialize::pack<uint8_t>(&buffer, CHANNEL_DATA);
     }
 
     return 2 + 1;
@@ -82,8 +82,8 @@ size_t NetChannel::PrepareDataPacket(char *buffer)
 size_t NetChannel::PrepareClosePacket(char *buffer)
 {
     if (buffer) {
-        (*(int16_t *) buffer) = htons(channel_id);
-        (*(int8_t *) (buffer + 2)) = CHANNEL_CLOSE;
+        NetSerialize::pack<uint16_t>(&buffer, channel_id);
+        NetSerialize::pack<uint8_t>(&buffer, CHANNEL_CLOSE);
     }
 
     return 2 + 1;
@@ -111,22 +111,20 @@ int NetChannel_GArea::ServerHandleData(const char *, size_t)
 
 int NetChannel_GArea::ClientHandleData(const char *buffer, size_t size)
 {
-    size_t bufsize = 0;
-    if ((int) size - bufsize < 2 + 2) return -1;
+    const char * const buffer_start = buffer;
+    if (size < 2 + 2) return -1;
     
-    int max_x = ntohs(*(int16_t*)(buffer + bufsize));
-    bufsize += 2;
-    int max_y = ntohs(*(int16_t*)(buffer + bufsize));
-    bufsize += 2;
+    int max_x = NetSerialize::unpack<int16_t>(&buffer);
+    int max_y = NetSerialize::unpack<int16_t>(&buffer);
 
-    if ((size - bufsize) != max_x * max_y * 1) return -1;
+    if ((size - (buffer - buffer_start)) != max_x * max_y * 1) return -1;
 
     // XXX width and height should be set here,
     // but they're currently private
     
     for (int x = 0; x < max_x; x++) {
         for (int y = 0; y < max_y; y++) {
-            ga->SetTileCoord(x, y, buffer[bufsize++]);       
+            ga->SetTileCoord(x, y, NetSerialize::unpack<uint8_t>(&buffer));       
         }
     }
     return 0;
@@ -134,23 +132,21 @@ int NetChannel_GArea::ClientHandleData(const char *buffer, size_t size)
 
 size_t NetChannel_GArea::DumpData(char *buffer)
 {
-    size_t bufsize = 0;
+    const char * const buffer_start = buffer;
 
     int max_x = ga->GetWidth(); 
     int max_y = ga->GetHeight();
 
-    *(int16_t*)(buffer + bufsize) = htons(max_x);
-    bufsize += 2;
-    *(int16_t*)(buffer + bufsize) = htons(max_y);
-    bufsize += 2;
+    NetSerialize::pack<int16_t>(&buffer, max_x);
+    NetSerialize::pack<int16_t>(&buffer, max_y);
     
     for (int x = 0; x < max_x; x++) {
         for (int y = 0; y < max_y; y++) {
-            buffer[bufsize++] = (uint8_t) ga->GetTileCoord(x, y);       
+            NetSerialize::pack<uint8_t>(&buffer, ga->GetTileCoord(x, y));
         }
     }
     
-    return bufsize;
+    return buffer - buffer_start;
 }
 
 int NetChannel_GArea::ServerSendInitialPacket()
