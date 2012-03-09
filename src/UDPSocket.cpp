@@ -339,7 +339,7 @@ int UDPSocket::InitWinsock(void)
     static bool already_initialized = false;
 
     if (!already_initialized) {
-        WORD wVersionR:quested = MAKEWORD(2, 2);
+        WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
         
         int error = WSAStartup(wVersionRequested, &wsaData);
