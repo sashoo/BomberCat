@@ -76,6 +76,7 @@ public:
 class NetChannel_GArea : public NetChannel {
 protected:
     GArea * const ga;
+    uint32_t lastUpdate;
 public:
     NetChannel_GArea(NetConnection *, channel_id_t, GArea *); 
 
