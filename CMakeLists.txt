@@ -8,7 +8,14 @@ file(GLOB SOURCES_robokot "${PROJECT_BINARY_DIR}/src/*.cpp")
 set (binname "robokot")
 
 set (SOURCES ${SOURCES_robokot}) 
-set (CMAKE_CXX_FLAGS "-Wall -std=c++0x")
+
+if (MSVC)
+    # 1. MSVC takes "Wall" literally, spitting a lot of useless warnings
+    # 2. Recent MSVC versions always operate in C++11 mode
+    set (CMAKE_CXX_FLAGS "-W4")
+else()
+    set (CMAKE_CXX_FLAGS "-Wall -std=c++0x")
+endif()
 
 Find_Package ( SDL REQUIRED )
 Find_Package ( SDL_image REQUIRED ) # if using SDL_image
