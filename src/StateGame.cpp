@@ -8,6 +8,7 @@
 #include "GDecor.hpp"
 #include "GPowerup.hpp"
 #include "GSurface.hpp"
+#include <algorithm>
 
 StateGame StateGame::Instance;
 
@@ -627,13 +628,25 @@ void StateGame::Render(SDL_Surface* SurfDisplay) {
   
   GArea::AreaControl.RenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
-  std::vector<GBomb*>::iterator bomb  = GBomb::BombList.begin(); 
-  while(bomb != GBomb::BombList.end()) {
-    if (!(*bomb)) continue;
-    //p1->OnRender(SurfDisplay);
-    (*bomb)->Render(SurfDisplay);
-    bomb++;   
-  }
+  //for_each loop introduced instead of old std::vector::iterator mess
+  for_each(GBomb::BombList.begin(), GBomb::BombList.end(), [&](GBomb* bomb) {    
+    bomb->Render(SurfDisplay);
+  });
+
+  // this solution needs gcc 4.7 or higher, and is not supported by some compilers
+  // for (auto bomb: GBomb::BombList) {
+  //   if (!(*bomb)) continue;    
+  //   (*bomb)->Render(SurfDisplay);
+  // }
+
+  // THE OLD WAY
+  // std::vector<GBomb*>::iterator bomb  = GBomb::BombList.begin(); 
+  // while(bomb != GBomb::BombList.end()) {
+  //   if (!(*bomb)) continue;
+  //   //p1->OnRender(SurfDisplay);
+  //   (*bomb)->Render(SurfDisplay);
+  //   bomb++;   
+  // }
 
   std::vector<GFlame*>::iterator flame  = GFlame::FlameList.begin(); 
   while(flame != GFlame::FlameList.end()) {

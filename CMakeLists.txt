@@ -8,6 +8,7 @@ file(GLOB SOURCES_robokot "${PROJECT_BINARY_DIR}/src/*.cpp")
 set (binname "robokot")
 
 set (SOURCES ${SOURCES_robokot}) 
+set (CMAKE_CXX_FLAGS "-Wall -std=c++0x")
 
 Find_Package ( SDL REQUIRED )
 Find_Package ( SDL_image REQUIRED ) # if using SDL_image
