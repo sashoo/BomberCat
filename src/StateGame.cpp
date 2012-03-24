@@ -629,7 +629,7 @@ void StateGame::Render(SDL_Surface* SurfDisplay) {
   GArea::AreaControl.RenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
   //for_each loop introduced instead of old std::vector::iterator mess
-  for_each(GBomb::BombList.begin(), GBomb::BombList.end(), [&](GBomb* bomb) {    
+  std::for_each(GBomb::BombList.begin(), GBomb::BombList.end(), [&](GBomb* bomb) {    
     bomb->Render(SurfDisplay);
   });
 
