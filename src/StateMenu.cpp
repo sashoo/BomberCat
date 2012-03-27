@@ -67,17 +67,17 @@ void StateMenu::Activate() {
   App->Log << "Activating entries" << std::endl;
 
   mMenuManager->AddEntry(new MenuButton("Offline game"));
-  mMenuManager->CurEntry()->OnSelect = PlayGame;  
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_GAME);});
   mMenuManager->AddEntry(new MenuButton("Host game"));
-  mMenuManager->CurEntry()->OnSelect = DoNothing;  
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){});
   mMenuManager->AddEntry(new MenuButton("Join game"));
-  mMenuManager->CurEntry()->OnSelect = DoNothing;  
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){});
   mMenuManager->AddEntry(new MenuButton("Options"));
-  mMenuManager->CurEntry()->OnSelect = Options;
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_OPTIONS);});
   mMenuManager->AddEntry(new MenuButton("Credits"));
-  mMenuManager->CurEntry()->OnSelect = Credits;
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_CREDITS);});
   mMenuManager->AddEntry(new MenuButton("Quit"));
-  mMenuManager->CurEntry()->OnSelect = Exit;
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_NONE);});
   mMenuManager->SetEntry(0);
 }
 

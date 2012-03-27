@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <string>
 #include "Origin.hpp"
+#include <functional>
 
 class MenuManager;
 class MirageApp;
@@ -12,7 +13,16 @@ class MenuEntry{
 public:
   MenuEntry(){}
   virtual ~MenuEntry(){}
-  void (*OnSelect) (MirageApp* app, void* pData);  
+  void OnSelect(MirageApp* app, void* data) {
+    if (SelectHandler)
+      SelectHandler(app, data);
+  }
+
+  void SetSelect(std::function<void(MirageApp*, void*)> handler) {
+    SelectHandler = handler;
+  }
+
+  //void (*OnSelect) (MirageApp* app, void* pData);  
   virtual void OnLeft (){} 
   virtual void OnRight(){}
   virtual void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {}
@@ -63,6 +73,7 @@ protected:
   SDL_Rect         Rect;
   SDL_Color        Color;  
   int              Origin;
+  std::function<void(MirageApp*, void*)> SelectHandler;
 
   friend class MenuManager;
 

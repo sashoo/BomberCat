@@ -82,46 +82,46 @@ void StateInput::Activate() {
 
   MenuDevice* dev = new MenuDevice("Device Label:");
   mMenuManager->AddEntry(dev);
-  mMenuManager->CurEntry()->OnSelect = Keyboard;   
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
 
   MenuValue* value = new MenuValue("Device Name:", "###");
   value->SetID(0);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value);
   
   value = new MenuValue("Up:", "###");
   value->SetID(1);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value);
 
   value = new MenuValue("Down:", "###");
   value->SetID(2);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value);
 
   value = new MenuValue("Left:", "###");
   value->SetID(3);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value);
 
   value = new MenuValue("Right:", "atata");
   value->SetID(4);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value);
 
   value = new MenuValue("Bomb:", "atata");
   value->SetID(5);
   mMenuManager->AddEntry(value);
-  mMenuManager->CurEntry()->OnSelect = Keyboard; 
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){});
   dev->AddValue(value); 
 
   mMenuManager->AddEntry(new MenuButton("Back"));
-  mMenuManager->CurEntry()->OnSelect = Options;
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_OPTIONS);});
 
   dev->AssignDevice();
   dev->UpdateValues();
