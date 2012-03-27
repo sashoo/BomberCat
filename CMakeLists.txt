@@ -5,7 +5,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 file(GLOB SOURCES_robokot "${PROJECT_BINARY_DIR}/src/*.cpp")
 
-set (binname "robokot")
+set (binname "bombercat")
 
 set (SOURCES ${SOURCES_robokot}) 
 
