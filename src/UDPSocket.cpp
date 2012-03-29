@@ -331,6 +331,9 @@ void UDPSocket::FillHints(struct addrinfo *ai)
     ai->ai_family = AF_UNSPEC;
     ai->ai_socktype = SOCK_DGRAM;
     ai->ai_protocol = 0;
+    if (is_listening) {
+        ai->ai_flags |= AI_PASSIVE;
+    }
 }
 
 #ifdef _WIN32
