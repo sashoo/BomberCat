@@ -628,27 +628,16 @@ void StateGame::Render(SDL_Surface* SurfDisplay) {
   
   GArea::AreaControl.RenderBack(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
-  //for_each loop introduced instead of old std::vector::iterator mess
-  std::for_each(GBomb::BombList.begin(), GBomb::BombList.end(), [&](GBomb* bomb) {    
-    bomb->Render(SurfDisplay);
-  });
 
-  // this solution needs gcc 4.7 or higher, and is not supported by some compilers
-  // for (auto bomb: GBomb::BombList) {
-  //   if (!(*bomb)) continue;    
-  //   (*bomb)->Render(SurfDisplay);
-  // }
+  auto bomb  = GBomb::BombList.begin(); 
+  while(bomb != GBomb::BombList.end()) {
+    if (!(*bomb)) continue;
+    //p1->OnRender(SurfDisplay);
+    (*bomb)->Render(SurfDisplay);
+    bomb++;   
+  }
 
-  // THE OLD WAY
-  // std::vector<GBomb*>::iterator bomb  = GBomb::BombList.begin(); 
-  // while(bomb != GBomb::BombList.end()) {
-  //   if (!(*bomb)) continue;
-  //   //p1->OnRender(SurfDisplay);
-  //   (*bomb)->Render(SurfDisplay);
-  //   bomb++;   
-  // }
-
-  std::vector<GFlame*>::iterator flame  = GFlame::FlameList.begin(); 
+  auto flame  = GFlame::FlameList.begin(); 
   while(flame != GFlame::FlameList.end()) {
     if (!(*flame)) continue;
     //p1->OnRender(SurfDisplay);
@@ -663,7 +652,7 @@ void StateGame::Render(SDL_Surface* SurfDisplay) {
     pup++;   
   }
 
-  std::vector<GDecor*>::iterator decor  = GDecor::DecorList.begin(); 
+  auto decor  = GDecor::DecorList.begin(); 
   while(decor != GDecor::DecorList.end()) {
     if (!(*decor)) continue;
     //p1->OnRender(SurfDisplay);
@@ -674,23 +663,20 @@ void StateGame::Render(SDL_Surface* SurfDisplay) {
 
   GArea::AreaControl.Render(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 
-  std::vector<GBomber*>::iterator bomber  = GBomber::BomberList.begin(); 
+  auto bomber  = GBomber::BomberList.begin(); 
   while(bomber != GBomber::BomberList.end()) {
     if (!(*bomber)) continue;
     (*bomber)->Render(SurfDisplay);
     bomber++;   
   }
 
-  std::vector<GEntity*>::iterator iten = GEntity::EntityList.begin(); 
+  auto iten = GEntity::EntityList.begin(); 
   while(iten != GEntity::EntityList.end()) {
     if (!(*iten)) continue;
     //p1->OnRender(SurfDisplay);
     (*iten)->Render(SurfDisplay);
     iten++;   
   }
-
- 
-
  
   // GArea::AreaControl.OnForeRender(SurfDisplay, GCamera::CameraControl.GetX(), GCamera::CameraControl.GetY());
 }

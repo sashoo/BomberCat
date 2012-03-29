@@ -59,16 +59,16 @@ void StateOptions::Activate() {
   App->Log << "Activating entries" << std::endl;  
 
   mMenuManager->AddEntry(new MenuBoolOption("Full Screen:"));  
-  mMenuManager->CurEntry()->OnSelect = Input;    
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* App, void* ){ StateManager::SetActiveState(APPSTATE_INPUT);});    
   // mMenuManager->AddEntry(new MenuButton("Music:"));
   // mMenuManager->CurEntry()->OnSelect = Input; 
   // mMenuManager->AddEntry(new MenuButton("Sounds:"));
   // mMenuManager->CurEntry()->OnSelect = Input; 
   mMenuManager->AddEntry(new MenuButton("Configure input"));
-  mMenuManager->CurEntry()->OnSelect = Input;  
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* App, void* ){ StateManager::SetActiveState(APPSTATE_INPUT);});    
 
   mMenuManager->AddEntry(new MenuButton("Back"));
-  mMenuManager->CurEntry()->OnSelect = MainMenu;
+  mMenuManager->CurEntry()->SetSelect([](MirageApp* App, void*){ StateManager::SetActiveState(APPSTATE_MENU);});
   
   mMenuManager->SetEntry(0);
   
