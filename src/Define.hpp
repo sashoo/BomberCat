@@ -11,4 +11,6 @@
 
 #define KEYDELAY        150
 
+#define MAXCATS         9
+
 #endif

@@ -5,6 +5,7 @@
 #include "StateCredits.hpp"
 #include "StateOptions.hpp"
 #include "StateInput.hpp"
+#include "StateConfig.hpp"
 
 IState* StateManager::ActiveState = 0;
 MirageApp* StateManager::App = 0;
@@ -32,6 +33,7 @@ void StateManager::SetActiveState(int stateID) {
   if(stateID == APPSTATE_INPUT)    ActiveState = StateInput::GetInstance();
   if(stateID == APPSTATE_GAME )    ActiveState = StateGame::GetInstance(); 
   if(stateID == APPSTATE_CREDITS ) ActiveState = StateCredits::GetInstance();
+  if(stateID == APPSTATE_CONFIG )  ActiveState = StateConfig::GetInstance();
   
   if (ActiveState) ActiveState->Activate();
 }
