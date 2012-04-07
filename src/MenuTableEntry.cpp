@@ -1,7 +1,49 @@
 #include "MenuTableEntry.hpp"
+#include <sstream>
+#include "GSurface.hpp"
 
 MenuTableEntry::MenuTableEntry() {
   
+}
+
+std::string MenuTableEntry::InputTypeToName(int type) {
+  std::string out;
+  switch(type) {
+  case 1:
+    out = "Key-1";
+    break;
+  case 2:
+    out = "Key-2";
+    break;
+  case 3:
+    out = "Key-3";
+    break;
+  case 4:
+    out = "Key-4";
+    break;  
+  case 5:
+    out = "Joy-1";
+    break;
+  case 6:
+    out = "Joy-2";
+    break;
+  case 7:
+    out = "Joy-3";
+    break;
+  case 8:
+    out = "Joy-4";
+    break;
+  case 9:
+    out = "Mouse";
+    break;
+  case 10:
+    out = "AI";
+    break;   
+  default:
+    out = "ERROR";
+    break;
+  }
+  return out;
 }
 
 void MenuTableEntry::Init() {
@@ -17,11 +59,11 @@ void MenuTableEntry::Init() {
   SurfaceNickname = TTF_RenderText_Solid(GSurface::FontRegular, Nickname.c_str(), GSurface::ColorOption);
 }
 
-void MenutableEntry::SetColor() {
+void MenuTableEntry::SetColor(SDL_Color color) {
   Color = color;
 }
 
-void MenuTableEntry::SetOrigin(origin) {
+void MenuTableEntry::SetOrigin(int origin) {
   Origin = origin;
 }
 

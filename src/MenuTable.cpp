@@ -1,11 +1,13 @@
 #include "MenuTable.hpp"
+#include "MenuTableEntry.hpp"
+#include "Define.hpp"
 
 int MenuTable::TotalPlayers = 0;
 
-void MenuTable::MenuTable() {
-  TableEntry entry;
+MenuTable::MenuTable() {
+  MenuTableEntry entry;
   entry.Number = TotalPlayers;
-  entry.Input = TotalPlayers;
+  entry.InputType = TotalPlayers;
   entry.Nickname = "Woof";
   Entries.push_back(entry);
   Entries.push_back(entry);
@@ -15,9 +17,9 @@ void MenuTable::MenuTable() {
 void MenuTable::Add() {
   if (TotalPlayers < MAXCATS) {
     TotalPlayers += 1;
-    TableEntry entry;
+    MenuTableEntry entry;
     entry.Number = TotalPlayers;
-    entry.Input = TotalPlayers;
+    entry.InputType = TotalPlayers;
     entry.Nickname = "Woof";
     Entries.push_back(entry);
     Init();
@@ -27,7 +29,7 @@ void MenuTable::Add() {
 void MenuTable::Remove() {
   if (TotalPlayers > 2) {
     TotalPlayers --;
-    Entries.pop();
+    Entries.pop_back();
     Init();
   }
 }
@@ -36,18 +38,18 @@ void MenuTable::Init() {
   auto iter = Entries.begin();
   int i;
   while (iter != Entries.end()) {
-    iter.Init();
-    iter.SetPosition(PosX, PosY*32);
+    iter->Init();
+    iter->SetPosition(PosX, PosY*32);
     iter++;
-    i++
+    i++;
   }
 }
 
-void Menutable::SetColor() {
+void MenuTable::SetColor(SDL_Color color) {
   Color = color;
 }
 
-void MenuTable::SetOrigin(origin) {
+void MenuTable::SetOrigin(int origin) {
   Origin = origin;
 }
 

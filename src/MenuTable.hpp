@@ -5,7 +5,7 @@
 #include "MenuTableEntry.hpp"
 #include <vector>
 
-class MenuTable {
+class MenuTable : public MenuEntry {
 
 private:
   static int TotalPlayers;
@@ -23,7 +23,7 @@ public:
   virtual int GetWidth() const;
   virtual int GetHeight() const;
   virtual void Cleanup();  
-}
+};
 
 
 #endif

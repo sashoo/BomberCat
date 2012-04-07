@@ -16,49 +16,10 @@ enum InputType {
   AI = 10
 };
 
-std::string InputTypeToName(int type) {
-  std::string out;
-  switch(type) {
-  case 1:
-    out = "Key-1";
-    break;
-  case 2:
-    out = "Key-2";
-    break;
-  case 3:
-    out = "Key-3";
-    break;
-  case 4:
-    out = "Key-4";
-    break;  
-  case 5:
-    out = "Joy-1";
-    break;
-  case 6:
-    out = "Joy-2";
-    break;
-  case 7:
-    out = "Joy-3";
-    break;
-  case 8:
-    out = "Joy-4";
-    break;
-  case 9:
-    out = "Mouse";
-    break;
-  case 10:
-    out = "AI";
-    break;   
-  default:
-    out = "ERROR";
-    break;
-  }
-  return out;
-}
-
 class MenuTableEntry : public MenuEntry { 
 public:
   MenuTableEntry();
+  static std::string InputTypeToName(int type);
   int Number;
   int InputType;
   std::string Nickname;  
