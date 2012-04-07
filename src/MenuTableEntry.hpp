@@ -19,13 +19,16 @@ enum InputType {
 class MenuTableEntry : public MenuEntry { 
 public:
   MenuTableEntry();
+  MenuTableEntry(const MenuTableEntry &entry);
+  MenuTableEntry& operator= (const MenuTableEntry &entry);
+ 
   static std::string InputTypeToName(int type);
   int Number;
   int InputType;
   std::string Nickname;  
   virtual void Init();    
   virtual void SetColor(SDL_Color color);    
-  //virtual void SetPosition(float x, float y)
+  virtual void SetPosition(float x, float y);
   virtual void SetOrigin(int origin);
   virtual void Render(SDL_Surface* SurfDisplay);
   virtual int GetWidth() const;
@@ -35,7 +38,8 @@ private:
   SDL_Surface* SurfaceNumber;
   SDL_Surface* SurfaceNickname;
   SDL_Surface* SurfaceInputType;
-
 };
+
+
 
 #endif

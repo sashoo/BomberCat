@@ -54,12 +54,17 @@ void MenuTableEntry::Init() {
   ss << Number;
   std::string s;
   s = ss.str();
-  SurfaceNumber = TTF_RenderText_Solid(GSurface::FontRegular, s.c_str(), GSurface::ColorOption);
+  SurfaceNumber = TTF_RenderText_Solid(GSurface::FontRegular, s.c_str(), GSurface::ColorGreen);
   ss.str("");
   ss << InputTypeToName(InputType);
   s = ss.str();
   SurfaceInputType = TTF_RenderText_Solid(GSurface::FontRegular, s.c_str(), GSurface::ColorOption);
   SurfaceNickname = TTF_RenderText_Solid(GSurface::FontRegular, Nickname.c_str(), GSurface::ColorOption);
+}
+
+void MenuTableEntry::SetPosition(float x, float y) {  
+  PosX = x;
+  PosY = y;
 }
 
 void MenuTableEntry::SetColor(SDL_Color color) {
@@ -71,12 +76,12 @@ void MenuTableEntry::SetOrigin(int origin) {
 }
 
 void MenuTableEntry::Render(SDL_Surface* SurfDisplay) {
-  // if (SurfaceNumber != NULL)
-  //   GSurface::Draw(SurfDisplay, SurfaceNumber, PosX, PosY);
-  // if (SurfaceNickname != NULL)
-  //   GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+32, PosY);
-  // if (SurfaceInputType)
-  //   GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+160, PosY);
+  if (SurfaceNumber != NULL)
+    GSurface::Draw(SurfDisplay, SurfaceNumber, PosX, PosY);
+  if (SurfaceNickname != NULL)
+    GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+200, PosY);
+  if (SurfaceInputType != NULL)
+    GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+400, PosY);
 }
 
 int MenuTableEntry::GetWidth() const {
@@ -88,14 +93,44 @@ int MenuTableEntry::GetHeight() const {
 }
 
 void MenuTableEntry::Cleanup() {
-  App->Log << "Cleaning...\n";
+ 
   if (SurfaceNumber != NULL)
     SDL_FreeSurface(SurfaceNumber);
-  App->Log << "Cleaning...1\n";
+  
   if (SurfaceNickname != NULL)
     SDL_FreeSurface(SurfaceNickname);
-  App->Log << "Cleaning...2\n";
+  
   if (SurfaceInputType != NULL)
     SDL_FreeSurface(SurfaceInputType); 
-  App->Log << "Cleaning...3\n";
+  
 }
+
+MenuTableEntry::MenuTableEntry(const MenuTableEntry &entry)
+  {
+    PosX = entry.PosX;
+    PosY = entry.PosY;
+    Color = entry.Color;
+    Origin = entry.Origin;
+    App = entry.App;
+    Number = entry.Number;
+    InputType = entry.InputType;
+    Nickname = entry.Nickname;
+  }
+  
+MenuTableEntry& MenuTableEntry::operator= (const MenuTableEntry &entry)
+  {
+    // check for self-assignment by comparing the address of the
+    // implicit object and the parameter
+    if (this == &entry)
+      return *this;
+ 
+    // do the copy
+    PosX = entry.PosX;
+    PosY = entry.PosY;
+    Color = entry.Color;
+    Origin = entry.Origin;
+    App = entry.App;
+ 
+    // return the existing object
+    return *this;
+  }

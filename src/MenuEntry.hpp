@@ -33,7 +33,7 @@ public:
 
   virtual void Init() = 0;    
   virtual void SetColor(SDL_Color color) = 0;    
-  virtual void SetPosition(float x, float y) {
+  virtual void SetPosition(float x, float y) {   
     if (ORIGIN_CENTER == Origin) {
       PosX = x - Rect.w/2;
       PosY = y - Rect.h/2;    

@@ -15,7 +15,7 @@ public:
   MenuTable();
   void Add();
   void Remove();
-  std::vector<MenuTableEntry> Entries;
+  std::vector<MenuTableEntry*> Entries;
   
   virtual void Init();    
   virtual void SetColor(SDL_Color color);    
@@ -25,6 +25,9 @@ public:
   virtual int GetWidth() const;
   virtual int GetHeight() const;
   virtual void Cleanup();  
+
+ 
+
 };
 
 
