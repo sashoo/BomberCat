@@ -5,13 +5,7 @@
 int MenuTable::TotalPlayers = 0;
 
 MenuTable::MenuTable() {
-  MenuTableEntry entry;
-  entry.Number = TotalPlayers;
-  entry.InputType = TotalPlayers;
-  entry.Nickname = "Woof";
-  Entries.push_back(entry);
-  Entries.push_back(entry);
-  TotalPlayers = 2;
+  
 }
 
 void MenuTable::Add() {
@@ -21,6 +15,7 @@ void MenuTable::Add() {
     entry.Number = TotalPlayers;
     entry.InputType = TotalPlayers;
     entry.Nickname = "Woof";
+    entry.RegisterApp(App);
     Entries.push_back(entry);
     Init();
   }      
@@ -40,6 +35,7 @@ void MenuTable::Init() {
   while (iter != Entries.end()) {
     iter->Init();
     iter->SetPosition(PosX, PosY*32);
+
     iter++;
     i++;
   }
@@ -75,6 +71,7 @@ void MenuTable::Cleanup() {
     iter->Cleanup();
     iter++;
   }
+  Entries.clear();
 }
 
 void MenuTable::SetPosition(float x, float y) {

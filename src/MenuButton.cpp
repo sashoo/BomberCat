@@ -45,6 +45,7 @@ void MenuButton::SetOrigin(int origin) {
 }
 
 void MenuButton::Init(){  
+  App->Log << Label << std::endl;
   Surface = TTF_RenderText_Solid(GSurface::FontRegular, Label.c_str(), GSurface::ColorRed);
   Rect.w   = Surface->w;
   Rect.h  = Surface->h; 
@@ -55,7 +56,8 @@ void MenuButton::Init(){
 void MenuButton::Cleanup(){
   //mApp->Log << "Deleting MenuButton \"" << Label << "\": ";
   App->Log << "Deleting entry: " << Label << "... ";
-  SDL_FreeSurface(Surface);
+  if (Surface != NULL)
+    SDL_FreeSurface(Surface);
   App->Log << "deleted" << std::endl;
   //delete Label;
   //Label = NULL;

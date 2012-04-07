@@ -1,9 +1,12 @@
 #include "MenuTableEntry.hpp"
 #include <sstream>
 #include "GSurface.hpp"
+#include "MirageApp.hpp"
 
 MenuTableEntry::MenuTableEntry() {
-  
+  SurfaceNumber = NULL;
+  SurfaceNickname = NULL;
+  SurfaceInputType = NULL;
 }
 
 std::string MenuTableEntry::InputTypeToName(int type) {
@@ -68,9 +71,12 @@ void MenuTableEntry::SetOrigin(int origin) {
 }
 
 void MenuTableEntry::Render(SDL_Surface* SurfDisplay) {
-  GSurface::Draw(SurfDisplay, SurfaceNumber, PosX, PosY);
-  GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+32, PosY);
-  GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+160, PosY);
+  // if (SurfaceNumber != NULL)
+  //   GSurface::Draw(SurfDisplay, SurfaceNumber, PosX, PosY);
+  // if (SurfaceNickname != NULL)
+  //   GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+32, PosY);
+  // if (SurfaceInputType)
+  //   GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+160, PosY);
 }
 
 int MenuTableEntry::GetWidth() const {
@@ -82,7 +88,14 @@ int MenuTableEntry::GetHeight() const {
 }
 
 void MenuTableEntry::Cleanup() {
-  SDL_FreeSurface(SurfaceNumber);
-  SDL_FreeSurface(SurfaceNickname);
-  SDL_FreeSurface(SurfaceInputType); 
+  App->Log << "Cleaning...\n";
+  if (SurfaceNumber != NULL)
+    SDL_FreeSurface(SurfaceNumber);
+  App->Log << "Cleaning...1\n";
+  if (SurfaceNickname != NULL)
+    SDL_FreeSurface(SurfaceNickname);
+  App->Log << "Cleaning...2\n";
+  if (SurfaceInputType != NULL)
+    SDL_FreeSurface(SurfaceInputType); 
+  App->Log << "Cleaning...3\n";
 }

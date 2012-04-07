@@ -8,13 +8,15 @@
 class MenuTable : public MenuEntry {
 
 private:
-  static int TotalPlayers;
-  std::vector<MenuTableEntry> Entries;
+  
   
 public:
+  static int TotalPlayers;
   MenuTable();
   void Add();
   void Remove();
+  std::vector<MenuTableEntry> Entries;
+  
   virtual void Init();    
   virtual void SetColor(SDL_Color color);    
   virtual void SetPosition(float x, float y);
