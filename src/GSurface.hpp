@@ -48,5 +48,8 @@ public:
   static SDL_Color ColorInactive;
 };
 
+bool DotInRect(int dotx, int doty, SDL_Rect rect);
 
 #endif
+
+

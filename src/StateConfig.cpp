@@ -27,6 +27,7 @@ void StateConfig::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {
      StateManager::SetActiveState(APPSTATE_GAME);
    }
     
+   
 
    
    
@@ -37,10 +38,15 @@ void StateConfig::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode) {
 }
 
 void StateConfig::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle) {
+  
   //mConfigManager->OnMouseMove(mX, mY, relX, relY, Left, Right, Middle);
 }
 
 void StateConfig::OnLButtonDown(int mX, int mY) {
+  if (DotInRect(mX, mY, ButtonAdd->GetRect()))
+    ButtonAdd->OnSelect(NULL, NULL);
+  if (DotInRect(mX, mY, ButtonRemove->GetRect()))
+    ButtonRemove->OnSelect(NULL, NULL);
   //mConfigManager->OnLButtonDown(mX, mY);
 }
 void StateConfig::OnRButtonDown(int mX, int mY) {  
@@ -94,10 +100,13 @@ void StateConfig::Activate() {
 
 void StateConfig::Deactivate() {   
   ButtonAdd->Cleanup();
-  
+  delete ButtonAdd;
+
   ButtonRemove->Cleanup();
-  
+  delete ButtonRemove;
+
   PlayerTable->Cleanup();
+  delete PlayerTable;
   
 }
 

@@ -6,6 +6,8 @@
 int MenuTable::TotalPlayers = 0;
 
 MenuTable::MenuTable() {
+  TotalPlayers = 0;
+
   PosX = 0.0f;
   PosY = 0.0f;
   

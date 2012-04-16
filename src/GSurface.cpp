@@ -14,6 +14,12 @@ SDL_Color GSurface::ColorOption = GetColor(255, 255, 0);
 SDL_Color GSurface::ColorActive = GetColor(30, 140, 230);
 SDL_Color GSurface::ColorInactive = GetColor(180, 180, 180);
 
+bool DotInRect(int dotx, int doty, SDL_Rect rect)
+{
+  return (dotx >= rect.x && dotx <= rect.x + rect.w &&
+      doty >= rect.y && doty <= rect.y + rect.h);
+}
+
 GSurface::GSurface() {
 }
 
