@@ -14,23 +14,36 @@ StateConfig::StateConfig() {
 }
 
 void StateConfig::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode) {
-   if (OldTime + 250 > SDL_GetTicks()) {
+  if (OldTime + 250 > SDL_GetTicks()) {
     return;
   }
 
-   switch(sym) {
-   case SDLK_ESCAPE: 
-     StateManager::SetActiveState(APPSTATE_MENU);  
-     //OnExit();
-     break;
-   default:
-     StateManager::SetActiveState(APPSTATE_GAME);
-   }
-    
-   
+  OldTime = SDL_GetTicks();
 
-   
-   
+  switch(sym) {
+    case SDLK_ESCAPE: 
+      StateManager::SetActiveState(APPSTATE_MENU);  
+      //OnExit();
+      break;
+    case SDLK_RETURN:
+      App->SetNumBombers(MenuTable::TotalPlayers);
+      PlayerTable->FillMap();
+      App->SetConnectionMap(PlayerTable->BomberMap);
+      StateManager::SetActiveState(APPSTATE_GAME);
+      break;
+    case SDLK_KP_PLUS:
+    case SDLK_PLUS:
+    case SDLK_EQUALS:
+      PlayerTable->Add();
+      break;
+    case SDLK_KP_MINUS:
+    case SDLK_MINUS:
+    case SDLK_UNDERSCORE:
+      PlayerTable->Remove();
+    default:
+      break;
+      //StateManager::SetActiveState(APPSTATE_GAME);
+  }
 }
 
 void StateConfig::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode) {

@@ -28,8 +28,9 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   //switch-case if for invariant controls  
   
   App->Key1.OnKeyDown(sym);
-  // App->Key2.OnKeyDown(sym);
-  // App->Key3.OnKeyDown(sym);
+  App->Key2.OnKeyDown(sym);
+  App->Key3.OnKeyDown(sym);
+  App->Key4.OnKeyDown(sym);
 
   // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   // while (bomber != GBomber::BomberList.end()) {
@@ -149,12 +150,14 @@ case SDLK_RIGHTBRACKET: {
 
  }
 }
-
+//
 void StateGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode){
 
   App->Key1.OnKeyUp(sym);
-  // App->Key2.OnKeyUp(sym);
-  // App->Key3.OnKeyUp(sym);
+  App->Key2.OnKeyUp(sym);
+  App->Key3.OnKeyUp(sym);
+  App->Key4.OnKeyUp(sym);
+
 
   // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   // while (bomber != GBomber::BomberList.end()) {
@@ -232,6 +235,9 @@ void StateGame::OnMButtonDown(int mX, int mY) {
 
 void StateGame::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value) {
   App->Joy1.OnJoyAxis(which, axis, value);
+  App->Joy2.OnJoyAxis(which, axis, value);
+  App->Joy3.OnJoyAxis(which, axis, value);
+  App->Joy4.OnJoyAxis(which, axis, value);
   // if (which == CurJoystick) {
   //   if (0 == axis) {
   //     if(value > -8000 && value < 8000) { 
@@ -249,6 +255,11 @@ void StateGame::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value) {
 }
 
 void StateGame::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value) {
+  App->Joy1.OnJoyHat(which, hat, value);
+  App->Joy2.OnJoyHat(which, hat, value);
+  App->Joy3.OnJoyHat(which, hat, value);
+  App->Joy4.OnJoyHat(which, hat, value);
+
   // if (which == CurJoystick) {
   //   if (0 == hat) {
   //     if (value & SDL_HAT_LEFT) {
@@ -305,11 +316,29 @@ void StateGame::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value) {
 }
 
 void StateGame::OnJoyButtonDown(Uint8 which, Uint8 button) {
+  App->Joy1.OnJoyButtonDown(which, button);
+  App->Joy2.OnJoyButtonDown(which, button);
+  App->Joy3.OnJoyButtonDown(which, button);
+  App->Joy4.OnJoyButtonDown(which, button);
+
   // if (which == CurJoystick) {
   //   if (0 == button)
   //     p1->JumpExp();    
   // }  
 }
+
+void StateGame::OnJoyButtonUp(Uint8 which, Uint8 button) {
+  App->Joy1.OnJoyButtonUp(which, button);
+  App->Joy2.OnJoyButtonUp(which, button);
+  App->Joy3.OnJoyButtonUp(which, button);
+  App->Joy4.OnJoyButtonUp(which, button);
+
+  // if (which == CurJoystick) {
+  //   if (0 == button)
+  //     p1->JumpExp();    
+  // }  
+}
+
   
 void StateGame::Activate() {
   GameTime = 0;
@@ -347,8 +376,14 @@ void StateGame::Deactivate() {
 
 void StateGame::Loop() {  
   GameTime = SDL_GetTicks() - GameStartTime;
+  auto iter = App->devs.begin();
+  while (iter != App->devs.end()){
+    (*iter)->HandleInput();
+    iter++;
+  }
 
-  App->Key1.HandleInput();
+  //App->Key1.HandleInput();
+  //App->Key1.HandleInput();
   // App->Key2.HandleInput();
   // App->Key3.HandleInput();
   // App->Joy1.HandleInput();
@@ -381,10 +416,21 @@ void StateGame::InitBombers() {
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
 				   GArea::AreaControl.GetBoundY());
   App->Log << "Camera set up" << std::endl;
+  App->Log << "Making a test" << std::endl;
   if (NetMode != GAME_CLIENT) {
     // it will be connected later on clients
-
-    App->Key1.Connect(GBomber::BomberList[0]);  
+    App->Log << "counting connections" << std::endl;
+    auto iter = App->BomberMap.begin();
+    while (iter != App->BomberMap.end()){
+      App->Log << "*****" << std::endl;
+      App->Log << "input:  " << iter->input  << std::endl;
+      App->Log << "bomber: " << iter->bomber << std::endl;
+      App->dev(iter->input)->Connect(GBomber::BomberList[iter->bomber]);  
+      App->devs.push_back(App->dev(iter->input));
+      iter++;
+    }
+    //App->Log << "counting connections" << std::endl;
+    //App->Key1.Connect(GBomber::BomberList[0]);  
     // App->Key2.Connect(GBomber::BomberList[1]);  
     // App->Key3.Connect(GBomber::BomberList[2]); 
     

@@ -206,6 +206,10 @@ void MirageApp::SetNumBots(int bots) {
   Bots = bots;
 }
 
+void MirageApp::SetConnectionMap(std::vector<KeyMap>& bomberMap){
+  BomberMap = bomberMap;
+}
+
 
 int MirageApp::GetNumBots() const {
   return Bots;
@@ -271,10 +275,10 @@ bool MirageApp::OnInit() {
       Log << "Has " << SDL_JoystickNumHats(Stick) << " hats" << std::endl;
       Log << "Has " << SDL_JoystickNumButtons(Stick) << " buttons" << std::endl;
       Log << "Has " << SDL_JoystickNumBalls(Stick) << " balls" << std::endl;            
-      SDL_JoystickClose(Stick);
+      //SDL_JoystickClose(Stick);
     }
     Log << "****************************************" << std::endl;      
-    Stick = SDL_JoystickOpen( 0 );
+    //Stick = SDL_JoystickOpen( 1 );
   }
     
 
@@ -304,22 +308,30 @@ bool MirageApp::OnInit() {
   Key1.kRight = SDLK_d;
   Key1.kBomb  = SDLK_e;
 
-  Key2.kUp    = SDLK_u;
-  Key2.kDown  = SDLK_j;
-  Key2.kLeft  = SDLK_h;
-  Key2.kRight = SDLK_k;
-  Key2.kBomb  = SDLK_i;
+  Key2.kUp    = SDLK_i;
+  Key2.kDown  = SDLK_k;
+  Key2.kLeft  = SDLK_j;
+  Key2.kRight = SDLK_l;
+  Key2.kBomb  = SDLK_o;
 
   Key3.kUp    = SDLK_KP8;
   Key3.kDown  = SDLK_KP5;
   Key3.kLeft  = SDLK_KP4;
   Key3.kRight = SDLK_KP6;
   Key3.kBomb  = SDLK_KP9;
+
+  Key4.kUp    = SDLK_UP;
+  Key4.kDown  = SDLK_DOWN;
+  Key4.kLeft  = SDLK_LEFT;
+  Key4.kRight = SDLK_RIGHT;
+  Key4.kBomb  = SDLK_SLASH;
+
   //Key1.Bomber->InputHandle = &Key1;
 
   Joy1.jUp.jEntity = JOY_AXIS;
   Joy1.jUp.Number = 1;
   Joy1.jUp.Value = -1;
+  Joy1.Which = 0;
 
   Joy1.jDown.jEntity = JOY_AXIS;
   Joy1.jDown.Number = 1;
@@ -337,6 +349,68 @@ bool MirageApp::OnInit() {
   Joy1.jBomb.Number = 1;
   Joy1.jBomb.Value = 0;
 
+  Joy2.Which = 1;
+  Joy2.jUp.jEntity = JOY_AXIS;
+  Joy2.jUp.Number = 1;
+  Joy2.jUp.Value = -1;
+
+  Joy2.jDown.jEntity = JOY_AXIS;
+  Joy2.jDown.Number = 1;
+  Joy2.jDown.Value = 1;
+
+  Joy2.jRight.jEntity = JOY_AXIS;
+  Joy2.jRight.Number = 0;
+  Joy2.jRight.Value = +1;
+
+  Joy2.jLeft.jEntity = JOY_AXIS;
+  Joy2.jLeft.Number = 0;
+  Joy2.jLeft.Value = -1;
+
+  Joy2.jBomb.jEntity = JOY_BUTTON;
+  Joy2.jBomb.Number = 1;
+  Joy2.jBomb.Value = 0;
+
+  Joy3.Which = 2;
+  Joy3.jUp.jEntity = JOY_AXIS;
+  Joy3.jUp.Number = 1;
+  Joy3.jUp.Value = -1;
+
+  Joy3.jDown.jEntity = JOY_AXIS;
+  Joy3.jDown.Number = 1;
+  Joy3.jDown.Value = 1;
+
+  Joy3.jRight.jEntity = JOY_AXIS;
+  Joy3.jRight.Number = 0;
+  Joy3.jRight.Value = +1;
+
+  Joy3.jLeft.jEntity = JOY_AXIS;
+  Joy3.jLeft.Number = 0;
+  Joy3.jLeft.Value = -1;
+
+  Joy3.jBomb.jEntity = JOY_BUTTON;
+  Joy3.jBomb.Number = 1;
+  Joy3.jBomb.Value = 0;
+
+  Joy4.Which = 3;
+  Joy4.jUp.jEntity = JOY_AXIS;
+  Joy4.jUp.Number = 1;
+  Joy4.jUp.Value = -1;
+
+  Joy4.jDown.jEntity = JOY_AXIS;
+  Joy4.jDown.Number = 1;
+  Joy4.jDown.Value = 1;
+
+  Joy4.jRight.jEntity = JOY_AXIS;
+  Joy4.jRight.Number = 0;
+  Joy4.jRight.Value = +1;
+
+  Joy4.jLeft.jEntity = JOY_AXIS;
+  Joy4.jLeft.Number = 0;
+  Joy4.jLeft.Value = -1;
+
+  Joy4.jBomb.jEntity = JOY_BUTTON;
+  Joy4.jBomb.Number = 1;
+  Joy4.jBomb.Value = 0;
   // Joy1.jUp.jEntity = JOY_AXIS;
   // Joy1.jUp.Number = 0;
   // Joy1.jUp.Value = 1;
@@ -388,4 +462,38 @@ void MirageApp::SetDefaultKeys() {
   Keys["down"] = SDLK_DOWN;
   Keys["left"] = SDLK_LEFT;
   Keys["right"] = SDLK_RIGHT;     
+}
+
+Input* MirageApp::dev(int num){
+  Log << "called with num = " << num << std::endl;
+  switch(num){
+    case 1:
+      return &Key1;
+      break;
+    case 2:
+      return &Key2;
+      break;
+    case 3:
+      return &Key3;
+      break;
+    case 4:
+      return &Key4;
+      break;
+    case 5:
+      return &Joy1;
+      break;
+    case 6:
+      return &Joy2;
+      break;
+    case 7:
+      return &Joy3;
+      break;
+    case 8:
+      return &Joy4;
+      break;
+    case 9:
+    default:
+      return NULL;
+      break;
+  }
 }

@@ -7,10 +7,8 @@ int MenuTable::TotalPlayers = 0;
 
 MenuTable::MenuTable() {
   TotalPlayers = 0;
-
   PosX = 0.0f;
   PosY = 0.0f;
-  
 }
 
 void MenuTable::Add() {
@@ -30,7 +28,7 @@ void MenuTable::Add() {
 }
 
 void MenuTable::Remove() {
-  if (TotalPlayers > 1) {
+  if (TotalPlayers > 2) {
     TotalPlayers --;
     Entries.pop_back();
     Init();
@@ -90,6 +88,17 @@ void MenuTable::SetPosition(float x, float y) {
   while (iter != Entries.end()) {
     (*iter)->SetPosition(PosX, PosY+32*i);
     i++;
+    iter++;
+  }
+}
+
+void MenuTable::FillMap(){
+  auto iter = Entries.begin();
+  while (iter != Entries.end()) {
+    KeyMap map;
+    map.input = (*iter)->InputType;
+    map.bomber = (*iter)->Number-1;
+    BomberMap.push_back(map);
     iter++;
   }
 }

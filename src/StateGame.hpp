@@ -62,7 +62,7 @@ public:
   void OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value); 
   void OnJoyHat(Uint8 which, Uint8 hat, Uint8 value); 
   void OnJoyButtonDown(Uint8 which, Uint8 button);  
-
+  void OnJoyButtonUp  (Uint8 which, Uint8 button);
   //Counts time since StateGame was activated, milliseconds
   Uint32 GetGameTime() const {return GameTime;}
 

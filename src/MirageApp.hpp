@@ -16,6 +16,7 @@
 #include "GEvent.hpp"
 #include "GSurface.hpp"
 #include "Srand.hpp"
+#include "MenuTable.hpp"
  
 enum NetMode {
   GAME_LOCAL = 0,
@@ -27,6 +28,8 @@ class MirageApp : public GEvent  {
 public: 
   std::map<std::string, int> Keys;
   SDL_Joystick *Stick; 
+  std::vector<KeyMap> BomberMap;
+  std::vector<Input*> devs;
   MirageApp(); 
   ~MirageApp();
   int OnExecute(); 
@@ -43,10 +46,12 @@ public:
   void SetTerminal(bool terminal);
   void SetNumBombers(int bombers);
   void SetNumBots(int bots);
+  void SetConnectionMap(std::vector<KeyMap>& bomberMap);
   int GetLaunchState() const;
   int GetLaunchAttr() const;
   int GetNumBombers() const;
   int GetNumBots() const;
+  Input* dev(int num);
   
   //Counts time since SDL was initialized, milliseconds
   Uint32 GetTimeReal() const {
@@ -84,7 +89,7 @@ private:
   int LaunchAttr;
   int Bombers;
   int Bots;
-
+  
   Uint32 TimeReal;
   
 };

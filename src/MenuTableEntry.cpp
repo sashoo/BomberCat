@@ -79,9 +79,9 @@ void MenuTableEntry::Render(SDL_Surface* SurfDisplay) {
   if (SurfaceNumber != NULL)
     GSurface::Draw(SurfDisplay, SurfaceNumber, PosX, PosY);
   if (SurfaceNickname != NULL)
-    GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+200, PosY);
+    GSurface::Draw(SurfDisplay, SurfaceNickname, PosX+20, PosY);
   if (SurfaceInputType != NULL)
-    GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+400, PosY);
+    GSurface::Draw(SurfDisplay, SurfaceInputType, PosX+100, PosY);
 }
 
 int MenuTableEntry::GetWidth() const {

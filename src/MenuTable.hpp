@@ -5,6 +5,11 @@
 #include "MenuTableEntry.hpp"
 #include <vector>
 
+struct KeyMap {
+  int input;
+  int bomber;
+};
+
 class MenuTable : public MenuEntry {
 
 private:
@@ -16,6 +21,7 @@ public:
   void Add();
   void Remove();
   std::vector<MenuTableEntry*> Entries;
+  std::vector<KeyMap> BomberMap;
   
   virtual void Init();    
   virtual void SetColor(SDL_Color color);    
@@ -24,7 +30,8 @@ public:
   virtual void Render(SDL_Surface* SurfDisplay);
   virtual int GetWidth() const;
   virtual int GetHeight() const;
-  virtual void Cleanup();  
+  virtual void Cleanup(); 
+  void FillMap();
 
  
 

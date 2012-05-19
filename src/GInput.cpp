@@ -165,3 +165,18 @@ void JoyInput::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value) {
     
   }
 }
+
+void JoyInput::OnJoyButtonDown(Uint8 which, Uint8 button){
+  if (which == Which){
+    if (button == jBomb.Number)
+      bBomb = true;
+  }
+}  
+
+void JoyInput::OnJoyButtonUp(Uint8 which, Uint8 button){
+  if (which == Which){
+    if (button == jBomb.Number)
+      bBomb = false;
+  }
+}  
+
