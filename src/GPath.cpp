@@ -239,7 +239,7 @@ void GPath::Cleanup() {
   std::vector<GNode*>::iterator it = Nodes.begin();
   while (it != Nodes.end()) {
     if (!(*it)) {
-      Nodes.erase(it);
+      it = Nodes.erase(it);
       continue;
     }
     delete (*it);

@@ -496,7 +496,7 @@ void StateGame::CleanupFlames() {
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while (flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
-      GFlame::FlameList.erase(flame);
+      flame = GFlame::FlameList.erase(flame);
       continue;
     }  
     (*flame)->Cleanup();
@@ -511,7 +511,7 @@ void StateGame::CleanupBombs() {
   std::vector<GBomb*>::iterator bomb = GBomb::BombList.begin();
   while (bomb != GBomb::BombList.end()) {
     if (!(*bomb)) {
-      GBomb::BombList.erase(bomb);
+      bomb = GBomb::BombList.erase(bomb);
       continue;
     }  
     (*bomb)->Cleanup();
@@ -529,7 +529,7 @@ void StateGame::CleanupBombers() {
   std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
     if (!(*bomber)) {
-      GBomber::BomberList.erase(bomber);
+      bomber = GBomber::BomberList.erase(bomber);
       continue;
     }  
     (*bomber)->Cleanup();    
@@ -544,7 +544,7 @@ void StateGame::CleanupPowerups() {
   std::vector<GPowerup*>::iterator powerup = GPowerup::PowerupList.begin();
   while (powerup != GPowerup::PowerupList.end()) {
     if (!(*powerup)) {
-      GPowerup::PowerupList.erase(powerup);
+      powerup = GPowerup::PowerupList.erase(powerup);
       continue;
     }  
     (*powerup)->Cleanup();
@@ -559,7 +559,7 @@ void StateGame::CleanupTiles() {
   std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
   while (decor != GDecor::DecorList.end()) {
     if (!(*decor)) {
-      GDecor::DecorList.erase(decor);
+      decor = GDecor::DecorList.erase(decor);
       continue;
     }  
     (*decor)->Cleanup();
@@ -573,14 +573,14 @@ void StateGame::LoopFlames() {
   std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
   while ( flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
-      GFlame::FlameList.erase(flame);
+      flame = GFlame::FlameList.erase(flame);
       continue;
     }  
 
     if (!(*flame) || !(*flame)->Enabled) {
       (*flame)->Cleanup();
       delete (*flame);      
-      GFlame::FlameList.erase(flame);
+      flame = GFlame::FlameList.erase(flame);
       continue;
     }    
 
@@ -593,14 +593,14 @@ void StateGame::LoopBombs() {
   std::vector<GBomb*>::iterator iter = GBomb::BombList.begin();
   while ( iter != GBomb::BombList.end()) {
     if (!(*iter)) {
-      GBomb::BombList.erase(iter);
+      iter = GBomb::BombList.erase(iter);
       continue;
     }  
 
     if (!(*iter) || !(*iter)->Enabled) {
       (*iter)->Cleanup();
       delete (*iter);      
-      GBomb::BombList.erase(iter);
+      iter = GBomb::BombList.erase(iter);
       continue;
     }    
 
@@ -613,14 +613,14 @@ void StateGame::LoopDecor() {
   std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
   while ( decor != GDecor::DecorList.end()) {
     if (!(*decor)) {
-      GDecor::DecorList.erase(decor);
+      decor = GDecor::DecorList.erase(decor);
       continue;
     }  
 
     if (!(*decor) || !(*decor)->Enabled) {
       (*decor)->Cleanup();
       delete (*decor);      
-      GDecor::DecorList.erase(decor);
+      decor = GDecor::DecorList.erase(decor);
       continue;
     }    
 
@@ -634,14 +634,14 @@ void StateGame::LoopPowerups() {
   while ( pup != GPowerup::PowerupList.end()) {
     //App->Log << (*pup)->Name << ": " << std::endl;
     if (!(*pup)) {
-      GPowerup::PowerupList.erase(pup);
+      pup = GPowerup::PowerupList.erase(pup);
       continue;
     }  
 
     if (!(*pup) || !(*pup)->Enabled) {
       (*pup)->Cleanup();
       delete (*pup);      
-      GPowerup::PowerupList.erase(pup);
+      pup = GPowerup::PowerupList.erase(pup);
       continue;
     }    
 
@@ -655,14 +655,14 @@ void StateGame::LoopBombers() {
   while ( bomber != GBomber::BomberList.end()) {
     //App->Log << (*bomber)->Name << ": " << std::endl;
     if (!(*bomber)) {
-      GBomber::BomberList.erase(bomber);
+      bomber = GBomber::BomberList.erase(bomber);
       continue;
     }  
 
     if (!(*bomber) || !(*bomber)->Enabled) {
       (*bomber)->Cleanup();
       delete (*bomber);      
-      GBomber::BomberList.erase(bomber);
+      bomber = GBomber::BomberList.erase(bomber);
       continue;
     }    
 
