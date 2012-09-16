@@ -1,3 +1,4 @@
+/* vim: set sw=2 sts=2 */
 #include <cassert>
 
 #include "StateGame.hpp"
@@ -31,6 +32,7 @@ void StateGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode){
   App->Key2.OnKeyDown(sym);
   App->Key3.OnKeyDown(sym);
   App->Key4.OnKeyDown(sym);
+
 
   // std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
   // while (bomber != GBomber::BomberList.end()) {
@@ -393,9 +395,11 @@ void StateGame::Loop() {
   LoopDecor();
   LoopPowerups();
   LoopBombers();  
-  LoopSockets();
+  LoopNetwork();
  
   GEntityCol::EntityColList.clear();  
+
+  GetGArea()->bNetDirty = false;
 }
 
 void StateGame::InitBombers() {  
@@ -409,8 +413,8 @@ void StateGame::InitBombers() {
       b->PlaceBomberByNum(i+1, bombers);  
       //if (i < players) {} else {}      
     } 
-  App->Log << "Bombers loaded!" << std::endl;
-  GArea::AreaControl.PlacePowerups(); 
+    App->Log << "Bombers loaded!" << std::endl;
+    GArea::AreaControl.PlacePowerups(); 
   } 
   GCamera::CameraControl.TargetMode = TARGET_MODE_CENTER;
   GCamera::CameraControl.SetBounds(GArea::AreaControl.GetBoundX(),
@@ -459,18 +463,32 @@ void StateGame::InitNetwork() {
     Socket = new UDPSocket(this, App); 
     if (NetMode == GAME_SERVER) {
       if (Socket->Listen(App->Host, App->Port) != 0) {
-	Socket->CloseSocket();
-	//return; 
+	      Socket->CloseSocket();
+	      //return; 
       }
     } else if (NetMode == GAME_CLIENT) {
       if (Socket->Connect(App->Host, App->Port) != 0) {
-	Socket->CloseSocket();
-	//return;
+	      Socket->CloseSocket();
+	    //return;
       }
     } else {
       assert(0);
     }
   }
+}
+
+void StateGame::OnPlayerLogin(NetConnection *nc) {
+  /* 
+   * 1. Bomber is spawned here, on server, netConnection var is set to owner client
+   * 2. During initial replication, special flag is set if bomber->netConnection == this
+   * 3. On client, this flag causes it to possess this bomber
+   */
+  int bombers = App->GetNumBombers();
+  bombers++;
+  App->SetNumBombers(bombers);
+  GBomber* b = GBomber::Create();  
+  b->PlaceBomberByNum(GBomber::BomberList.size(), bombers);
+  b->netConnection = nc;
 }
 
 void StateGame::CleanupFlames() {
@@ -653,7 +671,7 @@ void StateGame::LoopBombers() {
   }
 }
 
-void StateGame::LoopSockets() {
+void StateGame::LoopNetwork() {
   if (Socket != NULL) {
     Socket->Loop();
 

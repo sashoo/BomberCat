@@ -239,7 +239,9 @@ void UDPSocket::Loop(void)
 
         if (HandlePacket(buffer, received, &address, address_len) < 0) {
             app->Log << "invalid packet received from " << address << std::endl;
-            CloseSocket();
+            if (!is_listening) {
+                CloseSocket();
+            }
             return;
         }
     }
@@ -266,13 +268,20 @@ int UDPSocket::HandlePacket(char *buffer, size_t size, struct sockaddr_storage *
             }
         } 
     } else {
-        // for outgoing connections we'll put
-        // NetConnection object under arbitrary key
+        // as of clients, there's only one connection in the map
+        // under arbitrary key
         it = connections.begin();
     }
     p = &it->second;
 
-    return p->HandlePacket(buffer, size);
+    int ret = p->HandlePacket(buffer, size);
+    if (is_listening && ret) {
+        app->Log << "an error has occured during handling packets from " << *address << "\n";
+        connections.erase(it); 
+        return 0;
+    } else {
+        return ret;
+    }
 }
 
 int UDPSocket::SendPacket(const char *buffer, size_t size, const struct sockaddr_storage *address, socklen_t address_len)

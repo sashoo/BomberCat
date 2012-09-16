@@ -14,7 +14,7 @@ int NetChannel_GArea::ServerHandleData(const char *, size_t)
     return 0;
 }
 
-int NetChannel_GArea::ClientHandleData(const char *buffer, size_t size)
+int NetChannel_GArea::ClientHandleData(const char *buffer, size_t size, bool is_initial)
 {
     const char * const buffer_start = buffer;
     if (size < 4 + 2 + 2) return -1;
@@ -31,7 +31,6 @@ int NetChannel_GArea::ClientHandleData(const char *buffer, size_t size)
 
     // XXX width and height should be set here,
     // but they're currently private
-    
     for (int x = 0; x < max_x; x++) {
         for (int y = 0; y < max_y; y++) {
             ga->SetTileCoord(x, y, NetSerialize::unpack<uint8_t>(&buffer));       
@@ -89,10 +88,9 @@ void NetChannel_GArea::Loop(void)
 {
     NetChannel::Loop();
 
-    if (ga->bNetDirty) {
-        ServerSendUpdate(); 
-        // XXX it should be set at the end of the tick
-        // there can be other clients, you know
-        ga->bNetDirty = false;
+    if (nc->is_server && channel_acked) {
+        if (ga->bNetDirty) {
+            ServerSendUpdate(); 
+        }
     }
 }

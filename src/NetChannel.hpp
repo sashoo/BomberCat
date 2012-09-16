@@ -2,10 +2,13 @@
 #define NETCHANNEL_HPP
 
 class NetChannel;
+class NetChannel_GArea;
+class NetChannel_GBomber;
 
 #include "NetConnection.hpp"
 
 #include "GArea.hpp"
+#include "GBomber.hpp"
 
 /* Packet structure outline
  *  
@@ -19,11 +22,12 @@ enum {
     HEADER_SIZE = 2 + 1,
     ACK_HEADER_SIZE = HEADER_SIZE + 2
 };
-enum { MAX_PACKET_SIZE = 512 };;
+enum { MAX_PACKET_SIZE = 512 };
 
 enum ObjectType {
     CONTROL = 0, // control channel
     GAREA = 1, // GArea
+    GBOMBER = 2,
 
     UNKNOWN = 0xFFFF,
 };
@@ -58,7 +62,8 @@ public:
     static NetChannel * ClientCreateChannel(NetConnection *nc, channel_id_t channel_id, enum ObjectType);
 
     virtual int ServerHandleData(const char *, size_t) = 0;
-    virtual int ClientHandleData(const char *, size_t) = 0;
+    virtual int ClientHandleData(const char *, size_t, bool is_initial) = 0;
+    virtual int ClientHandleClose();
 
     int ServerAckChannel(void);
     virtual int ServerSendInitialPacket() = 0; 
@@ -81,12 +86,34 @@ public:
     NetChannel_GArea(NetConnection *, channel_id_t, GArea *); 
 
     virtual int ServerHandleData(const char *, size_t);
-    virtual int ClientHandleData(const char *, size_t);
+    virtual int ClientHandleData(const char *, size_t, bool);
     
     virtual int ServerSendInitialPacket();
 
     int ServerSendUpdate(void);
     size_t DumpData(char *buffer);
+
+    virtual void Loop(void);
+};
+
+class NetChannel_GBomber : public NetChannel {
+protected:
+    GBomber * const gb;
+    uint32_t lastUpdate;
+    int lastMoveBits;
+public:
+    NetChannel_GBomber(NetConnection *, channel_id_t, GBomber *); 
+
+    virtual int ServerHandleData(const char *, size_t);
+    virtual int ClientHandleData(const char *, size_t, bool);
+    
+    virtual int ServerSendInitialPacket(); 
+    
+    int ServerSendUpdate(void);
+    size_t DumpData(char *buffer, bool is_initial);
+  
+    void ServerMove(bool up, bool down, bool left, bool right);
+    void ServerPlaceBomb();
 
     virtual void Loop(void);
 };

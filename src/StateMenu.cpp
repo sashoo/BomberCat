@@ -67,7 +67,10 @@ void StateMenu::Activate() {
   App->Log << "Activating entries" << std::endl;
 
   mMenuManager->AddEntry(new MenuButton("Offline game"));
-  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){StateManager::SetActiveState(APPSTATE_CONFIG);});
+  mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){
+    App->NetMode = GAME_LOCAL;
+    StateManager::SetActiveState(APPSTATE_CONFIG);
+  });
   mMenuManager->AddEntry(new MenuButton("Host game"));
   mMenuManager->CurEntry()->SetSelect([&](MirageApp* app, void* pData){});
   mMenuManager->AddEntry(new MenuButton("Join game"));

@@ -168,6 +168,7 @@ int NetConnection::HandleAck(const char *buffer, size_t size)
     conn_status = OPEN;
     app->Log << "connection to " << addr << " is now open" << std::endl;
 
+    game->OnPlayerLogin(this);
     OpenChannels();
 
     return 0;
@@ -205,7 +206,7 @@ int NetConnection::HandleData(const char *buffer, size_t size)
             if (ch != NULL) {
                 AddChannel(ch); 
                 if (size > index) {
-                    ch->ClientHandleData(buffer + index, size - index);
+                    ch->ClientHandleData(buffer + index, size - index, true);
                 }
                 ch->ClientSendAck();
             } else {
@@ -215,7 +216,7 @@ int NetConnection::HandleData(const char *buffer, size_t size)
             return -1;
         }
     } else {
-        if (is_server) {
+        if (is_server) { // client -> server
             switch (channel_action) {
             case CHANNEL_OPEN:
                 // client-initiated open is not supported
@@ -228,7 +229,7 @@ int NetConnection::HandleData(const char *buffer, size_t size)
                 // client-iniated close is not supported
                 return -1;
             }
-        } else {
+        } else { // server -> client
             switch (channel_action) {
             case CHANNEL_OPEN:
                 // already open, ignore
@@ -237,10 +238,10 @@ int NetConnection::HandleData(const char *buffer, size_t size)
                 // ACK isn't meant to be sent by server
                 return -1;
             case CHANNEL_DATA:
-                return ch->ClientHandleData(buffer + index, size - index);
+                return ch->ClientHandleData(buffer + index, size - index, false);
             case CHANNEL_CLOSE:
-                // TODO implement channel close
-                return -1;
+                ch->ClientHandleClose();
+                return 0;
             }
         }
     }
@@ -258,6 +259,10 @@ void NetConnection::OpenChannels(void)
     if (i >= 0) {
         GArea *ga = game->GetGArea();
         AddChannel(new NetChannel_GArea(this, i, ga));
+    }
+    // 2. GBomber(s)
+    for (auto it = GBomber::BomberList.begin(); it != GBomber::BomberList.end(); it++) {
+        AddChannel(new NetChannel_GBomber(this, GetFreeChannelIdx(), *it));
     }
     
     for (active_channels_t::iterator it = active_channels.begin(); it != active_channels.end(); it++) {

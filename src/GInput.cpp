@@ -11,10 +11,14 @@ Input::Input() {
 
 void Input::HandleInput() {
   if (NULL != Bomber) {
-    Bomber->MoveUp    = bUp;
-    Bomber->MoveDown  = bDown;
-    Bomber->MoveLeft  = bLeft;
-    Bomber->MoveRight = bRight;
+    if (Bomber->App->NetMode != GAME_CLIENT) {
+      Bomber->MoveUp    = bUp;
+      Bomber->MoveDown  = bDown;
+      Bomber->MoveLeft  = bLeft;
+      Bomber->MoveRight = bRight;
+    } else {
+      Bomber->ServerMove(bUp, bDown, bLeft, bRight);
+    }
     if (bBomb)
       Bomber->PlaceBomb();
   }

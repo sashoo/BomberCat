@@ -2,6 +2,8 @@
 #define GBOMBER_HPP
 
 #include "GEntity.hpp"
+#include "NetConnection.hpp"
+#include "NetChannel.hpp"
 
 struct Input;
 
@@ -57,6 +59,14 @@ public:
   int BombsMax;
   int BlastRadius;
   //CBomb* LastBomb;
+  
+  // pointers to owner connections
+  // _owner_ client <---> server
+  NetConnection *netConnection;
+  NetChannel_GBomber *netChannel;
+  
+  // sends move request to the server
+  void ServerMove(bool up, bool down, bool left, bool right);
 
   static SDL_Surface* SurfBomb;
   static void CheckVictory();

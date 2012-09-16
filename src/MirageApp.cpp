@@ -63,6 +63,12 @@ int main(int argc, char* argv[]) {
             exit(1);
           }
           theApp.SetLaunchState(APPSTATE_GAME, 0);
+         
+          // as we bypass the settings screen, set some default controls
+          KeyMap keyMap;
+          keyMap.input = 1;
+          keyMap.bomber = 0;
+          theApp.BomberMap.push_back(keyMap); 
         }      
         break;
       }
@@ -145,7 +151,6 @@ int main(int argc, char* argv[]) {
     
     }
   }
-  
   return theApp.OnExecute();
 }
  

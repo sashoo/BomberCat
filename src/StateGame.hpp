@@ -12,6 +12,7 @@
 class StateGame; // forward declaration for UDPSocket
 
 #include "UDPSocket.hpp"
+#include "NetConnection.hpp"
 
 class MirageApp;
 
@@ -50,7 +51,7 @@ public:
   void LoopDecor();
   void LoopPowerups();
   void LoopBombers();
-  void LoopSockets();
+  void LoopNetwork();
 
   void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 Unicode);
   void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 Unicode); 
@@ -63,6 +64,8 @@ public:
   void OnJoyHat(Uint8 which, Uint8 hat, Uint8 value); 
   void OnJoyButtonDown(Uint8 which, Uint8 button);  
   void OnJoyButtonUp  (Uint8 which, Uint8 button);
+  
+  void OnPlayerLogin(NetConnection *);
   //Counts time since StateGame was activated, milliseconds
   Uint32 GetGameTime() const {return GameTime;}
 

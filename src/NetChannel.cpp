@@ -43,9 +43,17 @@ NetChannel * NetChannel::ClientCreateChannel(NetConnection *nc, channel_id_t cha
     if (ObjectType == GAREA) {
         GArea *ga = nc->game->GetGArea();
         return new NetChannel_GArea(nc, channel_id, ga);
+    } else if (ObjectType == GBOMBER) {
+        GBomber *gb = GBomber::Create();
+        return new NetChannel_GBomber(nc, channel_id, gb);
     } else {
         return NULL;
     }
+}
+
+int NetChannel::ClientHandleClose()
+{
+    return 0;
 }
 
 size_t NetChannel::PrepareOpenPacket(char *buffer)

@@ -46,3 +46,18 @@ GENERATE_FUNCTIONS(int16_t , uint16_t, htons, ntohs)
 
 GENERATE_FUNCTIONS(uint8_t, uint8_t, identity, identity)
 GENERATE_FUNCTIONS(int8_t, uint8_t, identity, identity)
+
+template<>
+void NetSerialize::pack<float>(char **buffer, float x)
+{
+    static_assert(sizeof(float) == sizeof(uint32_t), "unsupported float size");
+    NetSerialize::pack<uint32_t>(buffer, *(uint32_t *)&x);
+}
+
+template<>
+float NetSerialize::unpack<float>(const char **buffer)
+{
+    static_assert(sizeof(float) == sizeof(uint32_t), "unsupported float size");
+    uint32_t y = NetSerialize::unpack<uint32_t>(buffer);
+    return *(float *)&y;
+}

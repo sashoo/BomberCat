@@ -41,6 +41,9 @@ GBomber::GBomber() {
   BombsMax = 1;
   BlastRadius = 2;
   InputHandle = NULL;
+
+  netChannel = NULL;
+  netConnection = NULL;
  
   //GEntity::GEntity();
 }
@@ -57,20 +60,22 @@ GBomber::~GBomber() {
 
 void GBomber::Loop() {
   GEntity::Loop();  
-  std::vector<GPowerup*>::iterator pup = GPowerup::PowerupList.begin();
-  while (pup != GPowerup::PowerupList.end()) {       
-    if (Collides(*pup)) {
-      if (POWERUP_BLAST == (*pup)->PowerupType)
-  	++BlastRadius;	
-      else if (POWERUP_BOMB == (*pup)->PowerupType)
-  	++BombsMax;
-      App->Log << (*pup)->Name << " touched" << std::endl;
-      (*pup)->Enabled = false;	 
-    }   
-    pup++;
-  }
-  if (BomberState == STATE_DYING) {
-    
+  if (App->NetMode != GAME_CLIENT) {
+    std::vector<GPowerup*>::iterator pup = GPowerup::PowerupList.begin();
+    while (pup != GPowerup::PowerupList.end()) {       
+      if (Collides(*pup)) {
+        if (POWERUP_BLAST == (*pup)->PowerupType)
+      ++BlastRadius;	
+        else if (POWERUP_BOMB == (*pup)->PowerupType)
+      ++BombsMax;
+        App->Log << (*pup)->Name << " touched" << std::endl;
+        (*pup)->Enabled = false;	 
+      }   
+      pup++;
+    }
+    if (BomberState == STATE_DYING) {
+     
+    }
   }
 }
 
@@ -204,6 +209,10 @@ void GBomber::PlaceBomber(int x, int y) {
 }
 
 void GBomber::PlaceBomb() {
+  if (App->NetMode == GAME_CLIENT) {
+      netChannel->ServerPlaceBomb();
+      return;
+  }
   if (BombsPlaced < BombsMax) {
     int posx = cX / TILE_SIZE;
     int posy = cY / TILE_SIZE;
@@ -300,6 +309,10 @@ void GBomber::PlaceBomberByNum(int num, int bombers) {
   case 0:
   default: return;
   }
+}
+
+void GBomber::ServerMove(bool up, bool down, bool left, bool right) {
+  netChannel->ServerMove(up, down, left, right);
 }
 
 bool GBomber::PosValid(int NewX, int NewY) {
