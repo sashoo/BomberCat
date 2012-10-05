@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include "MirageApp.hpp"
 #include "GBomber.hpp"
+#include "ChdirToExecutablePath.hpp"
 
 #define FPS 60
 Uint32 wait = 1000.0f/FPS;
@@ -151,6 +152,7 @@ int main(int argc, char* argv[]) {
     
     }
   }
+  ChdirToExecutablePath();
   return theApp.OnExecute();
 }
  
