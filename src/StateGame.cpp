@@ -493,7 +493,7 @@ void StateGame::OnPlayerLogin(NetConnection *nc) {
 
 void StateGame::CleanupFlames() {
   GSurface::UnloadFlames();
-  std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
+  auto flame = GFlame::FlameList.begin();
   while (flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
       flame = GFlame::FlameList.erase(flame);
@@ -508,7 +508,7 @@ void StateGame::CleanupFlames() {
 
 void StateGame::CleanupBombs() {
   GSurface::UnloadBombs();
-  std::vector<GBomb*>::iterator bomb = GBomb::BombList.begin();
+  auto bomb = GBomb::BombList.begin();
   while (bomb != GBomb::BombList.end()) {
     if (!(*bomb)) {
       bomb = GBomb::BombList.erase(bomb);
@@ -526,7 +526,7 @@ void StateGame::CleanupBombers() {
   App->Key1.Disconnect();
 
   GSurface::UnloadBombers();
-  std::vector<GBomber*>::iterator bomber = GBomber::BomberList.begin();
+  auto bomber = GBomber::BomberList.begin();
   while (bomber != GBomber::BomberList.end()) {
     if (!(*bomber)) {
       bomber = GBomber::BomberList.erase(bomber);
@@ -541,7 +541,7 @@ void StateGame::CleanupBombers() {
 
 void StateGame::CleanupPowerups() {
   GSurface::UnloadPowerups();
-  std::vector<GPowerup*>::iterator powerup = GPowerup::PowerupList.begin();
+  auto powerup = GPowerup::PowerupList.begin();
   while (powerup != GPowerup::PowerupList.end()) {
     if (!(*powerup)) {
       powerup = GPowerup::PowerupList.erase(powerup);
@@ -556,7 +556,7 @@ void StateGame::CleanupPowerups() {
 
 void StateGame::CleanupTiles() {
   GSurface::UnloadTiles();
-  std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
+  auto decor = GDecor::DecorList.begin();
   while (decor != GDecor::DecorList.end()) {
     if (!(*decor)) {
       decor = GDecor::DecorList.erase(decor);
@@ -570,7 +570,7 @@ void StateGame::CleanupTiles() {
 }
 
 void StateGame::LoopFlames() {
-  std::vector<GFlame*>::iterator flame = GFlame::FlameList.begin();
+  auto flame = GFlame::FlameList.begin();
   while ( flame != GFlame::FlameList.end()) {
     if (!(*flame)) {
       flame = GFlame::FlameList.erase(flame);
@@ -590,7 +590,7 @@ void StateGame::LoopFlames() {
 }
 
 void StateGame::LoopBombs() {
-  std::vector<GBomb*>::iterator iter = GBomb::BombList.begin();
+  auto iter = GBomb::BombList.begin();
   while ( iter != GBomb::BombList.end()) {
     if (!(*iter)) {
       iter = GBomb::BombList.erase(iter);
@@ -610,7 +610,7 @@ void StateGame::LoopBombs() {
 }
 
 void StateGame::LoopDecor() {
-  std::vector<GDecor*>::iterator decor = GDecor::DecorList.begin();
+  auto decor = GDecor::DecorList.begin();
   while ( decor != GDecor::DecorList.end()) {
     if (!(*decor)) {
       decor = GDecor::DecorList.erase(decor);
@@ -630,7 +630,7 @@ void StateGame::LoopDecor() {
 }
 
 void StateGame::LoopPowerups() {
-  std::vector<GPowerup*>::iterator pup = GPowerup::PowerupList.begin();
+  auto pup = GPowerup::PowerupList.begin();
   while ( pup != GPowerup::PowerupList.end()) {
     //App->Log << (*pup)->Name << ": " << std::endl;
     if (!(*pup)) {
